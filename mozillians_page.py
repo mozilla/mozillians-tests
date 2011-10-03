@@ -63,6 +63,7 @@ class MozilliansBasePage(Page):
     def click_login_link(self):
         self.sel.click(self._login_link_locator)
         self.sel.wait_for_page_to_load(self.timeout)
+        return MozilliansLoginPage(self.testsetup)
 
     def click_logout_link(self):
         self.sel.click(self._logout_link_locator)
@@ -132,8 +133,14 @@ class MozilliansAboutPage(MozilliansBasePage):
 
 class MozilliansLoginPage(MozilliansBasePage):
 
-    _username_locator = 'id=id_username'
-    _password_locator = 'id=id_password'
+    _username_box_locator = 'id=id_username'
+    _password_box_locator = 'id=id_password'
+    _log_in_button_locator = 'id=submit'
 
-    def login(self):
-        pass
+    def log_in(self):
+        credentials = self.testsetup.credentials['user']
+
+        self.sel.type(self._username_box_locator, credentials['name'])
+        self.sel.type(self._password_box_locator, credentials['password'])
+        self.sel.click(self._log_in_button_locator)
+        self.sel.wait_for_page_to_load(self.timeout)

@@ -52,3 +52,5 @@ class TestAboutPage:
     def test_search_function_not_present_for_anonymous_users(self, mozwebqa):
         mozillians_home_page = MozilliansStartPage(mozwebqa)
         Assert.false(mozillians_home_page.is_search_box_present)
+        mozillians_login_page = mozillians_home_page.click_login_link()
+        mozillians_login_page.log_in()
