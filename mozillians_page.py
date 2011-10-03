@@ -140,11 +140,61 @@ class MozilliansLoginPage(MozilliansBasePage):
     _username_box_locator = 'id=id_username'
     _password_box_locator = 'id=id_password'
     _log_in_button_locator = 'id=submit'
+    _forgot_password_link_locator = 'css=#fyp-container a'
+    _invalid_credentials_text = 'Please enter a correct username and password'
 
-    def log_in(self):
+    def log_in(self, email = None, password = None):
         credentials = self.testsetup.credentials['user']
 
-        self.sel.type(self._username_box_locator, credentials['email'])
-        self.sel.type(self._password_box_locator, credentials['password'])
+        if email is None:
+            self.sel.type(self._username_box_locator, credentials['email'])
+        else:
+            self.sel.type(self._username_box_locator, email)
+
+        if password is None:
+            self.sel.type(self._password_box_locator, credentials['password'])
+        else:
+            self.sel.type(self._password_box_locator, password)
+
         self.sel.click(self._log_in_button_locator)
         self.sel.wait_for_page_to_load(self.timeout)
+
+    @property
+    def is_invalid_credentials_text_present(self):
+        return self.sel.is_text_present(self._invalid_credentials_text)
+
+    def click_forgot_password_link(self):
+        self.sel.click(self._forgot_password_link_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+        return MozilliansResetPasswordPage(self.testsetup)
+
+class MozilliansResetPasswordPage(MozilliansBasePage):
+
+    _reset_password_button_locator = 'id=submit'
+    _email_field_locator = 'id=id_email'
+
+    def __init__(self, testsetup):
+        MozilliansBasePage.__init__(self, testsetup)
+
+    @property
+    def is_reset_password_button_present(self):
+        return self.sel.is_element_present(self._reset_password_button_locator)
+
+    @property
+    def is_email_field_present(self):
+        return self.sel.is_element_present(self._email_field_locator)
+
+    def reset_password(self, email = None):
+        credentials = self.testsetup.credentials['user']
+
+        if email is None:
+            self.sel.type(self._email_field_locator, credentials['email'])
+        else:
+            self.sel.type(self._email_field_locator, email)
+
+        self.sel.click(self._reset_password_button_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+
+    @property
+    def is_password_reset_sent_text_present(self):
+        return self.sel.is_text_present("Password Reset Sent")
