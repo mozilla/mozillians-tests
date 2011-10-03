@@ -1,0 +1,8 @@
+# This pulls in all the libraries needed to run Selenium tests
+# on Mozilla WebQA projects
+
+selenium
+pytest
+pytest-xdist
+pytest-mozwebqa
+unittestzero
