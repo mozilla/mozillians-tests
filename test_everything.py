@@ -49,7 +49,7 @@ class TestAboutPage:
         Assert.true(about_mozillians_page.is_privacy_section_present)
         Assert.true(about_mozillians_page.is_get_involved_section_present)
 
-    def test_search_function_not_present_for_anonymous_users(self, mozwebqa):
+    def test_search_function_only_present_for_vouched_users(self, mozwebqa):
         mozillians_home_page = MozilliansStartPage(mozwebqa)
         Assert.false(mozillians_home_page.is_search_box_present)
         mozillians_login_page = mozillians_home_page.click_login_link()
