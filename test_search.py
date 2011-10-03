@@ -71,3 +71,10 @@ class TestSearch:
         mozillians_login_page.log_in()
         mozillians_search_page = mozillians_home_page.search_for("stephend")
         Assert.true(mozillians_search_page.results_count > 0)
+
+    def test_search_for_too_many_results(self, mozwebqa):
+        mozillians_home_page = MozilliansStartPage(mozwebqa)
+        mozillians_login_page = mozillians_home_page.click_login_link()
+        mozillians_login_page.log_in()
+        mozillians_search_page = mozillians_home_page.search_for(".")
+        Assert.true(mozillians_search_page.too_many_results_message_shown)

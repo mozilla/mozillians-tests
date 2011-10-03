@@ -113,6 +113,10 @@ class MozilliansSearchPage(MozilliansBasePage):
     def results_count(self):
         return self.sel.get_css_count(self._result_locator)
 
+    @property
+    def too_many_results_message_shown(self):
+        return self.sel.is_text_present("Too Many Search Results")
+
 
 class MozilliansAboutPage(MozilliansBasePage):
 
