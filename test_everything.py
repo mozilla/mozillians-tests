@@ -54,3 +54,4 @@ class TestAboutPage:
         Assert.false(mozillians_home_page.is_search_box_present)
         mozillians_login_page = mozillians_home_page.click_login_link()
         mozillians_login_page.log_in()
+        Assert.true(mozillians_home_page.is_search_box_present)

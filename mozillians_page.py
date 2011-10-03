@@ -140,7 +140,7 @@ class MozilliansLoginPage(MozilliansBasePage):
     def log_in(self):
         credentials = self.testsetup.credentials['user']
 
-        self.sel.type(self._username_box_locator, credentials['name'])
+        self.sel.type(self._username_box_locator, credentials['email'])
         self.sel.type(self._password_box_locator, credentials['password'])
         self.sel.click(self._log_in_button_locator)
         self.sel.wait_for_page_to_load(self.timeout)
