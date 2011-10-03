@@ -55,7 +55,7 @@ class TestAccount:
         mozillians_login_page.log_in("username@mozilla.com", "invalidpass")
         Assert.true(mozillians_login_page.is_invalid_credentials_text_present)
 
-    def test_reset_password_link(self, mozwebqa):
+    def test_reset_password(self, mozwebqa):
         mozillians_home_page = MozilliansStartPage(mozwebqa)
         mozillians_login_page = mozillians_home_page.click_login_link()
         mozillians_password_reset_page = mozillians_login_page.click_forgot_password_link()
