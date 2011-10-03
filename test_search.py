@@ -36,7 +36,6 @@
 #
 # ***** END LICENSE BLOCK *****
 
-from mozillians_page import MozilliansBasePage
 from mozillians_page import MozilliansStartPage
 from unittestzero import Assert
 import pytest
@@ -49,3 +48,24 @@ class TestSearch:
         mozillians_login_page = mozillians_home_page.click_login_link()
         mozillians_login_page.log_in()
         Assert.true(mozillians_home_page.is_search_box_present)
+
+    def test_that_search_returns_results_for_first_name(self, mozwebqa):
+        mozillians_home_page = MozilliansStartPage(mozwebqa)
+        mozillians_login_page = mozillians_home_page.click_login_link()
+        mozillians_login_page.log_in()
+        mozillians_search_page = mozillians_home_page.search_for("Paul")
+        Assert.true(mozillians_search_page.results_count > 0)
+
+    def test_that_search_returns_results_for_email_substring(self, mozwebqa):
+        mozillians_home_page = MozilliansStartPage(mozwebqa)
+        mozillians_login_page = mozillians_home_page.click_login_link()
+        mozillians_login_page.log_in()
+        mozillians_search_page = mozillians_home_page.search_for("@mozilla.com")
+        Assert.true(mozillians_search_page.results_count > 0)
+
+    def test_that_search_returns_results_for_email_substring(self, mozwebqa):
+        mozillians_home_page = MozilliansStartPage(mozwebqa)
+        mozillians_login_page = mozillians_home_page.click_login_link()
+        mozillians_login_page.log_in()
+        mozillians_search_page = mozillians_home_page.search_for("stephend")
+        Assert.true(mozillians_search_page.results_count > 0)
