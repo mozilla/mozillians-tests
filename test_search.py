@@ -39,6 +39,7 @@
 from mozillians_page import MozilliansStartPage
 from unittestzero import Assert
 import pytest
+xfail = pytest.mark.xfail
 
 class TestSearch:
 
@@ -63,6 +64,7 @@ class TestSearch:
         mozillians_search_page = mozillians_home_page.search_for("@mozilla.com")
         Assert.true(mozillians_search_page.results_count > 0)
 
+    @xfail(reason="Searching by email field is currently unsupported, see Bug 690551")
     def test_that_search_returns_results_for_email_substring(self, mozwebqa):
         mozillians_home_page = MozilliansStartPage(mozwebqa)
         mozillians_login_page = mozillians_home_page.click_login_link()
