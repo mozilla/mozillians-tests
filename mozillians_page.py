@@ -228,10 +228,11 @@ class ConfirmProfileDeletePage(MozilliansBasePage):
 
     _delete_button_locator = 'id=delete-action'
     _cancel_button_locator = 'id=cancel-action'
+    _confirm_profile_delete_text = 'Confirm Profile Deletion'
 
     @property
     def is_confirm_text_present(self):
-        return self.sel.is_text_present("Confirm Profile Deletion")
+        return self.sel.is_text_present(self._confirm_profile_delete_text)
 
     @property
     def is_delete_button_present(self):
