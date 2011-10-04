@@ -55,6 +55,14 @@ class TestAccount:
         login_page.log_in("username@mozilla.com", "invalidpass")
         Assert.true(login_page.is_invalid_credentials_text_present)
 
+    def test_login_logout(self, mozwebqa):
+        home_page = MozilliansStartPage(mozwebqa)
+        login_page = home_page.click_login_link()
+        login_page.log_in()
+        Assert.true(home_page.is_logout_link_present)
+        login_page.click_logout_link()
+        Assert.true(home_page.is_login_link_present)
+
     def test_reset_password(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()

@@ -65,9 +65,17 @@ class MozilliansBasePage(Page):
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansLoginPage(self.testsetup)
 
+    @property
+    def is_login_link_present(self):
+        return self.sel.is_element_present(self._login_link_locator)
+
     def click_logout_link(self):
         self.sel.click(self._logout_link_locator)
         self.sel.wait_for_page_to_load(self.timeout)
+
+    @property
+    def is_logout_link_present(self):
+        return self.sel.is_element_present(self._logout_link_locator)
 
     def click_profile_link(self):
         self.sel.click(self._profile_link_locator)
