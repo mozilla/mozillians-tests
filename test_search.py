@@ -72,6 +72,7 @@ class TestSearch:
         search_page = home_page.search_for("stephend")
         Assert.true(search_page.results_count > 0)
 
+    @xfail(reason="Too few accounts on stage and trunk to be triggering this message")
     def test_search_for_too_many_results(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
