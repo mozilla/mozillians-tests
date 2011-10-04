@@ -220,6 +220,27 @@ class MozilliansResetPasswordPage(MozilliansBasePage):
 class MozilliansProfilePage(MozilliansBasePage):
 
     _edit_my_profile_button_locator = 'id=edit-profile'
+    _name_locator = 'css=#profile-info h2'
+    _irc_nickname_locator = 'css=#profile-info .nickname'
+    _email_locator = 'css=#profile-info a[href*="mailto:"]'
+    _vouched_by_locator = 'css=#profile-info .vouched'
+    _biography_locator = 'id=bio'
+
+    @property
+    def name(self):
+        return self.sel.get_text(self._name_locator).strip()
+
+    @property
+    def biography(self):
+        return self.sel.get_text(self._biography_locator).strip()
+
+    @property
+    def email(self):
+        return self.sel.get_text(self._email_locator).strip()
+
+    @property
+    def vouched_by(self):
+        return self.sel.get_text(self._vouched_by_locator).strip()
 
     def click_edit_my_profile_button(self):
         self.sel.click(self._edit_my_profile_button_locator)
@@ -231,11 +252,37 @@ class MozilliansEditProfilePage(MozilliansBasePage):
     _delete_profile_button_locator = 'id=delete-profile'
     _cancel_link_locator = 'id=cancel'
     _update_button_locator = 'id=submit'
+    _first_name_field_locator = 'id=id_first_name'
+    _last_name_field_locator = 'id=id_last_name'
+    _biography_field_locator = 'id=id_biography'
+    _irc_nickname_field_locator = 'id=id_irc_nickname'
+    _email_locator = 'css=#email-container dd'
+
+    def click_update_button(self):
+        self.sel.click(self._update_button_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+        return MozilliansProfilePage(self.testsetup)
 
     def click_delete_profile_button(self):
         self.sel.click(self._delete_profile_button_locator)
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansConfirmProfileDeletePage(self.testsetup)
+
+    def set_first_name(self, first_name):
+        self.sel.type(self._first_name_field_locator, first_name)
+
+    def set_last_name(self, last_name):
+        self.sel.type(self._last_name_field_locator, last_name)
+
+    def set_biography(self, biography):
+        self.sel.type(self._biography_field_locator, biography)
+
+    def set_irc_nickname(self, irc_nickname):
+        self.sel.type(self._irc_nickname_field_locator, irc_nickname)
+
+    @property
+    def email(self):
+        return self.sel.get_text(self._email_locator)
 
 class MozilliansConfirmProfileDeletePage(MozilliansBasePage):
 
