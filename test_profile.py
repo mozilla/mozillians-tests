@@ -36,6 +36,8 @@
 #
 # ***** END LICENSE BLOCK *****
 
+import time
+
 from mozillians_page import MozilliansBasePage
 from mozillians_page import MozilliansStartPage
 from unittestzero import Assert
@@ -60,9 +62,10 @@ class TestProfile:
         login_page.log_in()
         profile_page = home_page.click_profile_link()
         edit_profile_page = profile_page.click_edit_my_profile_button()
-        new_first_name = "Updated"
-        new_last_name = "Mozillians User"
-        new_biography = "Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely."
+        current_time = str(time.time()).split('.')[0]
+        new_first_name = "Updated %s" % current_time
+        new_last_name = "Mozillians User %s" % current_time
+        new_biography = "Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely, run at %s" % current_time
         new_email = edit_profile_page.email
         edit_profile_page.set_first_name(new_first_name)
         edit_profile_page.set_last_name(new_last_name)
