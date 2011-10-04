@@ -60,6 +60,11 @@ class MozilliansBasePage(Page):
     def page_title(self):
         return self.sel.get_title()
 
+    def click_invite_link(self):
+        self.sel.click(self._invite_link_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+        return MozilliansInvitePage(self.testsetup)
+
     def click_login_link(self):
         self.sel.click(self._login_link_locator)
         self.sel.wait_for_page_to_load(self.timeout)
@@ -230,9 +235,9 @@ class MozilliansEditProfilePage(MozilliansBasePage):
     def click_delete_profile_button(self):
         self.sel.click(self._delete_profile_button_locator)
         self.sel.wait_for_page_to_load(self.timeout)
-        return ConfirmProfileDeletePage(self.testsetup)
+        return MozilliansConfirmProfileDeletePage(self.testsetup)
 
-class ConfirmProfileDeletePage(MozilliansBasePage):
+class MozilliansConfirmProfileDeletePage(MozilliansBasePage):
 
     _delete_button_locator = 'id=delete-action'
     _cancel_button_locator = 'id=cancel-action'
@@ -249,3 +254,18 @@ class ConfirmProfileDeletePage(MozilliansBasePage):
     @property
     def is_cancel_button_present(self):
         return self.sel.is_element_present(self._cancel_button_locator)
+
+class MozilliansInvitePage(MozilliansBasePage):
+
+    _recipient_field_locator = 'id=id_recipient'
+    _send_invite_button_locator = 'css=#main-content button'
+    _enter_valid_email_address_text = 'Enter a valid e-mail address'
+
+    def invite(self, email):
+        self.sel.type(self._recipient_field_locator, email)
+        self.sel.click(self._send_invite_button_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+
+    @property
+    def is_invalid_mail_address_message_present(self):
+        return self.sel.is_text_present(self._enter_valid_email_address_text)
