@@ -44,7 +44,7 @@ import pytest
 class TestAboutPage:
 
     def test_about_page(self, mozwebqa):
-        mozillians_home_page = MozilliansStartPage(mozwebqa)
-        about_mozillians_page = mozillians_home_page.click_about_link()
+        home_page = MozilliansStartPage(mozwebqa)
+        about_mozillians_page = home_page.click_about_link()
         Assert.true(about_mozillians_page.is_privacy_section_present)
         Assert.true(about_mozillians_page.is_get_involved_section_present)

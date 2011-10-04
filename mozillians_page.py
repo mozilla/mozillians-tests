@@ -69,6 +69,11 @@ class MozilliansBasePage(Page):
         self.sel.click(self._logout_link_locator)
         self.sel.wait_for_page_to_load(self.timeout)
 
+    def click_profile_link(self):
+        self.sel.click(self._profile_link_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+        return MozilliansProfilePage(self.testsetup)
+
     def click_about_link(self):
         self.sel.click(self._about_link_locator)
         self.sel.wait_for_page_to_load(self.timeout)
@@ -198,3 +203,40 @@ class MozilliansResetPasswordPage(MozilliansBasePage):
     @property
     def is_password_reset_sent_text_present(self):
         return self.sel.is_text_present("Password Reset Sent")
+
+class MozilliansProfilePage(MozilliansBasePage):
+
+    _edit_my_profile_button_locator = 'id=edit-profile'
+
+    def click_edit_my_profile_button(self):
+        self.sel.click(self._edit_my_profile_button_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+        return MozilliansEditProfilePage(self.testsetup)
+
+class MozilliansEditProfilePage(MozilliansBasePage):
+
+    _delete_profile_button_locator = 'id=delete-profile'
+    _cancel_link_locator = 'id=cancel'
+    _update_button_locator = 'id=submit'
+
+    def click_delete_profile_button(self):
+        self.sel.click(self._delete_profile_button_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+        return ConfirmProfileDeletePage(self.testsetup)
+
+class ConfirmProfileDeletePage(MozilliansBasePage):
+
+    _delete_button_locator = 'id=delete-action'
+    _cancel_button_locator = 'id=cancel-action'
+
+    @property
+    def is_confirm_text_present(self):
+        return self.sel.is_text_present("Confirm Profile Deletion")
+
+    @property
+    def is_delete_button_present(self):
+        return self.sel.is_element_present(self._delete_button_locator)
+
+    @property
+    def is_cancel_button_present(self):
+        return self.sel.is_element_present(self._cancel_button_locator)

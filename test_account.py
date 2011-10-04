@@ -44,22 +44,33 @@ import pytest
 class TestAccount:
 
     def test_login_with_invalid_credentials(self, mozwebqa):
-        mozillians_home_page = MozilliansStartPage(mozwebqa)
-        mozillians_login_page = mozillians_home_page.click_login_link()
-        mozillians_login_page.log_in("username@invalid.tld", "invalidpass")
-        Assert.true(mozillians_login_page.is_invalid_credentials_text_present)
+        home_page = MozilliansStartPage(mozwebqa)
+        login_page = home_page.click_login_link()
+        login_page.log_in("username@invalid.tld", "invalidpass")
+        Assert.true(login_page.is_invalid_credentials_text_present)
 
     def test_login_with_invalid_ldap_credentials(self, mozwebqa):
-        mozillians_home_page = MozilliansStartPage(mozwebqa)
-        mozillians_login_page = mozillians_home_page.click_login_link()
-        mozillians_login_page.log_in("username@mozilla.com", "invalidpass")
-        Assert.true(mozillians_login_page.is_invalid_credentials_text_present)
+        home_page = MozilliansStartPage(mozwebqa)
+        login_page = home_page.click_login_link()
+        login_page.log_in("username@mozilla.com", "invalidpass")
+        Assert.true(login_page.is_invalid_credentials_text_present)
 
     def test_reset_password(self, mozwebqa):
-        mozillians_home_page = MozilliansStartPage(mozwebqa)
-        mozillians_login_page = mozillians_home_page.click_login_link()
-        mozillians_password_reset_page = mozillians_login_page.click_forgot_password_link()
-        Assert.true(mozillians_password_reset_page.is_reset_password_button_present)
-        Assert.true(mozillians_password_reset_page.is_email_field_present)
-        mozillians_password_reset_page.reset_password()
-        Assert.true(mozillians_password_reset_page.is_password_reset_sent_text_present)
+        home_page = MozilliansStartPage(mozwebqa)
+        login_page = home_page.click_login_link()
+        password_reset_page = login_page.click_forgot_password_link()
+        Assert.true(password_reset_page.is_reset_password_button_present)
+        Assert.true(password_reset_page.is_email_field_present)
+        password_reset_page.reset_password()
+        Assert.true(password_reset_page.is_password_reset_sent_text_present)
+
+    def test_profile_deletion_confirmation(self, mozwebqa):
+        home_page = MozilliansStartPage(mozwebqa)
+        login_page = home_page.click_login_link()
+        login_page.log_in()
+        profile_page = home_page.click_profile_link()
+        edit_profile_page = profile_page.click_edit_my_profile_button()
+        confirm_profile_delete_page = edit_profile_page.click_delete_profile_button()
+        Assert.true(confirm_profile_delete_page.is_confirm_text_present)
+        Assert.true(confirm_profile_delete_page.is_cancel_button_present)
+        Assert.true(confirm_profile_delete_page.is_delete_button_present)
