@@ -12,7 +12,7 @@
 # for the specific language governing rights and limitations under the
 # License.
 #
-# The Original Code is Crash Tests Selenium Tests.
+# The Original Code is Mozilla WebQA Selenium Tests.
 #
 # The Initial Developer of the Original Code is
 # Mozilla.
