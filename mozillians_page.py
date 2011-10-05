@@ -355,6 +355,7 @@ class MozilliansCreateProfilePage(MozilliansBasePage):
     _privacy_policy_checkbox_locator = 'id=id_optin'
     _create_account_button_locator = 'id=submit'
     _invalid_email_string = 'Enter a valid e-mail address'
+    _non_matching_passwords_string = 'The passwords did not match'
 
     def set_email(self, email_string):
         self.sel.type(self._email_field_locator, email_string)
@@ -382,3 +383,7 @@ class MozilliansCreateProfilePage(MozilliansBasePage):
     @property
     def is_invalid_email_message_present(self):
         return self.sel.is_text_present(self._invalid_email_string)
+
+    @property
+    def is_non_matching_passwords_message_present(self):
+        return self.sel.is_text_present(self._non_matching_passwords_string)

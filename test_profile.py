@@ -90,3 +90,14 @@ class TestProfile:
         register_page.check_privacy_policy_checkbox()
         register_page.click_create_account_button()
         Assert.true(register_page.is_invalid_email_message_present)
+
+    def test_creating_profile_with_non_matching_passwords(self, mozwebqa):
+        home_page = MozilliansStartPage(mozwebqa)
+        register_page = home_page.click_join_us_link()
+        register_page.set_email("invalidpassword@example.com")
+        register_page.set_password("passwords", "dontmatch")
+        register_page.set_first_name("userwith")
+        register_page.set_last_name("invalidpassword")
+        register_page.check_privacy_policy_checkbox()
+        register_page.click_create_account_button()
+        Assert.true(register_page.is_non_matching_passwords_message_present)
