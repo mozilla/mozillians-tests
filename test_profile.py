@@ -101,3 +101,13 @@ class TestProfile:
         register_page.check_privacy_policy_checkbox()
         register_page.click_create_account_button()
         Assert.true(register_page.is_non_matching_passwords_message_present)
+
+    def test_creating_profile_without_checking_privacy_policy_checkbox(self, mozwebqa):
+        home_page = MozilliansStartPage(mozwebqa)
+        register_page = home_page.click_join_us_link()
+        register_page.set_email("newvaliduser@example.com")
+        register_page.set_password("newpassword")
+        register_page.set_first_name("NewUser")
+        register_page.set_last_name("DoesNotCheckBox")
+        register_page.click_create_account_button()
+        Assert.true(register_page.is_optin_required)

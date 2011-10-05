@@ -356,6 +356,15 @@ class MozilliansCreateProfilePage(MozilliansBasePage):
     _create_account_button_locator = 'id=submit'
     _invalid_email_string = 'Enter a valid e-mail address'
     _non_matching_passwords_string = 'The passwords did not match'
+    _email_container_locator = 'id=email-container'
+    _password_container_locator = 'id=password-container'
+    _confirm_password_container_locator = 'id=confirmp-container'
+    _last_name_container_locator = 'id=last_name-container'
+    _optin_container_locator = 'id=optin-container'
+    _error_list_locator = ' .errorlist'
+
+    def has_form_error(self, container_id):
+        return self.sel.is_element_present(container_id + self._error_list_locator) and self.sel.is_element_present(container_id + ".error")
 
     def set_email(self, email_string):
         self.sel.type(self._email_field_locator, email_string)
@@ -379,6 +388,26 @@ class MozilliansCreateProfilePage(MozilliansBasePage):
     def click_create_account_button(self):
         self.sel.click(self._create_account_button_locator)
         self.sel.wait_for_page_to_load(self.timeout)
+
+    @property
+    def is_primary_email_required(self):
+        return self.has_form_error(self._email_container_locator)
+
+    @property
+    def is_password_required(self):
+        return self.has_form_error(self._password_container_locator)
+
+    @property
+    def is_confirm_password_required(self):
+        return self.has_form_error(self._confirm_password_container_locator)
+
+    @property
+    def is_last_name_required(self):
+        return self.has_form_error(self._last_name_container_locator)
+
+    @property
+    def is_optin_required(self):
+        return self.has_form_error(self._optin_container_locator)
 
     @property
     def is_invalid_email_message_present(self):
