@@ -52,6 +52,7 @@ class TestProfile:
         profile_page = home_page.click_profile_link()
         edit_profile_page = profile_page.click_edit_my_profile_button()
         confirm_profile_delete_page = edit_profile_page.click_delete_profile_button()
+        Assert.true(confirm_profile_delete_page.is_csrf_token_present)
         Assert.true(confirm_profile_delete_page.is_confirm_text_present)
         Assert.true(confirm_profile_delete_page.is_cancel_button_present)
         Assert.true(confirm_profile_delete_page.is_delete_button_present)
@@ -62,6 +63,7 @@ class TestProfile:
         login_page.log_in()
         profile_page = home_page.click_profile_link()
         edit_profile_page = profile_page.click_edit_my_profile_button()
+        Assert.true(edit_profile_page.is_csrf_token_present)
         current_time = str(time.time()).split('.')[0]
         new_first_name = "Updated %s" % current_time
         new_last_name = "Mozillians User %s" % current_time

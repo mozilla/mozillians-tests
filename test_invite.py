@@ -56,6 +56,7 @@ class TestInvite:
         login_page = home_page.click_login_link()
         login_page.log_in()
         invite_page = home_page.click_invite_link()
+        Assert.true(invite_page.is_csrf_token_present)
         mail_address = "validuser@example.com"
         invite_success_page = invite_page.invite(mail_address)
         Assert.true(invite_success_page.is_mail_address_present(mail_address))

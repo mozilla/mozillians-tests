@@ -51,6 +51,7 @@ class MozilliansBasePage(Page):
     _search_box_locator = 'id=q'
     _search_btn_locator = 'id=quick-search-btn'
     _about_link_locator = 'css=#footer-links a[href*=about]'
+    _csrf_token_locator = 'css=input[name="csrfmiddlewaretoken"]'
 
     def __init__(self, testsetup):
         Page.__init__(self, testsetup)
@@ -81,6 +82,10 @@ class MozilliansBasePage(Page):
     @property
     def is_logout_link_present(self):
         return self.sel.is_element_present(self._logout_link_locator)
+
+    @property
+    def is_csrf_token_present(self):
+        return self.sel.is_element_present(self._csrf_token_locator)
 
     def click_profile_link(self):
         self.sel.click(self._profile_link_locator)

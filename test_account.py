@@ -58,6 +58,7 @@ class TestAccount:
     def test_login_logout(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
+        Assert.true(login_page.is_csrf_token_present)
         login_page.log_in()
         Assert.true(home_page.is_logout_link_present)
         login_page.click_logout_link()
@@ -67,6 +68,7 @@ class TestAccount:
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
         password_reset_page = login_page.click_forgot_password_link()
+        Assert.true(password_reset_page.is_csrf_token_present)
         Assert.true(password_reset_page.is_reset_password_button_present)
         Assert.true(password_reset_page.is_email_field_present)
         password_reset_page.reset_password()
