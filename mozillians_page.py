@@ -312,7 +312,24 @@ class MozilliansInvitePage(MozilliansBasePage):
         self.sel.type(self._recipient_field_locator, email)
         self.sel.click(self._send_invite_button_locator)
         self.sel.wait_for_page_to_load(self.timeout)
+        return MozilliansInviteSuccessPage(self.testsetup)
 
     @property
     def is_invalid_mail_address_message_present(self):
         return self.sel.is_text_present(self._enter_valid_email_address_text)
+
+class MozilliansInviteSuccessPage(MozilliansBasePage):
+
+    _success_message = "Invitation Sent"
+    _invite_another_mozillian_link_locator = "css=#main-content a[href*='invite']"
+
+    def is_mail_address_present(self, address):
+        return self.sel.is_text_present(address)
+
+    @property
+    def is_success_message_present(self):
+        return self.sel.is_text_present(self._success_message)
+
+    @property
+    def is_invite_another_mozillian_link_present(self):
+        return self.sel.is_element_present(self._invite_another_mozillian_link_locator)
