@@ -46,6 +46,7 @@ class MozilliansBasePage(Page):
     _header_locator = 'id=header'
     _profile_link_locator = 'id=profile'
     _invite_link_locator = 'id=invite'
+    _join_us_link_locator = 'id=register'
     _login_link_locator = 'id=login'
     _logout_link_locator = 'id=logout'
     _search_box_locator = 'id=q'
@@ -65,6 +66,11 @@ class MozilliansBasePage(Page):
         self.sel.click(self._invite_link_locator)
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansInvitePage(self.testsetup)
+
+    def click_join_us_link(self):
+        self.sel.click(self._join_us_link_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+        return MozilliansCreateProfilePage(self.testsetup)
 
     def click_login_link(self):
         self.sel.click(self._login_link_locator)
@@ -338,3 +344,41 @@ class MozilliansInviteSuccessPage(MozilliansBasePage):
     @property
     def is_invite_another_mozillian_link_present(self):
         return self.sel.is_element_present(self._invite_another_mozillian_link_locator)
+
+class MozilliansCreateProfilePage(MozilliansBasePage):
+
+    _email_field_locator = 'id=id_email'
+    _password_field_locator = 'id=id_password'
+    _confirm_password_field_locator = 'id=id_confirmp'
+    _first_name_field_locator = 'id=id_first_name'
+    _last_name_field_locator = 'id=id_last_name'
+    _privacy_policy_checkbox_locator = 'id=id_optin'
+    _create_account_button_locator = 'id=submit'
+    _invalid_email_string = 'Enter a valid e-mail address'
+
+    def set_email(self, email_string):
+        self.sel.type(self._email_field_locator, email_string)
+
+    def set_password(self, password, confirmpassword=None):
+        self.sel.type(self._password_field_locator, password)
+        if confirmpassword is None:
+            self.sel.type(self._confirm_password_field_locator, password)
+        else:
+            self.sel.type(self._confirm_password_field_locator, confirmpassword)
+
+    def set_first_name(self, first_name):
+        self.sel.type(self._first_name_field_locator, first_name)
+
+    def set_last_name(self, last_name):
+        self.sel.type(self._last_name_field_locator, last_name)
+
+    def check_privacy_policy_checkbox(self):
+        self.sel.check(self._privacy_policy_checkbox_locator)
+
+    def click_create_account_button(self):
+        self.sel.click(self._create_account_button_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+
+    @property
+    def is_invalid_email_message_present(self):
+        return self.sel.is_text_present(self._invalid_email_string)

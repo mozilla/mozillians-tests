@@ -79,3 +79,14 @@ class TestProfile:
         Assert.equal(name, new_first_name + " " + new_last_name)
         Assert.equal(biography, new_biography)
         Assert.equal(new_email, email)
+
+    def test_creating_profile_with_invalid_email_address(self, mozwebqa):
+        home_page = MozilliansStartPage(mozwebqa)
+        register_page = home_page.click_join_us_link()
+        register_page.set_email("invalidmail")
+        register_page.set_password("validpassword")
+        register_page.set_first_name("userwith")
+        register_page.set_last_name("invalidmail")
+        register_page.check_privacy_policy_checkbox()
+        register_page.click_create_account_button()
+        Assert.true(register_page.is_invalid_email_message_present)
