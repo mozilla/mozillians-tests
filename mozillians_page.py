@@ -356,11 +356,11 @@ class MozilliansCreateProfilePage(MozilliansBasePage):
     _create_account_button_locator = 'id=submit'
     _invalid_email_string = 'Enter a valid e-mail address'
     _non_matching_passwords_string = 'The passwords did not match'
-    _email_container_locator = 'id=email-container'
-    _password_container_locator = 'id=password-container'
-    _confirm_password_container_locator = 'id=confirmp-container'
-    _last_name_container_locator = 'id=last_name-container'
-    _optin_container_locator = 'id=optin-container'
+    _email_container_locator = 'css=#email-container'
+    _password_container_locator = 'css=#password-container'
+    _confirm_password_container_locator = 'css=#confirmp-container'
+    _last_name_container_locator = 'css=#last_name-container'
+    _optin_container_locator = 'css=#optin-container'
     _error_list_locator = ' .errorlist'
 
     def has_form_error(self, container_id):
