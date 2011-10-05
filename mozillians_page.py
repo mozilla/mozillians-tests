@@ -364,7 +364,7 @@ class MozilliansCreateProfilePage(MozilliansBasePage):
     _error_list_locator = ' .errorlist'
 
     def has_form_error(self, container_id):
-        return self.sel.is_element_present(container_id + self._error_list_locator) and self.sel.is_element_present(container_id + ".error")
+        return self.sel.is_element_present(container_id + self._error_list_locator) and self.sel.is_element_present(container_id + " .error")
 
     def set_email(self, email_string):
         self.sel.type(self._email_field_locator, email_string)
