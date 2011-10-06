@@ -81,6 +81,7 @@ class TestProfile:
         Assert.equal(biography, new_biography)
         Assert.equal(new_email, email)
 
+    @xfail(reason="Bug 692271 - Registration with invalid form data redirects to login page in some cases")
     def test_creating_profile_with_invalid_email_address(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         register_page = home_page.click_join_us_link()
@@ -104,6 +105,7 @@ class TestProfile:
         register_page.click_create_account_button()
         Assert.true(register_page.is_non_matching_passwords_message_present)
 
+    @xfail(reason="Bug 692271 - Registration with invalid form data redirects to login page in some cases")
     def test_creating_profile_without_checking_privacy_policy_checkbox(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         register_page = home_page.click_join_us_link()
