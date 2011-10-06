@@ -42,6 +42,7 @@ from mozillians_page import MozilliansBasePage
 from mozillians_page import MozilliansStartPage
 from unittestzero import Assert
 import pytest
+xfail = pytest.mark.xfail
 
 class TestProfile:
 
@@ -91,6 +92,7 @@ class TestProfile:
         register_page.click_create_account_button()
         Assert.true(register_page.is_invalid_email_message_present)
 
+    @xfail(reason="Bug 692271 - Registration with invalid form data redirects to login page in some cases")
     def test_creating_profile_with_non_matching_passwords(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         register_page = home_page.click_join_us_link()
