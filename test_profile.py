@@ -115,3 +115,15 @@ class TestProfile:
         register_page.set_last_name("DoesNotCheckBox")
         register_page.click_create_account_button()
         Assert.true(register_page.is_optin_required)
+
+    @xfail(reason="Bug 692271 - Registration with invalid form data redirects to login page in some cases")
+    def test_profile_creation(self, mozwebqa):
+        home_page = MozilliansStartPage(mozwebqa)
+        register_page = home_page.click_join_us_link()
+        register_page.set_email("newvaliduserwith@example.com")
+        register_page.set_password("newpassword")
+        register_page.set_first_name("New")
+        register_page.set_last_name("MozilliansUser")
+        register_page.check_privacy_policy_checkbox()
+        login_page = register_page.click_create_account_button()
+        Assert.true(login_page.is_account_needs_verification_message_present)

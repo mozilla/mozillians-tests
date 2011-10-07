@@ -171,6 +171,7 @@ class MozilliansLoginPage(MozilliansBasePage):
     _log_in_button_locator = 'id=submit'
     _forgot_password_link_locator = 'css=#fyp-container a'
     _invalid_credentials_text = 'Please enter a correct username and password'
+    _account_needs_verification_message_locator = 'css=#messages .info'
 
     def log_in(self, email = None, password = None):
         credentials = self.testsetup.credentials['user']
@@ -191,6 +192,10 @@ class MozilliansLoginPage(MozilliansBasePage):
     @property
     def is_invalid_credentials_text_present(self):
         return self.sel.is_text_present(self._invalid_credentials_text)
+
+    @property
+    def is_account_needs_verification_message_present(self):
+        return self.sel.is_element_present(self._account_needs_verification_message_locator)
 
     def click_forgot_password_link(self):
         self.sel.click(self._forgot_password_link_locator)
@@ -388,6 +393,7 @@ class MozilliansCreateProfilePage(MozilliansBasePage):
     def click_create_account_button(self):
         self.sel.click(self._create_account_button_locator)
         self.sel.wait_for_page_to_load(self.timeout)
+        return MozilliansLoginPage(self.testsetup)
 
     @property
     def is_primary_email_required(self):
