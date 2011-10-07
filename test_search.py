@@ -64,8 +64,7 @@ class TestSearch:
         search_page = home_page.search_for("@mozilla.com")
         Assert.true(search_page.results_count > 0)
 
-    @xfail(reason="Searching by email field is currently unsupported, see Bug 690551")
-    def test_that_search_returns_results_for_email_substring(self, mozwebqa):
+    def test_that_search_returns_results_for_irc_nickname(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
         login_page.log_in()
