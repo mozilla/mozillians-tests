@@ -273,6 +273,7 @@ class MozilliansEditProfilePage(MozilliansBasePage):
     _biography_field_locator = 'id=id_biography'
     _irc_nickname_field_locator = 'id=id_irc_nickname'
     _email_locator = 'css=#email-container dd'
+    _change_password_link_locator = 'css=a[href*="password_change"]'
 
     def click_update_button(self):
         self.sel.click(self._update_button_locator)
@@ -283,6 +284,11 @@ class MozilliansEditProfilePage(MozilliansBasePage):
         self.sel.click(self._delete_profile_button_locator)
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansConfirmProfileDeletePage(self.testsetup)
+
+    def click_change_password_link(self):
+        self.sel.click(self._change_password_link_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+        return MozilliansPasswordChangePage(self.testsetup)
 
     def set_first_name(self, first_name):
         self.sel.type(self._first_name_field_locator, first_name)
@@ -422,3 +428,40 @@ class MozilliansCreateProfilePage(MozilliansBasePage):
     @property
     def is_non_matching_passwords_message_present(self):
         return self.sel.is_text_present(self._non_matching_passwords_string)
+
+class MozilliansPasswordChangePage(MozilliansBasePage):
+
+    _old_password_field_locator = 'id=id_old_password'
+    _new_password_field_locator = 'id=id_new_password1'
+    _confirm_new_password_field_locator = 'id=id_new_password2'
+    _change_password_button_locator = 'id=submit'
+    _forgot_password_link_locator = 'id=password-reset'
+
+    @property
+    def is_old_password_field_present(self):
+        return self.sel.is_element_present(self._old_password_field_locator)
+
+    @property
+    def is_new_password_field_present(self):
+        return self.sel.is_element_present(self._new_password_field_locator)
+
+    @property
+    def is_confirm_password_field_present(self):
+        return self.sel.is_element_present(self._confirm_new_password_field_locator)
+
+    @property
+    def is_change_password_button_present(self):
+        return self.sel.is_element_present(self._change_password_button_locator)
+
+    @property
+    def is_forgot_password_link_present(self):
+        return self.sel.is_element_present(self._forgot_password_link_locator)
+
+    def click_change_password_button(self):
+        self.sel.click(self._change_password_button_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+
+    def click_forgot_password_link(self):
+        self.sel.click(self._forgot_password_link_locator)
+        self.sel.wait_for_page_to_load(self.timeout)
+        return MozilliansResetPasswordPage(self.testsetup)

@@ -81,6 +81,19 @@ class TestProfile:
         Assert.equal(biography, new_biography)
         Assert.equal(new_email, email)
 
+    def test_change_password(self, mozwebqa):
+        home_page = MozilliansStartPage(mozwebqa)
+        login_page = home_page.click_login_link()
+        login_page.log_in()
+        profile_page = home_page.click_profile_link()
+        edit_profile_page = profile_page.click_edit_my_profile_button()
+        change_password_page = edit_profile_page.click_change_password_link()
+        Assert.true(change_password_page.is_old_password_field_present)
+        Assert.true(change_password_page.is_new_password_field_present)
+        Assert.true(change_password_page.is_confirm_password_field_present)
+        Assert.true(change_password_page.is_change_password_button_present)
+        Assert.true(change_password_page.is_forgot_password_link_present)
+
     @xfail(reason="Bug 692271 - Registration with invalid form data redirects to login page in some cases")
     def test_creating_profile_with_invalid_email_address(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
