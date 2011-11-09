@@ -19,7 +19,7 @@
 # Portions created by the Initial Developer are Copyright (C) 2011
 # the Initial Developer. All Rights Reserved.
 #
-# Contributor(s):
+# Contributor(s): Alin Trif <alin.trif@softvision.ro>
 #
 # Alternatively, the contents of this file may be used under the terms of
 # either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -39,7 +39,8 @@ from selenium import selenium
 import re
 import time
 import base64
-from page import Page
+from pages.page import Page
+
 
 class MozilliansBasePage(Page):
 
@@ -57,7 +58,7 @@ class MozilliansBasePage(Page):
     def __init__(self, testsetup):
         Page.__init__(self, testsetup)
         self.sel = self.selenium
-        
+
     @property
     def page_title(self):
         return self.sel.get_title()
@@ -123,8 +124,8 @@ class MozilliansStartPage(MozilliansBasePage):
     _create_profile_button_locator = 'css=#call-to-action a'
 
     def __init__(self, testsetup):
-       MozilliansBasePage.__init__(self, testsetup)
-       self.sel.open('/')
+        MozilliansBasePage.__init__(self, testsetup)
+        self.sel.open('/')
 
     def click_create_profile_button(self):
         self.sel.click(self._create_profile_button_locator)
@@ -173,7 +174,7 @@ class MozilliansLoginPage(MozilliansBasePage):
     _invalid_credentials_text = 'Please enter a correct username and password'
     _account_needs_verification_message_locator = 'css=#messages .info'
 
-    def log_in(self, email = None, password = None):
+    def log_in(self, email=None, password=None):
         credentials = self.testsetup.credentials['user']
 
         if email is None:
@@ -202,6 +203,7 @@ class MozilliansLoginPage(MozilliansBasePage):
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansResetPasswordPage(self.testsetup)
 
+
 class MozilliansResetPasswordPage(MozilliansBasePage):
 
     _reset_password_button_locator = 'id=submit'
@@ -218,7 +220,7 @@ class MozilliansResetPasswordPage(MozilliansBasePage):
     def is_email_field_present(self):
         return self.sel.is_element_present(self._email_field_locator)
 
-    def reset_password(self, email = None):
+    def reset_password(self, email=None):
         credentials = self.testsetup.credentials['user']
 
         if email is None:
@@ -232,6 +234,7 @@ class MozilliansResetPasswordPage(MozilliansBasePage):
     @property
     def is_password_reset_sent_text_present(self):
         return self.sel.is_text_present("Password Reset Sent")
+
 
 class MozilliansProfilePage(MozilliansBasePage):
 
@@ -262,6 +265,7 @@ class MozilliansProfilePage(MozilliansBasePage):
         self.sel.click(self._edit_my_profile_button_locator)
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansEditProfilePage(self.testsetup)
+
 
 class MozilliansEditProfilePage(MozilliansBasePage):
 
@@ -306,6 +310,7 @@ class MozilliansEditProfilePage(MozilliansBasePage):
     def email(self):
         return self.sel.get_text(self._email_locator)
 
+
 class MozilliansConfirmProfileDeletePage(MozilliansBasePage):
 
     _delete_button_locator = 'id=delete-action'
@@ -324,6 +329,7 @@ class MozilliansConfirmProfileDeletePage(MozilliansBasePage):
     def is_cancel_button_present(self):
         return self.sel.is_element_present(self._cancel_button_locator)
 
+
 class MozilliansInvitePage(MozilliansBasePage):
 
     _recipient_field_locator = 'id=id_recipient'
@@ -340,6 +346,7 @@ class MozilliansInvitePage(MozilliansBasePage):
     def is_invalid_mail_address_message_present(self):
         return self.sel.is_text_present(self._enter_valid_email_address_text)
 
+
 class MozilliansInviteSuccessPage(MozilliansBasePage):
 
     _success_message = "Invitation Sent"
@@ -355,6 +362,7 @@ class MozilliansInviteSuccessPage(MozilliansBasePage):
     @property
     def is_invite_another_mozillian_link_present(self):
         return self.sel.is_element_present(self._invite_another_mozillian_link_locator)
+
 
 class MozilliansCreateProfilePage(MozilliansBasePage):
 
@@ -428,6 +436,7 @@ class MozilliansCreateProfilePage(MozilliansBasePage):
     @property
     def is_non_matching_passwords_message_present(self):
         return self.sel.is_text_present(self._non_matching_passwords_string)
+
 
 class MozilliansPasswordChangePage(MozilliansBasePage):
 

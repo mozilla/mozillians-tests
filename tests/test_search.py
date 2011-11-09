@@ -17,10 +17,10 @@
 #
 # The Initial Developer of the Original Code is
 # Mozilla.
-# Portions created by the Initial Developer are Copyright (C) 2010
+# Portions created by the Initial Developer are Copyright (C) 2011
 # the Initial Developer. All Rights Reserved.
 #
-# Contributor(s):
+# Contributor(s): Alin Trif <alin.trif@softvision.ro>
 #
 # Alternatively, the contents of this file may be used under the terms of
 # either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -36,40 +36,46 @@
 #
 # ***** END LICENSE BLOCK *****
 
-from mozillians_page import MozilliansBasePage
-from mozillians_page import MozilliansStartPage
+from pages.mozillians_page import MozilliansStartPage
 from unittestzero import Assert
 import pytest
+xfail = pytest.mark.xfail
 
-class TestAccount:
 
-    def test_login_with_invalid_credentials(self, mozwebqa):
+class TestSearch:
+
+    def test_search_function_only_present_for_vouched_users(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
+        Assert.false(home_page.is_search_box_present)
         login_page = home_page.click_login_link()
-        login_page.log_in("username@invalid.tld", "invalidpass")
-        Assert.true(login_page.is_invalid_credentials_text_present)
-
-    def test_login_with_invalid_ldap_credentials(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        login_page = home_page.click_login_link()
-        login_page.log_in("username@mozilla.com", "invalidpass")
-        Assert.true(login_page.is_invalid_credentials_text_present)
-
-    def test_login_logout(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        login_page = home_page.click_login_link()
-        Assert.true(login_page.is_csrf_token_present)
         login_page.log_in()
-        Assert.true(home_page.is_logout_link_present)
-        login_page.click_logout_link()
-        Assert.true(home_page.is_login_link_present)
+        Assert.true(home_page.is_search_box_present)
 
-    def test_reset_password(self, mozwebqa):
+    def test_that_search_returns_results_for_first_name(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
-        password_reset_page = login_page.click_forgot_password_link()
-        Assert.true(password_reset_page.is_csrf_token_present)
-        Assert.true(password_reset_page.is_reset_password_button_present)
-        Assert.true(password_reset_page.is_email_field_present)
-        password_reset_page.reset_password()
-        Assert.true(password_reset_page.is_password_reset_sent_text_present)
+        login_page.log_in()
+        search_page = home_page.search_for("Paul")
+        Assert.true(search_page.results_count > 0)
+
+    def test_that_search_returns_results_for_email_substring(self, mozwebqa):
+        home_page = MozilliansStartPage(mozwebqa)
+        login_page = home_page.click_login_link()
+        login_page.log_in()
+        search_page = home_page.search_for("@mozilla.com")
+        Assert.true(search_page.results_count > 0)
+
+    def test_that_search_returns_results_for_irc_nickname(self, mozwebqa):
+        home_page = MozilliansStartPage(mozwebqa)
+        login_page = home_page.click_login_link()
+        login_page.log_in()
+        search_page = home_page.search_for("stephend")
+        Assert.true(search_page.results_count > 0)
+
+    @xfail(reason="Too few accounts on stage and trunk to be triggering this message")
+    def test_search_for_too_many_results(self, mozwebqa):
+        home_page = MozilliansStartPage(mozwebqa)
+        login_page = home_page.click_login_link()
+        login_page.log_in()
+        search_page = home_page.search_for(".")
+        Assert.true(search_page.too_many_results_message_shown)

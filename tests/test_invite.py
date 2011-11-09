@@ -20,7 +20,7 @@
 # Portions created by the Initial Developer are Copyright (C) 2011
 # the Initial Developer. All Rights Reserved.
 #
-# Contributor(s):
+# Contributor(s): Alin Trif <alin.trif@softvision.ro>
 #
 # Alternatively, the contents of this file may be used under the terms of
 # either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -36,45 +36,30 @@
 #
 # ***** END LICENSE BLOCK *****
 
-from mozillians_page import MozilliansStartPage
+from pages.mozillians_page import MozilliansStartPage
 from unittestzero import Assert
 import pytest
 xfail = pytest.mark.xfail
 
-class TestSearch:
 
-    def test_search_function_only_present_for_vouched_users(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        Assert.false(home_page.is_search_box_present)
-        login_page = home_page.click_login_link()
-        login_page.log_in()
-        Assert.true(home_page.is_search_box_present)
+class TestInvite:
 
-    def test_that_search_returns_results_for_first_name(self, mozwebqa):
+    def test_inviting_an_invalid_email_address(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
         login_page.log_in()
-        search_page = home_page.search_for("Paul")
-        Assert.true(search_page.results_count > 0)
+        invite_page = home_page.click_invite_link()
+        invite_page.invite("invalidmail")
+        Assert.true(invite_page.is_invalid_mail_address_message_present)
 
-    def test_that_search_returns_results_for_email_substring(self, mozwebqa):
+    def test_invite(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
         login_page.log_in()
-        search_page = home_page.search_for("@mozilla.com")
-        Assert.true(search_page.results_count > 0)
-
-    def test_that_search_returns_results_for_irc_nickname(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        login_page = home_page.click_login_link()
-        login_page.log_in()
-        search_page = home_page.search_for("stephend")
-        Assert.true(search_page.results_count > 0)
-
-    @xfail(reason="Too few accounts on stage and trunk to be triggering this message")
-    def test_search_for_too_many_results(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        login_page = home_page.click_login_link()
-        login_page.log_in()
-        search_page = home_page.search_for(".")
-        Assert.true(search_page.too_many_results_message_shown)
+        invite_page = home_page.click_invite_link()
+        Assert.true(invite_page.is_csrf_token_present)
+        mail_address = "validuser@example.com"
+        invite_success_page = invite_page.invite(mail_address)
+        Assert.true(invite_success_page.is_mail_address_present(mail_address))
+        Assert.true(invite_success_page.is_success_message_present)
+        Assert.true(invite_success_page.is_invite_another_mozillian_link_present)
