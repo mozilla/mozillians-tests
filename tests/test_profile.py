@@ -20,7 +20,7 @@
 # Portions created by the Initial Developer are Copyright (C) 2010
 # the Initial Developer. All Rights Reserved.
 #
-# Contributor(s):
+# Contributor(s): Alin Trif <alin.trif@softvision.ro>
 #
 # Alternatively, the contents of this file may be used under the terms of
 # either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -38,11 +38,12 @@
 
 import time
 
-from mozillians_page import MozilliansBasePage
-from mozillians_page import MozilliansStartPage
+from pages.mozillians_page import MozilliansBasePage
+from pages.mozillians_page import MozilliansStartPage
 from unittestzero import Assert
 import pytest
 xfail = pytest.mark.xfail
+
 
 class TestProfile:
 
