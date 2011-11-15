@@ -12,7 +12,7 @@ You will need a version of the [Java Runtime Environment][JRE] installed
 [JRE]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
 ### Python
-Before you will be able to run these tests you will need to have Python 2.6 installed(or a newer stable version).
+Before you will be able to run these tests, you will need to have Python 2.6 installed (or a newer, stable version).
 
 Run
 
@@ -26,16 +26,17 @@ __note__
 
 If you are running on Ubuntu/Debian you will need to do following first
 
+
     sudo apt-get install python-setuptools
 
 to install the required Python libraries.
 
 ### Selenium
-Once this is all set up you will need to download and start a Selenium server. You can download the latest Selenium server from [here][Selenium Downloads]. The filename will be something like 'selenium-server-standalone-2.9.0.jar'
+Once this is all set up, you will need to download and start a Selenium server. You can download the latest Selenium server from [here][Selenium Downloads]. The filename will be something like 'selenium-server-standalone-x.x.x.jar'
 
 To start the Selenium server run the following command:
 
-    java -jar ~/Downloads/selenium-server-standalone-2.9.0.jar
+    java -jar ~/Downloads/selenium-server-standalone-x.x.x.jar
 
 Change the path/name to the downloaded Selenium server file.
 
@@ -43,8 +44,8 @@ Change the path/name to the downloaded Selenium server file.
 
 ### Running tests locally
 
-To run tests locally it's a simple case of calling py.test from the Mozillians-tests directory
-<br />You should specify the following  argument for the selenium rc: --api=rc
+To run tests locally, it's a simple case of calling py.test from the Mozillians-tests directory
+<br />You should specify the following argument for the Selenium rc: --api=rc
 <br />The base URL should be a valid instance of mozillians-dev: --baseurl=http://mozillians-dev.allizom.org
 
     py.test --credentials=~/credentials.yaml
@@ -54,7 +55,6 @@ For other instructions type py.test --help .
 
 Writing Tests
 -------------
-
 If you want to get involved and add more tests then there's just a few things
 we'd like to ask you to do:
 
