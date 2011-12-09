@@ -40,6 +40,7 @@ import re
 import time
 import base64
 from pages.page import Page
+from pages.browser_id import BrowserID
 
 
 class MozilliansBasePage(Page):
@@ -48,7 +49,7 @@ class MozilliansBasePage(Page):
     _profile_link_locator = 'id=profile'
     _invite_link_locator = 'id=invite'
     _join_us_link_locator = 'id=register'
-    _login_link_locator = 'id=login'
+    _login_link_locator = 'css=#browserid-login > a'
     _logout_link_locator = 'id=logout'
     _search_box_locator = 'id=q'
     _search_btn_locator = 'id=quick-search-btn'
@@ -75,7 +76,6 @@ class MozilliansBasePage(Page):
 
     def click_login_link(self):
         self.sel.click(self._login_link_locator)
-        self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansLoginPage(self.testsetup)
 
     @property
@@ -167,41 +167,14 @@ class MozilliansAboutPage(MozilliansBasePage):
 
 class MozilliansLoginPage(MozilliansBasePage):
 
-    _username_box_locator = 'id=id_username'
-    _password_box_locator = 'id=id_password'
-    _log_in_button_locator = 'id=submit'
-    _forgot_password_link_locator = 'css=#fyp-container a'
-    _invalid_credentials_text = 'Please enter a correct username and password'
-    _account_needs_verification_message_locator = 'css=#messages .info'
+    def log_in(self, user="user"):
+        credentials = self.testsetup.credentials[user]
+        browser_id = BrowserID(self.testsetup)
 
-    def log_in(self, email=None, password=None):
-        credentials = self.testsetup.credentials['user']
+        browser_id.login_browser_id(credentials)
+        browser_id.sign_in()
 
-        if email is None:
-            self.sel.type(self._username_box_locator, credentials['email'])
-        else:
-            self.sel.type(self._username_box_locator, email)
-
-        if password is None:
-            self.sel.type(self._password_box_locator, credentials['password'])
-        else:
-            self.sel.type(self._password_box_locator, password)
-
-        self.sel.click(self._log_in_button_locator)
         self.sel.wait_for_page_to_load(self.timeout)
-
-    @property
-    def is_invalid_credentials_text_present(self):
-        return self.sel.is_text_present(self._invalid_credentials_text)
-
-    @property
-    def is_account_needs_verification_message_present(self):
-        return self.sel.is_element_present(self._account_needs_verification_message_locator)
-
-    def click_forgot_password_link(self):
-        self.sel.click(self._forgot_password_link_locator)
-        self.sel.wait_for_page_to_load(self.timeout)
-        return MozilliansResetPasswordPage(self.testsetup)
 
 
 class MozilliansResetPasswordPage(MozilliansBasePage):
