@@ -36,24 +36,11 @@
 #
 # ***** END LICENSE BLOCK *****
 
-from pages.mozillians_page import MozilliansBasePage
 from pages.mozillians_page import MozilliansStartPage
 from unittestzero import Assert
 
 
 class TestAccount:
-
-    def test_login_with_invalid_credentials(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        login_page = home_page.click_login_link()
-        login_page.log_in("username@invalid.tld", "invalidpass")
-        Assert.true(login_page.is_invalid_credentials_text_present)
-
-    def test_login_with_invalid_ldap_credentials(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        login_page = home_page.click_login_link()
-        login_page.log_in("username@mozilla.com", "invalidpass")
-        Assert.true(login_page.is_invalid_credentials_text_present)
 
     def test_login_logout(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
@@ -63,13 +50,3 @@ class TestAccount:
         Assert.true(home_page.is_logout_link_present)
         login_page.click_logout_link()
         Assert.true(home_page.is_login_link_present)
-
-    def test_reset_password(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        login_page = home_page.click_login_link()
-        password_reset_page = login_page.click_forgot_password_link()
-        Assert.true(password_reset_page.is_csrf_token_present)
-        Assert.true(password_reset_page.is_reset_password_button_present)
-        Assert.true(password_reset_page.is_email_field_present)
-        password_reset_page.reset_password()
-        Assert.true(password_reset_page.is_password_reset_sent_text_present)
