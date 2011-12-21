@@ -37,6 +37,7 @@
 #
 # ***** END LICENSE BLOCK *****
 
+import time
 
 from page import Page
 
@@ -69,4 +70,13 @@ class BrowserID(Page):
         self.wait_for_element_visible(self._sign_in_locator)
         self.selenium.click(self._sign_in_locator)
 
+        self._wait_for_popup_to_close(self.timeout)
         self.selenium.deselect_pop_up()
+
+    def _wait_for_popup_to_close(self, timeout):
+        count = 0
+        while len(self.selenium.get_all_window_titles()) > 1:
+            time.sleep(1)
+            count += 1
+            if count == self.timeout / 1000:
+                raise Exception("PopUp is still visible")
