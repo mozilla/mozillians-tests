@@ -41,9 +41,10 @@ import time
 
 from page import Page
 
+
 class BrowserID(Page):
 
-    _pop_up_id = '_mozid_signin'
+    _pop_up_title = 'BrowserID'
     _email_locator = 'id=email'
     _password_locator = 'id=password'
 
@@ -53,8 +54,16 @@ class BrowserID(Page):
 
     def __init__(self, testsetup):
         Page.__init__(self, testsetup)
-        self.selenium.wait_for_pop_up(self._pop_up_id, self.timeout)
-        self.selenium.select_pop_up(self._pop_up_id)
+
+        self.selenium.wait_for_pop_up('', self.timeout)
+
+        handles = self.selenium.get_all_window_titles()
+
+        for i in handles:
+            self.selenium.select_window(i)
+            if self.selenium.get_title == self._pop_up_title:
+                self.selenium.window_focus()
+                break
 
     def login_browser_id(self, credentials):
         self.wait_for_element_visible(self._email_locator)
