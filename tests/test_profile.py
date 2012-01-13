@@ -38,7 +38,6 @@
 
 import time
 
-from pages.mozillians_page import MozilliansBasePage
 from pages.mozillians_page import MozilliansStartPage
 from unittestzero import Assert
 import pytest

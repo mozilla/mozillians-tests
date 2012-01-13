@@ -35,10 +35,7 @@
 #
 # ***** END LICENSE BLOCK *****
 
-from selenium import selenium
-import re
-import time
-import base64
+
 from pages.page import Page
 from pages.browser_id import BrowserID
 
@@ -53,7 +50,7 @@ class MozilliansBasePage(Page):
     _logout_link_locator = 'id=logout'
     _search_box_locator = 'id=q'
     _search_btn_locator = 'id=quick-search-btn'
-    _about_link_locator = 'css=#footer-links a[href*=about]'
+    _about_link_locator = 'css=#footer-links a[href*=about]:nth-child(1)'
     _csrf_token_locator = 'css=input[name="csrfmiddlewaretoken"]'
 
     def __init__(self, testsetup):
@@ -68,11 +65,6 @@ class MozilliansBasePage(Page):
         self.sel.click(self._invite_link_locator)
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansInvitePage(self.testsetup)
-
-    def click_join_us_link(self):
-        self.sel.click(self._join_us_link_locator)
-        self.sel.wait_for_page_to_load(self.timeout)
-        return MozilliansCreateProfilePage(self.testsetup)
 
     def click_login_link(self):
         self.sel.click(self._login_link_locator)
@@ -121,7 +113,7 @@ class MozilliansBasePage(Page):
 
 class MozilliansStartPage(MozilliansBasePage):
 
-    _create_profile_button_locator = 'css=#call-to-action a'
+    _create_profile_button_locator = 'css=.browserid-register'
 
     def __init__(self, testsetup):
         MozilliansBasePage.__init__(self, testsetup)
@@ -176,39 +168,6 @@ class MozilliansLoginPage(MozilliansBasePage):
 
         self.sel.wait_for_page_to_load(self.timeout)
 
-
-class MozilliansResetPasswordPage(MozilliansBasePage):
-
-    _reset_password_button_locator = 'id=submit'
-    _email_field_locator = 'id=id_email'
-
-    def __init__(self, testsetup):
-        MozilliansBasePage.__init__(self, testsetup)
-
-    @property
-    def is_reset_password_button_present(self):
-        return self.sel.is_element_present(self._reset_password_button_locator)
-
-    @property
-    def is_email_field_present(self):
-        return self.sel.is_element_present(self._email_field_locator)
-
-    def reset_password(self, email=None):
-        credentials = self.testsetup.credentials['user']
-
-        if email is None:
-            self.sel.type(self._email_field_locator, credentials['email'])
-        else:
-            self.sel.type(self._email_field_locator, email)
-
-        self.sel.click(self._reset_password_button_locator)
-        self.sel.wait_for_page_to_load(self.timeout)
-
-    @property
-    def is_password_reset_sent_text_present(self):
-        return self.sel.is_text_present("Password Reset Sent")
-
-
 class MozilliansProfilePage(MozilliansBasePage):
 
     _edit_my_profile_button_locator = 'id=edit-profile'
@@ -250,7 +209,6 @@ class MozilliansEditProfilePage(MozilliansBasePage):
     _biography_field_locator = 'id=id_biography'
     _irc_nickname_field_locator = 'id=id_irc_nickname'
     _email_locator = 'css=#email-container dd'
-    _change_password_link_locator = 'css=a[href*="password_change"]'
 
     def click_update_button(self):
         self.sel.click(self._update_button_locator)
@@ -261,11 +219,6 @@ class MozilliansEditProfilePage(MozilliansBasePage):
         self.sel.click(self._delete_profile_button_locator)
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansConfirmProfileDeletePage(self.testsetup)
-
-    def click_change_password_link(self):
-        self.sel.click(self._change_password_link_locator)
-        self.sel.wait_for_page_to_load(self.timeout)
-        return MozilliansPasswordChangePage(self.testsetup)
 
     def set_first_name(self, first_name):
         self.sel.type(self._first_name_field_locator, first_name)
@@ -336,114 +289,3 @@ class MozilliansInviteSuccessPage(MozilliansBasePage):
     def is_invite_another_mozillian_link_present(self):
         return self.sel.is_element_present(self._invite_another_mozillian_link_locator)
 
-
-class MozilliansCreateProfilePage(MozilliansBasePage):
-
-    _email_field_locator = 'id=id_email'
-    _password_field_locator = 'id=id_password'
-    _confirm_password_field_locator = 'id=id_confirmp'
-    _first_name_field_locator = 'id=id_first_name'
-    _last_name_field_locator = 'id=id_last_name'
-    _privacy_policy_checkbox_locator = 'id=id_optin'
-    _create_account_button_locator = 'id=submit'
-    _invalid_email_string = 'Enter a valid e-mail address'
-    _non_matching_passwords_string = 'The passwords did not match'
-    _email_container_locator = 'css=#email-container'
-    _password_container_locator = 'css=#password-container'
-    _confirm_password_container_locator = 'css=#confirmp-container'
-    _last_name_container_locator = 'css=#last_name-container'
-    _optin_container_locator = 'css=#optin-container'
-    _error_list_locator = ' .errorlist'
-
-    def has_form_error(self, container_id):
-        return self.sel.is_element_present(container_id + self._error_list_locator) and self.sel.is_element_present(container_id + ".error")
-
-    def set_email(self, email_string):
-        self.sel.type(self._email_field_locator, email_string)
-
-    def set_password(self, password, confirmpassword=None):
-        self.sel.type(self._password_field_locator, password)
-        if confirmpassword is None:
-            self.sel.type(self._confirm_password_field_locator, password)
-        else:
-            self.sel.type(self._confirm_password_field_locator, confirmpassword)
-
-    def set_first_name(self, first_name):
-        self.sel.type(self._first_name_field_locator, first_name)
-
-    def set_last_name(self, last_name):
-        self.sel.type(self._last_name_field_locator, last_name)
-
-    def check_privacy_policy_checkbox(self):
-        self.sel.check(self._privacy_policy_checkbox_locator)
-
-    def click_create_account_button(self):
-        self.sel.click(self._create_account_button_locator)
-        self.sel.wait_for_page_to_load(self.timeout)
-        return MozilliansLoginPage(self.testsetup)
-
-    @property
-    def is_primary_email_required(self):
-        return self.has_form_error(self._email_container_locator)
-
-    @property
-    def is_password_required(self):
-        return self.has_form_error(self._password_container_locator)
-
-    @property
-    def is_confirm_password_required(self):
-        return self.has_form_error(self._confirm_password_container_locator)
-
-    @property
-    def is_last_name_required(self):
-        return self.has_form_error(self._last_name_container_locator)
-
-    @property
-    def is_optin_required(self):
-        return self.has_form_error(self._optin_container_locator)
-
-    @property
-    def is_invalid_email_message_present(self):
-        return self.sel.is_text_present(self._invalid_email_string)
-
-    @property
-    def is_non_matching_passwords_message_present(self):
-        return self.sel.is_text_present(self._non_matching_passwords_string)
-
-
-class MozilliansPasswordChangePage(MozilliansBasePage):
-
-    _old_password_field_locator = 'id=id_old_password'
-    _new_password_field_locator = 'id=id_new_password1'
-    _confirm_new_password_field_locator = 'id=id_new_password2'
-    _change_password_button_locator = 'id=submit'
-    _forgot_password_link_locator = 'id=password-reset'
-
-    @property
-    def is_old_password_field_present(self):
-        return self.sel.is_element_present(self._old_password_field_locator)
-
-    @property
-    def is_new_password_field_present(self):
-        return self.sel.is_element_present(self._new_password_field_locator)
-
-    @property
-    def is_confirm_password_field_present(self):
-        return self.sel.is_element_present(self._confirm_new_password_field_locator)
-
-    @property
-    def is_change_password_button_present(self):
-        return self.sel.is_element_present(self._change_password_button_locator)
-
-    @property
-    def is_forgot_password_link_present(self):
-        return self.sel.is_element_present(self._forgot_password_link_locator)
-
-    def click_change_password_button(self):
-        self.sel.click(self._change_password_button_locator)
-        self.sel.wait_for_page_to_load(self.timeout)
-
-    def click_forgot_password_link(self):
-        self.sel.click(self._forgot_password_link_locator)
-        self.sel.wait_for_page_to_load(self.timeout)
-        return MozilliansResetPasswordPage(self.testsetup)

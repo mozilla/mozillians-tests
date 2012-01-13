@@ -36,7 +36,6 @@
 #
 # ***** END LICENSE BLOCK *****
 
-from pages.mozillians_page import MozilliansBasePage
 from pages.mozillians_page import MozilliansStartPage
 from unittestzero import Assert
 
