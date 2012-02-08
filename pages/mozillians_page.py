@@ -46,7 +46,7 @@ class MozilliansBasePage(Page):
     _profile_link_locator = 'id=profile'
     _invite_link_locator = 'id=invite'
     _join_us_link_locator = 'id=register'
-    _login_link_locator = 'css=#browserid-login > a'
+    _login_link_locator = 'css=#create_profile .signin'
     _logout_link_locator = 'id=logout'
     _search_box_locator = 'id=q'
     _search_btn_locator = 'id=quick-search-btn'
@@ -161,12 +161,10 @@ class MozilliansLoginPage(MozilliansBasePage):
 
     def log_in(self, user="user"):
         credentials = self.testsetup.credentials[user]
-        browser_id = BrowserID(self.testsetup)
-
-        browser_id.login_browser_id(credentials)
-        browser_id.sign_in()
-
-        self.sel.wait_for_page_to_load(self.timeout)
+        from browserid import BrowserID
+        browserid = BrowserID(self.selenium, self.timeout)
+        browserid.sign_in(credentials['email'], credentials['password'])
+        self.wait_for_element_present(MozilliansStartPage._logout_link_locator)
 
 class MozilliansProfilePage(MozilliansBasePage):
 
