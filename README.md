@@ -63,7 +63,7 @@ we'd like to ask you to do:
 3. Fork this project with your own GitHub account
 4. Make sure all tests are passing, and submit a pull request with your changes
 
-[GitHub Templates]: https://github.com/AutomatedTester/mozwebqa-test-templates
+[GitHub Templates]: https://github.com/mozilla/mozwebqa-test-templates
 [Style Guide]: https://wiki.mozilla.org/QA/Execution/Web_Testing/Docs/Automation/StyleGuide
 
 License
