@@ -37,7 +37,6 @@
 
 
 from pages.page import Page
-from pages.browser_id import BrowserID
 
 
 class MozilliansBasePage(Page):
