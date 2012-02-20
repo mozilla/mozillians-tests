@@ -2,7 +2,7 @@ Mozillians Tests
 ===================
 
 Automated tests for the Mozillians web application.
-The following contributors have submitted pull requests to Addon-Tests:
+The following contributors have submitted pull requests to Mozillians-tests:
 
 https://github.com/mozilla/mozillians-tests/contributors
 
