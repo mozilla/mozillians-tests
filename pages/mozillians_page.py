@@ -5,7 +5,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from pages.page import Page
-from pages.browser_id import BrowserID
 
 
 class MozilliansBasePage(Page):
