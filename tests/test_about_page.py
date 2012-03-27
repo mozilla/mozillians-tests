@@ -4,12 +4,15 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import pytest
+
 from pages.mozillians_page import MozilliansStartPage
 from unittestzero import Assert
 
 
 class TestAboutPage:
 
+    @pytest.mark.nondestructive
     def test_about_page(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         about_mozillians_page = home_page.click_about_link()

@@ -12,6 +12,7 @@ xfail = pytest.mark.xfail
 
 class TestInvite:
 
+    @pytest.mark.nondestructive
     def test_inviting_an_invalid_email_address(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
@@ -20,6 +21,7 @@ class TestInvite:
         invite_page.invite("invalidmail")
         Assert.true(invite_page.is_invalid_mail_address_message_present)
 
+    @pytest.mark.nondestructive
     def test_invite(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()

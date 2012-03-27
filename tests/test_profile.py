@@ -14,6 +14,7 @@ xfail = pytest.mark.xfail
 
 class TestProfile:
 
+    @pytest.mark.nondestructive
     def test_profile_deletion_confirmation(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
@@ -26,6 +27,7 @@ class TestProfile:
         Assert.true(confirm_profile_delete_page.is_cancel_button_present)
         Assert.true(confirm_profile_delete_page.is_delete_button_present)
 
+    @pytest.mark.nondestructive
     def test_edit_profile_information(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
@@ -49,6 +51,7 @@ class TestProfile:
         Assert.equal(biography, new_biography)
         Assert.equal(new_email, email)
 
+    @pytest.mark.nondestructive
     def test_change_password(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
@@ -62,6 +65,7 @@ class TestProfile:
         Assert.true(change_password_page.is_change_password_button_present)
         Assert.true(change_password_page.is_forgot_password_link_present)
 
+    @pytest.mark.nondestructive
     @xfail(reason="Bug 692271 - Registration with invalid form data redirects to login page in some cases")
     def test_creating_profile_with_invalid_email_address(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
@@ -74,6 +78,7 @@ class TestProfile:
         register_page.click_create_account_button()
         Assert.true(register_page.is_invalid_email_message_present)
 
+    @pytest.mark.nondestructive
     @xfail(reason="Bug 692271 - Registration with invalid form data redirects to login page in some cases")
     def test_creating_profile_with_non_matching_passwords(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
@@ -86,6 +91,7 @@ class TestProfile:
         register_page.click_create_account_button()
         Assert.true(register_page.is_non_matching_passwords_message_present)
 
+    @pytest.mark.nondestructive
     @xfail(reason="Bug 692271 - Registration with invalid form data redirects to login page in some cases")
     def test_creating_profile_without_checking_privacy_policy_checkbox(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
@@ -97,6 +103,7 @@ class TestProfile:
         register_page.click_create_account_button()
         Assert.true(register_page.is_optin_required)
 
+    @pytest.mark.nondestructive
     @xfail(reason="Bug 692271 - Registration with invalid form data redirects to login page in some cases")
     def test_profile_creation(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
