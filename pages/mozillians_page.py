@@ -4,21 +4,23 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from selenium.webdriver.common.by import By
+
 from pages.page import Page
 
 
 class MozilliansBasePage(Page):
 
-    _header_locator = 'id=header'
-    _profile_link_locator = 'id=profile'
-    _invite_link_locator = 'id=invite'
-    _join_us_link_locator = 'id=register'
-    _login_link_locator = 'css=#create_profile .signin'
-    _logout_link_locator = 'id=logout'
-    _search_box_locator = 'id=q'
-    _search_btn_locator = 'id=quick-search-btn'
-    _about_link_locator = 'css=#footer-links a[href*=about]:nth-child(1)'
-    _csrf_token_locator = 'css=input[name="csrfmiddlewaretoken"]'
+    _header_locator = (By.ID, 'header')
+    _profile_link_locator = (By.ID, 'profile')
+    _invite_link_locator = (By.ID, 'invite')
+    _join_us_link_locator = (By.ID, 'register')
+    _login_link_locator = (By.CSS_SELECTOR,'#create_profile .signin')
+    _logout_link_locator = (By.ID, 'logout')
+    _search_box_locator = (By.ID, 'q')
+    _search_btn_locator = (By.ID, 'quick-search-btn')
+    _about_link_locator = (By.CSS_SELECTOR, '#footer-links a[href*=about]:nth-child(1)')
+    _csrf_token_locator = (By.NAME, 'csrfmiddlewaretoken')
 
     def __init__(self, testsetup):
         Page.__init__(self, testsetup)
@@ -29,12 +31,12 @@ class MozilliansBasePage(Page):
         return self.sel.get_title()
 
     def click_invite_link(self):
-        self.sel.click(self._invite_link_locator)
+        self.sel.find_element(*self._invite_link_locator).click()
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansInvitePage(self.testsetup)
 
     def click_login_link(self):
-        self.sel.click(self._login_link_locator)
+        self.sel.find_element(*self._login_link_locator).click()
         return MozilliansLoginPage(self.testsetup)
 
     @property
@@ -47,11 +49,11 @@ class MozilliansBasePage(Page):
 
     @property
     def is_logout_link_present(self):
-        return self.sel.is_element_present(self._logout_link_locator)
+        return self.is_element_present(*self._logout_link_locator)
 
     @property
     def is_csrf_token_present(self):
-        return self.sel.is_element_present(self._csrf_token_locator)
+        return self.is_element_present(*self._csrf_token_locator)
 
     def click_profile_link(self):
         self.sel.click(self._profile_link_locator)
@@ -59,8 +61,7 @@ class MozilliansBasePage(Page):
         return MozilliansProfilePage(self.testsetup)
 
     def click_about_link(self):
-        self.sel.click(self._about_link_locator)
-        self.sel.wait_for_page_to_load(self.timeout)
+        self.sel.find_element(*self._about_link_locator).click()
         return MozilliansAboutPage(self.testsetup)
 
     def search_for(self, search_term):
@@ -82,9 +83,10 @@ class MozilliansStartPage(MozilliansBasePage):
 
     _create_profile_button_locator = 'css=.browserid-register'
 
-    def __init__(self, testsetup):
+    def __init__(self, testsetup, open_url=True):
         MozilliansBasePage.__init__(self, testsetup)
-        self.sel.open('/')
+        if open_url:
+            self.sel.get(self.base_url)
 
     def click_create_profile_button(self):
         self.sel.click(self._create_profile_button_locator)
@@ -109,19 +111,19 @@ class MozilliansSearchPage(MozilliansBasePage):
 
 class MozilliansAboutPage(MozilliansBasePage):
 
-    _privacy_section_locator = 'id=privacy'
-    _get_involved_section_locator = 'id=get-involved'
+    _privacy_section_locator = (By.ID, "privacy")
+    _get_involved_section_locator = (By.ID, "get-involved")
 
     def __init__(self, testsetup):
         MozilliansBasePage.__init__(self, testsetup)
 
     @property
     def is_privacy_section_present(self):
-        return self.sel.is_element_present(self._privacy_section_locator)
+        return self.is_element_present(*self._privacy_section_locator)
 
     @property
     def is_get_involved_section_present(self):
-        return self.sel.is_element_present(self._get_involved_section_locator)
+        return self.is_element_present(*self._get_involved_section_locator)
 
 
 class MozilliansLoginPage(MozilliansBasePage):
@@ -131,7 +133,7 @@ class MozilliansLoginPage(MozilliansBasePage):
         from browserid import BrowserID
         browserid = BrowserID(self.selenium, self.timeout)
         browserid.sign_in(credentials['email'], credentials['password'])
-        self.wait_for_element_present(MozilliansStartPage._logout_link_locator)
+        self.wait_for_element_present(*self._logout_link_locator)
 
 class MozilliansProfilePage(MozilliansBasePage):
 
