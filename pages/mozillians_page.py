@@ -12,12 +12,12 @@ from pages.page import Page
 class MozilliansBasePage(Page):
 
     _header_locator = (By.ID, 'header')
-    _profile_link_locator = (By.ID, 'profile')
+    _view_profile_menu_item_locator = (By.ID, 'profile')
     _invite_link_locator = (By.ID, 'invite')
     _join_us_link_locator = (By.ID, 'register')
     _login_link_locator = (By.CSS_SELECTOR,'#create_profile .signin')
-    _logout_link_locator = (By.ID, 'logout')
-    _search_box_locator = (By.ID, 'q')
+    _logout_menu_item_locator = (By.ID, 'logout')
+    _search_box_locator = (By.NAME, 'q')
     _search_btn_locator = (By.ID, 'quick-search-btn')
     _about_link_locator = (By.CSS_SELECTOR, '#footer-links a[href*=about]:nth-child(1)')
     _csrf_token_locator = (By.NAME, 'csrfmiddlewaretoken')
@@ -43,20 +43,20 @@ class MozilliansBasePage(Page):
     def is_login_link_present(self):
         return self.sel.is_element_present(self._login_link_locator)
 
-    def click_logout_link(self):
-        self.sel.click(self._logout_link_locator)
+    def click_logout_menu_item(self):
+        self.sel.find_element(*self._logout_menu_item_locator).click()
         self.sel.wait_for_page_to_load(self.timeout)
 
     @property
-    def is_logout_link_present(self):
-        return self.is_element_present(*self._logout_link_locator)
+    def is_logout_menu_item_present(self):
+        return self.is_element_present(*self._logout_menu_item_locator)
 
     @property
     def is_csrf_token_present(self):
         return self.is_element_present(*self._csrf_token_locator)
 
-    def click_profile_link(self):
-        self.sel.click(self._profile_link_locator)
+    def click_view_profile_item(self):
+        self.sel.find_element(*self._view_profile_menu_item_locator).click()
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansProfilePage(self.testsetup)
 
@@ -72,7 +72,7 @@ class MozilliansBasePage(Page):
 
     @property
     def is_search_box_present(self):
-        return self.sel.is_element_present(self._search_box_locator)
+        return self.sel.is_element_present(*self._search_box_locator)
 
     def select_language(self, lang_code):
         self.sel.select(self._language_selector_locator, lang_code)
@@ -95,14 +95,14 @@ class MozilliansStartPage(MozilliansBasePage):
 
 class MozilliansSearchPage(MozilliansBasePage):
 
-    _result_locator = 'css=#main-content .result'
+    _result_locator = (By.CSS_SELECTOR, '#main .result')
 
     def __init__(self, testsetup):
         MozilliansBasePage.__init__(self, testsetup)
 
     @property
     def results_count(self):
-        return self.sel.get_css_count(self._result_locator)
+        return self.sel.get_css_count(*self._result_locator)
 
     @property
     def too_many_results_message_shown(self):
@@ -128,21 +128,22 @@ class MozilliansAboutPage(MozilliansBasePage):
 
 class MozilliansLoginPage(MozilliansBasePage):
 
-    def log_in(self, user="user"):
+    def log_in(self, user='user'):
         credentials = self.testsetup.credentials[user]
         from browserid import BrowserID
         browserid = BrowserID(self.selenium, self.timeout)
         browserid.sign_in(credentials['email'], credentials['password'])
-        self.wait_for_element_present(*self._logout_link_locator)
+        self.wait_for_element_present(*self._logout_menu_item_locator)
 
 class MozilliansProfilePage(MozilliansBasePage):
 
-    _edit_my_profile_button_locator = 'id=edit-profile'
-    _name_locator = 'css=#profile-info h2'
-    _irc_nickname_locator = 'css=#profile-info .nickname'
-    _email_locator = 'css=#profile-info a[href*="mailto:"]'
-    _vouched_by_locator = 'css=#profile-info .vouched'
-    _biography_locator = 'id=bio'
+    _edit_my_profile_button_locator = (By.ID, 'edit-profile')
+    _name_locator = (By.CSS_SELECTOR, '#profile-info h2')
+    _email_locator = (By.CSS_SELECTOR, '#profile-info a[href^="mailto:"]')
+    _username_locator = (By.CSS_SELECTOR, '#profile-info dd:nth-child(2)')
+    _website_locator = (By.CSS_SELECTOR, '#profile-info dd:nth-child(3) > a')
+    _vouched_by_locator = (By.CSS_SELECTOR, '#profile-info .vouched')
+    _biography_locator = (By.ID, 'bio')
 
     @property
     def name(self):
@@ -169,21 +170,20 @@ class MozilliansProfilePage(MozilliansBasePage):
 class MozilliansEditProfilePage(MozilliansBasePage):
 
     _delete_profile_button_locator = 'id=delete-profile'
-    _cancel_link_locator = 'id=cancel'
-    _update_button_locator = 'id=submit'
-    _first_name_field_locator = 'id=id_first_name'
-    _last_name_field_locator = 'id=id_last_name'
-    _biography_field_locator = 'id=id_biography'
-    _irc_nickname_field_locator = 'id=id_irc_nickname'
-    _email_locator = 'css=#email-container dd'
+    _cancel_button_locator = (By.CSS_SELECTOR, "#edit_controls a")
+    _update_button_locator = (By.CSS_SELECTOR, "#edit_controls button")
+    _first_name_field_locator = (By.ID, 'id_first_name')
+    _last_name_field_locator = (By.ID, 'id_last_name')
+    _website_field_locator = (By.ID, 'id_website')
+    _bio_field_locator = (By.ID, 'id_bio')
 
     def click_update_button(self):
-        self.sel.click(self._update_button_locator)
+        self.sel.find_element(*self._update_button_locator).click()
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansProfilePage(self.testsetup)
 
     def click_delete_profile_button(self):
-        self.sel.click(self._delete_profile_button_locator)
+        self.sel.find_element(*self._delete_profile_button_locator).click()
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansConfirmProfileDeletePage(self.testsetup)
 
@@ -193,8 +193,8 @@ class MozilliansEditProfilePage(MozilliansBasePage):
     def set_last_name(self, last_name):
         self.sel.type(self._last_name_field_locator, last_name)
 
-    def set_biography(self, biography):
-        self.sel.type(self._biography_field_locator, biography)
+    def set_bio(self, biography):
+        self.sel.type(self._bio_field_locator, biography)
 
     def set_irc_nickname(self, irc_nickname):
         self.sel.type(self._irc_nickname_field_locator, irc_nickname)
@@ -206,8 +206,8 @@ class MozilliansEditProfilePage(MozilliansBasePage):
 
 class MozilliansConfirmProfileDeletePage(MozilliansBasePage):
 
-    _delete_button_locator = 'id=delete-action'
-    _cancel_button_locator = 'id=cancel-action'
+    _delete_button_locator = (By.ID, 'delete-action')
+    _cancel_button_locator = (By.ID, 'cancel-action')
     _confirm_profile_delete_text = 'Confirm Profile Deletion'
 
     @property
@@ -225,13 +225,14 @@ class MozilliansConfirmProfileDeletePage(MozilliansBasePage):
 
 class MozilliansInvitePage(MozilliansBasePage):
 
-    _recipient_field_locator = 'id=id_recipient'
-    _send_invite_button_locator = 'css=#main-content button'
+    _recipient_field_locator = (By.ID, 'id_recipient')
+    _send_invite_button_locator = (By.CSS_SELECTOR, '#main button')
     _enter_valid_email_address_text = 'Enter a valid e-mail address'
+    _field_is_required_text = 'This field is required'
 
     def invite(self, email):
         self.sel.type(self._recipient_field_locator, email)
-        self.sel.click(self._send_invite_button_locator)
+        self.sel.find_element(*self._send_invite_button_locator).click()
         self.sel.wait_for_page_to_load(self.timeout)
         return MozilliansInviteSuccessPage(self.testsetup)
 
@@ -239,11 +240,15 @@ class MozilliansInvitePage(MozilliansBasePage):
     def is_invalid_mail_address_message_present(self):
         return self.sel.is_text_present(self._enter_valid_email_address_text)
 
+    @property
+    def is_this_field_is_required_message_present(self):
+        return self.sel.is_text_present(self._field_is_required_text)
+
 
 class MozilliansInviteSuccessPage(MozilliansBasePage):
 
     _success_message = "Invitation Sent"
-    _invite_another_mozillian_link_locator = "css=#main-content a[href*='invite']"
+    _invite_another_mozillian_link_locator = (By.CSS_SELECTOR, "#main a[href*='invite']")
 
     def is_mail_address_present(self, address):
         return self.sel.is_text_present(address)
