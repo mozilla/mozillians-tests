@@ -45,10 +45,9 @@ class TestSearch:
         Assert.true(search_page.results_count > 0)
 
     @pytest.mark.nondestructive
-    @xfail(reason="Too few accounts on stage and trunk to be triggering this message")
-    def test_search_for_too_many_results(self, mozwebqa):
+    def test_search_for_no_results(self, mozwebqa):
         home_page = MozilliansStartPage(mozwebqa)
         login_page = home_page.click_login_link()
         login_page.log_in()
         search_page = home_page.search_for(".")
-        Assert.true(search_page.too_many_results_message_shown)
+        Assert.true(search_page.no_results_message_shown)
