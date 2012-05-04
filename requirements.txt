@@ -11,3 +11,4 @@ pytest==2.2.3
 pytest-mozwebqa==0.10
 pytest-xdist==1.8
 requests==0.11.2
+selenium
