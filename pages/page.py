@@ -12,6 +12,8 @@ import re
 import time
 import base64
 
+from selenium.common.exceptions import NoSuchElementException
+
 
 class Page(object):
     '''
@@ -48,8 +50,16 @@ class Page(object):
     def is_text_present(self, text):
         return self.selenium.is_text_present(text)
 
-    def is_element_present(self, locator):
-        return self.selenium.is_element_present(locator)
+    def is_element_present(self, *locator):
+        self.selenium.implicitly_wait(0)
+        try:
+            self.selenium.find_element(*locator)
+            return True
+        except NoSuchElementException:
+            return False
+        finally:
+            # set back to where you once belonged
+            self.selenium.implicitly_wait(self.testsetup.default_implicit_wait)
 
     def return_to_previous_page(self):
         self.selenium.go_back()
@@ -59,38 +69,38 @@ class Page(object):
         self.selenium.refresh()
         self.selenium.wait_for_page_to_load(self.timeout)
 
-    def wait_for_element_present(self, element):
+    def wait_for_element_present(self, *element):
         count = 0
-        while not self.selenium.is_element_present(element):
+        while not self.is_element_present(*element):
             time.sleep(1)
             count += 1
             if count == self.timeout / 1000:
-                raise Exception(element + ' has not loaded')
+                raise Exception(*element + ' has not loaded')
 
-    def wait_for_element_not_present(self, element):
+    def wait_for_element_not_present(self, *element):
         count = 0
-        while  self.selenium.is_element_present(element):
+        while  self.is_element_present(*element):
             time.sleep(1)
             count += 1
             if count == self.timeout / 1000:
-                raise Exception(element + ' is still loaded')
+                raise Exception(*element + ' is still loaded')
 
-    def wait_for_element_visible(self, element):
-        self.wait_for_element_present(element)
+    def wait_for_element_visible(self, *element):
+        self.wait_for_element_present(*element)
         count = 0
-        while not self.selenium.is_visible(element):
+        while not self.selenium.is_visible(*element):
             time.sleep(1)
             count += 1
             if count == self.timeout / 1000:
                 raise Exception(element + " is not visible")
 
-    def wait_for_element_not_visible(self, element):
+    def wait_for_element_not_visible(self, *element):
         count = 0
-        while self.selenium.is_visible(element):
+        while self.selenium.is_visible(*element):
             time.sleep(1)
             count += 1
             if count == self.timeout / 1000:
-                raise Exception(element + " is still visible")
+                raise Exception(*element + " is still visible")
 
     def wait_for_page(self, url_regex):
         count = 0
