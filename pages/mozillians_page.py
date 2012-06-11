@@ -4,54 +4,54 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.select import Select
+from selenium.common.exceptions import NoSuchElementException
 
 from pages.page import Page
 
 
 class MozilliansBasePage(Page):
 
-    _profile_menu_locator = (By.CSS_SELECTOR, '#profile_menu a')
+    _profile_menu_locator = (By.ID, 'profile_menu')
     _view_profile_menu_item_locator = (By.ID, 'profile')
-    _settings_menu_item_locator = (By.ID, 'edit-profile')
+    _settings_menu_item_locator = (By.ID, 'edit_profile')
     _invite_menu_item_locator = (By.ID, 'invite')
-    _join_us_link_locator = (By.ID, 'register')
-    _login_link_locator = (By.CSS_SELECTOR,'#create_profile .signin')
+    _join_us_link_locator = (By.ID, 'register') # is this needed anymore?
+    _login_link_locator = (By.ID,'create_profile')
     _logout_menu_item_locator = (By.ID, 'logout')
     _language_selector_locator = (By.ID, 'language')
     _language_selection_ok_button = (By.CSS_SELECTOR, '#language-switcher button')
     _search_box_locator = (By.NAME, 'q')
-    _search_btn_locator = (By.ID, 'quick-search-btn')
-    _about_link_locator = (By.CSS_SELECTOR, '#footer-links a[href*=about]:nth-child(1)')
+    _search_btn_locator = (By.ID, 'quick-search-btn') # is this needed anymore?
+    _about_link_locator = (By.CSS_SELECTOR, '#footer-links a:nth-child(1)')
     _csrf_token_locator = (By.NAME, 'csrfmiddlewaretoken')
-
-    def __init__(self, testsetup):
-        Page.__init__(self, testsetup)
-        self.sel = self.selenium
 
     @property
     def page_title(self):
-        return self.sel.get_title()
+        WebDriverWait(self.selenium, 10).until(lambda s: self.selenium.title)
+        return self.selenium.title
 
-    def open_profile_menu(self):
-        self.sel.find_element(*self._profile_menu_locator).click()
+    def click_options(self):
+        self.selenium.find_element(*self._profile_menu_locator).click()
 
     def click_invite_menu_item(self):
-        self.sel.find_element(*self._invite_menu_item_locator).click()
-        self.sel.wait_for_page_to_load(self.timeout)
+        self.selenium.find_element(*self._invite_menu_item_locator).click()
+        from mozillians_page import MozilliansInvitePage
         return MozilliansInvitePage(self.testsetup)
 
-    def click_login_link(self):
-        self.sel.find_element(*self._login_link_locator).click()
+    def click_browserid_link(self):
+        self.selenium.find_element(*self._login_link_locator).click()
         return MozilliansLoginPage(self.testsetup)
 
     @property
-    def is_login_link_present(self):
-        return self.sel.is_element_present(*self._login_link_locator)
+    def is_browserid_link_present(self):
+        return self.is_element_present(*self._login_link_locator)
 
     def click_logout_menu_item(self):
-        self.sel.find_element(*self._logout_menu_item_locator).click()
-        self.sel.wait_for_page_to_load(self.timeout)
+        self.selenium.find_element(*self._logout_menu_item_locator).click()
 
     @property
     def is_logout_menu_item_present(self):
@@ -62,36 +62,35 @@ class MozilliansBasePage(Page):
         return self.is_element_present(*self._csrf_token_locator)
 
     def click_view_profile_menu_item(self):
-        self.sel.find_element(*self._view_profile_menu_item_locator).click()
-        self.sel.wait_for_page_to_load(self.timeout)
+        self.selenium.find_element(*self._view_profile_menu_item_locator).click()
         return MozilliansProfilePage(self.testsetup)
 
     def click_settings_menu_item(self):
-        self.sel.find_element(*self._settings_menu_item_locator).click()
+        self.selenium.find_element(*self._settings_menu_item_locator).click()
 
     def click_about_link(self):
-        self.sel.find_element(*self._about_link_locator).click()
+        self.selenium.find_element(*self._about_link_locator).click()
         return MozilliansAboutPage(self.testsetup)
 
     def search_for(self, search_term):
-        self.sel.type(*self._search_box_locator, search_term)
-        self.sel.type_keys(*self._search_box_locator, "\13")
-        self.sel.wait_for_page_to_load(self.timeout)
+        term = self.selenium.find_element(*self._search_box_locator)
+        term.send_keys(search_term)
+        term.send_keys(Keys.RETURN)
         return MozilliansSearchPage(self.testsetup)
 
     @property
     def is_search_box_present(self):
-        return self.sel.is_element_present(*self._search_box_locator)
+        return self.is_element_present(*self._search_box_locator)
 
     def select_language(self, lang_code):
-        self.sel.select(*self._language_selector_locator, lang_code)
-        self.sel.find_element(*self._language_selection_ok_button).click()
-        self.sel.wait_for_page_to_load(self.timeout)
+        element = self.selenium.find_element(*self._language_selector_locator)
+        select = Select(element)
+        select.select_by_value(lang_code)
 
 
 class MozilliansStartPage(MozilliansBasePage):
 
-    _create_profile_button_locator = 'css=.browserid-register'
+    _sign_in_with_browserid_locator = (By.ID,'create_profile')
 
     def __init__(self, testsetup, open_url=True):
         MozilliansBasePage.__init__(self, testsetup)
@@ -99,60 +98,50 @@ class MozilliansStartPage(MozilliansBasePage):
             self.sel.get(self.base_url)
 
     def click_create_profile_button(self):
-        self.sel.click(self._create_profile_button_locator)
-        self.sel.wait_for_page_to_load(self.timeout)
+        self.selenium.find_element(*self._sign_in_with_browserid_locator).click()
 
 
 class MozilliansSearchPage(MozilliansBasePage):
 
-    _result_locator = (By.CSS_SELECTOR, '#main .result')
-    _search_button_locator = (By.CSS_SELECTOR, '#search-form .primary')
-    _advanced_options_button_locator = (By.ID, 'advanced')
-    _advanced_options_locator = (By.CSS_SELECTOR, 'search-options')
+    _result_locator = (By.CSS_SELECTOR, '.well .result')
+    _search_button_locator = (By.CSS_SELECTOR, '.btn.primary:nth-of-type(1)')
+    _advanced_options_button_locator = (By.CSS_SELECTOR, '.btn.primary:nth-of-type(2)')
+    _advanced_options_locator = (By.CSS_SELECTOR, '.search-options')
     _non_vouched_only_checkbox_locator = (By.ID, 'id_nonvouched_only')
     _with_photos_only_checkbox_locator = (By.ID, 'id_picture_only')
-
-    def __init__(self, testsetup):
-        MozilliansBasePage.__init__(self, testsetup)
+    _no_results_locator = (By.ID, 'not-found')
 
     @property
     def results_count(self):
-        return self.sel.get_css_count(*self._result_locator)
+        return len(self.selenium.find_elements(*self._result_locator))
 
     @property
     def no_results_message_shown(self):
-        return self.sel.is_text_present("The Mozillian you are looking for is not in the directory")
-
-    @property
-    def too_many_results_message_shown(self):
-        return self.sel.is_text_present("Too Many Search Results")
+        return "The Mozillian you are looking for is not in the directory" in self.selenium.find_element(*self._no_results_locator).text
 
     def search_for(self, search_term):
-        self.sel.type(*self._search_box_locator, search_term)
-        self.sel.find_element(*self._search_button_locator, search_term)
-        self.sel.wait_for_page_to_load(self.timeout)
+        element = self.selenium.find_element(*self._search_box_locator)
+        element.send_keys(search_term)
+        self.selenium.find_element(*self._search_button_locator).click()
 
     def toggle_advanced_options(self):
-        self.sel.find_element(*self._advanced_options_button_locator).click()
+        self.selenium.find_element(*self._advanced_options_button_locator).click()
 
     @property
     def advanced_options_shown(self):
-        return self.sel.is_visible(*self._advanced_options_locator)
+        return self.is_element_visible(*self._advanced_options_locator)
 
     def check_non_vouched_only(self):
-        self.sel.check(*self._non_vouched_only_checkbox_locator)
+        self.selenium.find_element(*self._non_vouched_only_checkbox_locator).click()
 
     def check_with_photos_only(self):
-        self.sel.check(*self._with_photos_only_checkbox_locator)
+        self.selenium.find_elemennt(*self._with_photos_only_checkbox_locator).click()
 
 
 class MozilliansAboutPage(MozilliansBasePage):
 
-    _privacy_section_locator = (By.ID, "privacy")
-    _get_involved_section_locator = (By.ID, "get-involved")
-
-    def __init__(self, testsetup):
-        MozilliansBasePage.__init__(self, testsetup)
+    _privacy_section_locator = (By.ID, 'privacy')
+    _get_involved_section_locator = (By.ID, 'get-involved')
 
     @property
     def is_privacy_section_present(self):
@@ -165,16 +154,17 @@ class MozilliansAboutPage(MozilliansBasePage):
 
 class MozilliansLoginPage(MozilliansBasePage):
 
-    def log_in(self, user='user'):
+    def login(self, user='user'):
         credentials = self.testsetup.credentials[user]
         from browserid import BrowserID
         browserid = BrowserID(self.selenium, self.timeout)
         browserid.sign_in(credentials['email'], credentials['password'])
-        self.wait_for_element_present(*self._logout_menu_item_locator)
+        WebDriverWait(self.selenium, 10).until(lambda s: self.is_element_present(*self._logout_menu_item_locator)
 
+<<<>>>
 class MozilliansProfilePage(MozilliansBasePage):
 
-    _edit_my_profile_button_locator = (By.ID, 'edit-profile')
+    _edit_my_profile_button_locator = (By.ID, 'edit_profile')
     _name_locator = (By.CSS_SELECTOR, '#profile-info h2')
     _email_locator = (By.CSS_SELECTOR, '#profile-info a[href^="mailto:"]')
     _username_locator = (By.CSS_SELECTOR, '#profile-info dd:nth-child(2)')
