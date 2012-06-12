@@ -19,13 +19,13 @@ class MozilliansBasePage(Page):
     _view_profile_menu_item_locator = (By.ID, 'profile')
     _settings_menu_item_locator = (By.ID, 'edit_profile')
     _invite_menu_item_locator = (By.ID, 'invite')
-    _join_us_link_locator = (By.ID, 'register') # is this needed anymore?
-    _login_link_locator = (By.ID,'create_profile')
+    _join_us_link_locator = (By.ID, 'register')  # is this needed anymore?
+    _login_link_locator = (By.ID, 'create_profile')
     _logout_menu_item_locator = (By.ID, 'logout')
     _language_selector_locator = (By.ID, 'language')
     _language_selection_ok_button = (By.CSS_SELECTOR, '#language-switcher button')
     _search_box_locator = (By.NAME, 'q')
-    _search_btn_locator = (By.ID, 'quick-search-btn') # is this needed anymore?
+    _search_btn_locator = (By.ID, 'quick-search-btn')  # is this needed anymore?
     _about_link_locator = (By.CSS_SELECTOR, '#footer-links a:nth-child(1)')
     _csrf_token_locator = (By.NAME, 'csrfmiddlewaretoken')
 
@@ -39,7 +39,6 @@ class MozilliansBasePage(Page):
 
     def click_invite_menu_item(self):
         self.selenium.find_element(*self._invite_menu_item_locator).click()
-        from mozillians_page import MozilliansInvitePage
         return MozilliansInvitePage(self.testsetup)
 
     def click_browserid_link(self):
@@ -51,6 +50,7 @@ class MozilliansBasePage(Page):
         return self.is_element_present(*self._login_link_locator)
 
     def click_logout_menu_item(self):
+        self.click_options()
         self.selenium.find_element(*self._logout_menu_item_locator).click()
 
     @property
@@ -90,12 +90,12 @@ class MozilliansBasePage(Page):
 
 class MozilliansStartPage(MozilliansBasePage):
 
-    _sign_in_with_browserid_locator = (By.ID,'create_profile')
+    _sign_in_with_browserid_locator = (By.ID, 'create_profile')
 
     def __init__(self, testsetup, open_url=True):
         MozilliansBasePage.__init__(self, testsetup)
         if open_url:
-            self.sel.get(self.base_url)
+            self.selenium.get(self.base_url)
 
     def click_create_profile_button(self):
         self.selenium.find_element(*self._sign_in_with_browserid_locator).click()
@@ -157,44 +157,43 @@ class MozilliansLoginPage(MozilliansBasePage):
     def login(self, user='user'):
         credentials = self.testsetup.credentials[user]
         from browserid import BrowserID
-        browserid = BrowserID(self.selenium, self.timeout)
-        browserid.sign_in(credentials['email'], credentials['password'])
-        WebDriverWait(self.selenium, 10).until(lambda s: self.is_element_present(*self._logout_menu_item_locator)
+        pop_up = BrowserID(self.selenium, self.timeout)
+        pop_up.sign_in(credentials['email'], credentials['password'])
+        WebDriverWait(self.selenium, 20).until(lambda s: s.find_element(*self._logout_locator))
 
-<<<>>>
+
 class MozilliansProfilePage(MozilliansBasePage):
 
-    _edit_my_profile_button_locator = (By.ID, 'edit_profile')
+    _edit_my_profile_button_locator = (By.ID, 'edit-profile')
     _name_locator = (By.CSS_SELECTOR, '#profile-info h2')
     _email_locator = (By.CSS_SELECTOR, '#profile-info a[href^="mailto:"]')
-    _username_locator = (By.CSS_SELECTOR, '#profile-info dd:nth-child(2)')
-    _website_locator = (By.CSS_SELECTOR, '#profile-info dd:nth-child(3) > a')
+    _username_locator = (By.CSS_SELECTOR, '#profile-info dd:nth-of-type(2)')
+    _website_locator = (By.CSS_SELECTOR, '#profile-info > dl > dd > a[href^="http"]')
     _vouched_by_locator = (By.CSS_SELECTOR, '#profile-info .vouched')
     _biography_locator = (By.ID, 'bio')
 
     @property
     def name(self):
-        return self.sel.get_text(*self._name_locator).strip()
+        return self.selenium.find_element(*self._name_locator).text
 
     @property
     def biography(self):
-        return self.sel.get_text(*self._biography_locator).strip()
+        return self.selenium.find_element(*self._biography_locator).text
 
     @property
     def email(self):
-        return self.sel.get_text(*self._email_locator).strip()
+        return self.selenium.find_element(*self._email_locator).text
 
     @property
     def website(self):
-        return self.sel.get_text(*self._website_locator).strip()
+        return self.selenium.find_element(*self._website_locator).text
 
     @property
     def vouched_by(self):
-        return self.sel.get_text(*self._vouched_by_locator).strip()
+        return self.selenium.find_element(*self._vouched_by_locator).text
 
     def click_edit_my_profile_button(self):
-        self.sel.click(*self._edit_my_profile_button_locator)
-        self.sel.wait_for_page_to_load(self.timeout)
+        self.selenium.find_element(*self._edit_my_profile_button_locator).click()
         return MozilliansEditProfilePage(self.testsetup)
 
 
@@ -203,29 +202,34 @@ class MozilliansEditProfilePage(MozilliansBasePage):
     _cancel_button_locator = (By.CSS_SELECTOR, "#edit_controls a")
     _update_button_locator = (By.CSS_SELECTOR, "#edit_controls button")
 
+    #edit your profile tabs locators
+    _profile_tab_locator = (By.CSS_SELECTOR, '.nav.nav-tabs > li:nth-of-type(1) > a')
+    _skills_tab_locator = (By.CSS_SELECTOR, '.nav.nav-tabs > li:nth-of-type(2) > a')
+    _vouches_tab_locator = (By.CSS_SELECTOR, '.nav.nav-tabs > li:nth-of-type(3) > a')
+    _account_tab_locator = (By.CSS_SELECTOR, '.nav.nav-tabs > li:nth-of-type(4) > a')
+
     def click_update_button(self):
-        self.sel.find_element(*self._update_button_locator).click()
-        self.sel.wait_for_page_to_load(self.timeout)
+        self.selenium.find_element(*self._update_button_locator).click()
         return MozilliansProfilePage(self.testsetup)
 
     def click_cancel_button(self):
-        self.sel.find_element(*self._cancel_button_locator).click()
+        self.selenium.find_element(*self._cancel_button_locator).click()
 
     def go_to_tab(self, tab_name):
         if tab_name is "profile":
-            self.sel.find_element(*self._profile_tab).click()
+            self.selenium.find_element(*self._profile_tab_locator).click()
             return self.ProfileTab(self)
-        else if tab_name is "skills":
-            self.sel.find_element(*self._skills_tab).click()
+        elif tab_name is "skills":
+            self.sel.find_element(*self._skills_tab_locator).click()
             return self.SkillsAndGroupsTab(self)
-        else if tab_name is "vouches":
-            self.sel.find_element(*self._vouches_tab).click()
+        elif tab_name is "vouches":
+            self.sel.find_element(*self._vouches_tab_locator).click()
             return self.VouchesAndInvitesTab(self)
-        else if tab_name is "account":
-            self.sel.find_element(*self._account_tab).click()
+        elif tab_name is "account":
+            self.sel.find_element(*self._account_tab_locator).click()
             return self.AccountTab(self)
 
-    class ProfileTab(MozilliansEditProfilePage):
+    class ProfileTab(MozilliansBasePage):
 
         _first_name_field_locator = (By.ID, 'id_first_name')
         _last_name_field_locator = (By.ID, 'id_last_name')
@@ -233,114 +237,114 @@ class MozilliansEditProfilePage(MozilliansBasePage):
         _bio_field_locator = (By.ID, 'id_bio')
 
         def set_first_name(self, first_name):
-            self.sel.type(*self._first_name_field_locator, first_name)
+            element = self.selenium.find_element(*self._first_name_field_locator)
+            element.send_keys(first_name)
 
         def set_last_name(self, last_name):
-            self.sel.type(*self._last_name_field_locator, last_name)
+            element = self.selenium.find_element(*self._last_name_field_locator)
+            element.send_keys(last_name)
+
+        def set_website(self, website):
+            element = self.selenium.find_element(*self._website_field_locator)
+            element.send_keys(website)
 
         def set_bio(self, biography):
-            self.sel.type(*self._bio_field_locator, biography)
+            element = self.selenium.send_keys(*self._bio_field_locator)
+            element.send_keys(biography)
 
-        def set_irc_nickname(self, irc_nickname):
-            self.sel.type(*self._irc_nickname_field_locator, irc_nickname)
+    class SkillsAndGroupsTab(MozilliansBasePage):
 
-    class SkillsAndGroupsTab(MozilliansEditProfilePage):
-
-        _group_field_locator = (By.CSS_SELECTOR, 'ul.tagit:nth-child(1) input')
-        _skill_field_locator = (By.CSS_SELECTOR, 'ul.tagit:nth-child(2) input')
+        _groups_field_locator = (By.CSS_SELECTOR, '#id_groups + ul input')
+        _skills_field_locator = (By.CSS_SELECTOR, '#id_skills + ul input')
 
         def add_group(self, group_name):
-            self.sel.type(*self._group_field_locator, group_name)
+            element = self.selenium.find_element(*self._group_field_locator)
+            element.send_keys(group_name)
 
         def add_skill(self, skill_name):
-            self.sel.type(*self._skill_field_locator, skill_name)
+            element = self.selenium.send_keys(*self._skill_field_locator)
+            element.send_keys(skill_name)
 
-    class VouchesAndInvitesTab(MozilliansEditProfilePage):
+    class VouchesAndInvitesTab(MozilliansBasePage):
 
         _voucher_name_locator = (By.CSS_SELECTOR, '#vouches .vouched')
 
         @property
         def vouched_by(self):
-            return self.sel.get_text(*self._voucher_name_locator).strip()
+            return self.selenium.find_element(*self._voucher_name_locator).text
 
-    class AccountTab(MozilliansEditProfilePage):
+    class AccountTab(MozilliansBasePage):
 
         _username_field_locator = (By.ID, 'id_username')
         _browserid_mail_locator = (By.CSS_SELECTOR, '.control-group:nth-of-type(2) .label-text')
-        _delete_profile_button_locator = (By.ID, 'delete-profile')
+        _delete_profile_button_locator = (By.CSS_SELECTOR, '.btn.btn-danger')
         _browserid_link_locator = (By.CSS_SELECTOR, 'a[href*=browserid]')
 
         @property
         def username(self):
-            return self.sel.get_text(self._username_field_locator)
+            return self.selenium.find_element(*self._username_field_locator).text
 
         @property
         def browserid_email(self):
-            return self.sel.get_text(self._browserid_mail_locator).strip()
+            return self.selenium.find_element(*self._browserid_mail_locator).text
 
         def click_delete_profile_button(self):
-            self.sel.find_element(*self._delete_profile_button_locator).click()
-            self.sel.wait_for_page_to_load(self.timeout)
+            self.selenium.find_element(*self._delete_profile_button_locator).click()
             return MozilliansConfirmProfileDeletePage(self.testsetup)
 
         @property
         def is_browserid_link_present(self):
-            return self.sel.is_element_present(*self._browserid_link_locator)
+            return self.is_element_present(*self._browserid_link_locator)
+
 
 class MozilliansConfirmProfileDeletePage(MozilliansBasePage):
 
     _delete_button_locator = (By.ID, 'delete-action')
     _cancel_button_locator = (By.ID, 'cancel-action')
-    _confirm_profile_delete_text = 'Confirm Profile Deletion'
+    _confirm_profile_delete_text_locator = (By.CSS_SELECTOR, '#main > h1')
 
     @property
     def is_confirm_text_present(self):
-        return self.sel.is_text_present(self._confirm_profile_delete_text)
+        return self.is_element_visible(*self._confirm_profile_delete_text)
 
     @property
     def is_delete_button_present(self):
-        return self.sel.is_element_present(*self._delete_button_locator)
+        return self.is_element_present(*self._delete_button_locator)
 
     @property
     def is_cancel_button_present(self):
-        return self.sel.is_element_present(*self._cancel_button_locator)
+        return self.is_element_present(*self._cancel_button_locator)
 
 
 class MozilliansInvitePage(MozilliansBasePage):
 
     _recipient_field_locator = (By.ID, 'id_recipient')
     _send_invite_button_locator = (By.CSS_SELECTOR, '#main button')
-    _enter_valid_email_address_text = 'Enter a valid e-mail address'
-    _field_is_required_text = 'This field is required'
+    _error_text_locator = (By.CSS_SELECTOR, '.errorlist > li')
 
     def invite(self, email):
-        self.sel.type(*self._recipient_field_locator, email)
-        self.sel.find_element(*self._send_invite_button_locator).click()
-        self.sel.wait_for_page_to_load(self.timeout)
+        input_field = self.selenium.find_element(*self._recipient_field_locator)
+        input_field.send_keys(email)
+        self.selenium.find_element(*self._send_invite_button_locator).click()
         return MozilliansInviteSuccessPage(self.testsetup)
 
     @property
-    def is_invalid_mail_address_message_present(self):
-        return self.sel.is_text_present(self._enter_valid_email_address_text)
-
-    @property
-    def is_this_field_is_required_message_present(self):
-        return self.sel.is_text_present(self._field_is_required_text)
+    def error_text_message(self):
+        return self.selenium.find_element(*self._error_text_locator).text
 
 
 class MozilliansInviteSuccessPage(MozilliansBasePage):
 
-    _success_message = "Invitation Sent"
-    _invite_another_mozillian_link_locator = (By.CSS_SELECTOR, "#main a[href*='invite']")
+    _success_message_locator = (By.CSS_SELECTOR, '#main > h1')
+    _invite_another_mozillian_link_locator = (By.CSS_SELECTOR, '#main > p > a')
 
     def is_mail_address_present(self, address):
         return self.sel.is_text_present(address)
 
     @property
     def is_success_message_present(self):
-        return self.sel.is_text_present(self._success_message)
+        return 'Invitation Sent!' in self.selenium.find_element(*self._success_message).text
 
     @property
     def is_invite_another_mozillian_link_present(self):
-        return self.sel.is_element_present(*self._invite_another_mozillian_link_locator)
-
+        return self.is_element_present(*self._invite_another_mozillian_link_locator)
