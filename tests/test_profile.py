@@ -6,21 +6,18 @@
 
 import time
 
-from pages.mozillians_page import MozilliansStartPage
+from pages.home_page import Home
 from unittestzero import Assert
 import pytest
-xfail = pytest.mark.xfail
 
 
 class TestProfile:
 
     @pytest.mark.nondestructive
     def test_profile_deletion_confirmation(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        login_page = home_page.click_login_link()
-        login_page.log_in()
-        home_page.open_profile_menu()
-        profile_page = home_page.click_view_profile_menu_item()
+        home_page = Home(mozwebqa)
+        home_page.login()
+        profile_page = home_page.header.click_view_profile_menu_item()
         edit_profile_page = profile_page.click_edit_my_profile_button()
         account_tab = edit_profile_page.go_to_tab("account")
         confirm_profile_delete_page = account_tab.click_delete_profile_button()
@@ -31,11 +28,11 @@ class TestProfile:
 
     @pytest.mark.nondestructive
     def test_edit_profile_information(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        login_page = home_page.click_login_link()
-        login_page.log_in()
-        home_page.open_profile_menu()
-        profile_page = home_page.click_view_profile_menu_item()
+        home_page = Home(mozwebqa)
+
+        home_page.login()
+
+        profile_page = home_page.header.click_view_profile_menu_item()
         edit_profile_page = profile_page.click_edit_my_profile_button()
         profile_tab = edit_profile_page.go_to_tab("profile")
         Assert.true(edit_profile_page.is_csrf_token_present)
@@ -47,7 +44,7 @@ class TestProfile:
         profile_tab.set_first_name(new_first_name)
         profile_tab.set_last_name(new_last_name)
         profile_tab.set_website(new_website)
-        profile_tab.set_biography(new_biography)
+        profile_tab.set_bio(new_biography)
         profile_tab.click_update_button()
         name = profile_page.name
         biography = profile_page.biography
@@ -58,10 +55,9 @@ class TestProfile:
 
     @pytest.mark.nondestructive
     def test_browserid_link_present(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        login_page = home_page.click_login_link()
-        login_page.log_in()
-        profile_page = home_page.click_profile_link()
+        home_page = Home(mozwebqa)
+        home_page.login()
+        profile_page = home_page.header.click_view_profile_menu_item()
         edit_profile_page = profile_page.click_edit_my_profile_button()
         account_tab = edit_profile_page.go_to_tab("account")
         Assert.true(account_tab.is_browserid_link_present)
@@ -69,7 +65,7 @@ class TestProfile:
     @pytest.mark.nondestructive
     @xfail(reason="Needs to be updated for browserid")
     def test_creating_profile_with_invalid_email_address(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
+        home_page = Home(mozwebqa)
         register_page = home_page.click_join_us_link()
         register_page.set_email("invalidmail")
         register_page.set_password("validpassword")
@@ -82,7 +78,7 @@ class TestProfile:
     @pytest.mark.nondestructive
     @xfail(reason="Shouldn't be needed anymore with browserid")
     def test_creating_profile_with_non_matching_passwords(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
+        home_page = Home(mozwebqa)
         register_page = home_page.click_join_us_link()
         register_page.set_email("invalidpassword@example.com")
         register_page.set_password("passwords", "dontmatch")
@@ -95,7 +91,7 @@ class TestProfile:
     @pytest.mark.nondestructive
     @xfail(reason="Needs to be updated for browserid")
     def test_creating_profile_without_checking_privacy_policy_checkbox(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
+        home_page = Home(mozwebqa)
         register_page = home_page.click_join_us_link()
         register_page.set_email("newvaliduser@example.com")
         register_page.set_password("newpassword")
@@ -107,7 +103,7 @@ class TestProfile:
     @pytest.mark.nondestructive
     @xfail(reason="needs to be updated for browserid")
     def test_profile_creation(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
+        home_page = Home(mozwebqa)
         register_page = home_page.click_join_us_link()
         register_page.set_email("newvaliduserwith@example.com")
         register_page.set_password("newpassword")

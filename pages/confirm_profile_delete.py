@@ -18,7 +18,7 @@ class ConfirmProfileDelete(Base):
 
     @property
     def is_confirm_text_present(self):
-        return self.is_element_visible(*self._confirm_profile_delete_text)
+        return self.is_element_visible(*self._confirm_profile_delete_text_locator)
 
     @property
     def is_delete_button_present(self):

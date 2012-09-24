@@ -42,4 +42,5 @@ class Profile(Base):
 
     def click_edit_my_profile_button(self):
         self.selenium.find_element(*self._edit_my_profile_button_locator).click()
+        from pages.edit_profile import EditProfile
         return EditProfile(self.testsetup)
