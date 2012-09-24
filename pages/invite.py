@@ -19,6 +19,7 @@ class Invite(Base):
         input_field = self.selenium.find_element(*self._recipient_field_locator)
         input_field.send_keys(email)
         self.selenium.find_element(*self._send_invite_button_locator).click()
+        from pages.invite_success import InviteSuccess
         return InviteSuccess(self.testsetup)
 
     @property

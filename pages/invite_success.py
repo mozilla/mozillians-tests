@@ -11,15 +11,17 @@ from pages.base import Base
 
 class InviteSuccess(Base):
 
-    _success_message_locator = (By.CSS_SELECTOR, '#main > h1')
+    _success_message_head_locator = (By.CSS_SELECTOR, '#main > h1')
+    _success_message_body_locator = (By.CSS_SELECTOR, '#main > p')
     _invite_another_mozillian_link_locator = (By.CSS_SELECTOR, '#main > p > a')
 
-    def is_mail_address_present(self, address):
-        return self.selenium.is_text_present(address)
+    @property
+    def success_message_body(self):
+        return self.selenium.find_element(*self._success_message_body_locator).text
 
     @property
-    def is_success_message_present(self):
-        return 'Invitation Sent!' in self.selenium.find_element(*self._success_message).text
+    def success_message_header(self):
+        return  self.selenium.find_element(*self._success_message_head_locator).text
 
     @property
     def is_invite_another_mozillian_link_present(self):

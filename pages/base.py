@@ -82,7 +82,6 @@ class Base(Page):
             self.selenium.find_element(*self._profile_menu_locator).click()
             WebDriverWait(self.selenium, self.timeout).until(lambda s: self.selenium.find_element(*self._dropdown_menu_locator))
 
-
         #menu items
         def click_view_profile_menu_item(self):
             self.click_options()
