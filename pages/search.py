@@ -11,21 +11,26 @@ from pages.base import Base
 
 class Search(Base):
 
-    _result_locator = (By.CSS_SELECTOR, '.well .result')
+    _result_locator = (By.CSS_SELECTOR, 'div.row > div.result')
     _search_button_locator = (By.CSS_SELECTOR, '.btn.primary:nth-of-type(1)')
     _advanced_options_button_locator = (By.CSS_SELECTOR, '.btn.primary:nth-of-type(2)')
     _advanced_options_locator = (By.CSS_SELECTOR, '.search-options')
     _non_vouched_only_checkbox_locator = (By.ID, 'id_nonvouched_only')
     _with_photos_only_checkbox_locator = (By.ID, 'id_picture_only')
-    _no_results_locator = (By.ID, 'not-found')
+    _no_results_locator_head = (By.ID, 'not-found')
+    _no_results_locator_body = (By.CSS_SELECTOR, 'div.well > p:nth-of-type(2)')
 
     @property
     def results_count(self):
         return len(self.selenium.find_elements(*self._result_locator))
 
     @property
-    def no_results_message_shown(self):
-        return "The Mozillian you are looking for is not in the directory" in self.selenium.find_element(*self._no_results_locator).text
+    def no_results_message_head(self):
+        return self.selenium.find_element(*self._no_results_locator_head).text
+
+    @property
+    def no_results_message_body(self):
+        return self.selenium.find_element(*self._no_results_locator_body).text
 
     def search_for(self, search_term):
         element = self.selenium.find_element(*self._search_box_locator)
