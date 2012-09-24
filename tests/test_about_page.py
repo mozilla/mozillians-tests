@@ -6,7 +6,7 @@
 
 import pytest
 
-from pages.mozillians_page import MozilliansStartPage
+from pages.home_page import Home
 from unittestzero import Assert
 
 
@@ -14,7 +14,7 @@ class TestAboutPage:
 
     @pytest.mark.nondestructive
     def test_about_page(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        about_mozillians_page = home_page.click_about_link()
+        home_page = Home(mozwebqa)
+        about_mozillians_page = home_page.footer.click_about_link()
         Assert.true(about_mozillians_page.is_privacy_section_present)
         Assert.true(about_mozillians_page.is_get_involved_section_present)
