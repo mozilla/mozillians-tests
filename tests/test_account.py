@@ -6,7 +6,7 @@
 
 import pytest
 
-from pages.mozillians_page import MozilliansStartPage
+from pages.home_page import Home
 from unittestzero import Assert
 
 
@@ -14,10 +14,9 @@ class TestAccount:
 
     @pytest.mark.nondestructive
     def test_login_logout(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        login_page = home_page.click_browserid_link()
-        Assert.true(login_page.is_csrf_token_present)
-        login_page.login()
-        Assert.true(home_page.is_logout_link_present)
-        home_page.click_logout_menu_item()
-        Assert.true(home_page.is_login_link_present)
+        home_page = Home(mozwebqa)
+        Assert.true(home_page.is_csrf_token_present)
+        home_page.login()
+        Assert.true(home_page.header.is_logout_menu_item_present)
+        home_page.header.click_logout_menu_item()
+        Assert.true(home_page.is_browserid_link_present)
