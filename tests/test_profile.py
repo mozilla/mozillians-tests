@@ -27,6 +27,7 @@ class TestProfile:
         Assert.true(confirm_profile_delete_page.is_delete_button_present)
 
     @pytest.mark.nondestructive
+    @pytest.mark.xfail(reason="Bug 794035 - Editing profile URL with http://1348571949.com returns a invalid url")
     def test_edit_profile_information(self, mozwebqa):
         home_page = Home(mozwebqa)
 
@@ -63,7 +64,7 @@ class TestProfile:
         Assert.true(account_tab.is_browserid_link_present)
 
     @pytest.mark.nondestructive
-    @xfail(reason="Needs to be updated for browserid")
+    @pytest.mark.xfail(reason="Needs to be updated for browserid")
     def test_creating_profile_with_invalid_email_address(self, mozwebqa):
         home_page = Home(mozwebqa)
         register_page = home_page.click_join_us_link()
@@ -76,7 +77,7 @@ class TestProfile:
         Assert.true(register_page.is_invalid_email_message_present)
 
     @pytest.mark.nondestructive
-    @xfail(reason="Shouldn't be needed anymore with browserid")
+    @pytest.mark.xfail(reason="Shouldn't be needed anymore with browserid")
     def test_creating_profile_with_non_matching_passwords(self, mozwebqa):
         home_page = Home(mozwebqa)
         register_page = home_page.click_join_us_link()
@@ -89,7 +90,7 @@ class TestProfile:
         Assert.true(register_page.is_non_matching_passwords_message_present)
 
     @pytest.mark.nondestructive
-    @xfail(reason="Needs to be updated for browserid")
+    @pytest.mark.xfail(reason="Needs to be updated for browserid")
     def test_creating_profile_without_checking_privacy_policy_checkbox(self, mozwebqa):
         home_page = Home(mozwebqa)
         register_page = home_page.click_join_us_link()
@@ -101,7 +102,7 @@ class TestProfile:
         Assert.true(register_page.is_optin_required)
 
     @pytest.mark.nondestructive
-    @xfail(reason="needs to be updated for browserid")
+    @pytest.mark.xfail(reason="needs to be updated for browserid")
     def test_profile_creation(self, mozwebqa):
         home_page = Home(mozwebqa)
         register_page = home_page.click_join_us_link()
