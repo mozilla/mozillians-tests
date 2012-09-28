@@ -45,5 +45,5 @@ class TestSearch:
         home_page = Home(mozwebqa)
         home_page.login()
         search_page = home_page.header.search_for(",")
-        Assert.contains('Sorry, we cannot find a group or person related to ",".', search_page.no_results_message_head)
+        Assert.contains('Sorry, we cannot find a group or person related to ",".', search_page.no_results_message_head) #changed '.' => to ',' as workaround for selenium issue 4608
         Assert.equal("Maybe they're not a Mozillian yet? Invite this person to create a profile.", search_page.no_results_message_body)
