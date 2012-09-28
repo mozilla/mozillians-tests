@@ -62,18 +62,6 @@ class TestProfile:
         account_tab = edit_profile_page.go_to_tab("account")
         Assert.true(account_tab.is_browserid_link_present)
 
-    @pytest.mark.xfail(reason="Needs to be updated for browserid")
-    def test_creating_profile_with_invalid_email_address(self, mozwebqa):
-        home_page = Home(mozwebqa)
-        register_page = home_page.click_join_us_link()
-        register_page.set_email("invalidmail")
-        register_page.set_password("validpassword")
-        register_page.set_first_name("userwith")
-        register_page.set_last_name("invalidmail")
-        register_page.check_privacy_policy_checkbox()
-        register_page.click_create_account_button()
-        Assert.true(register_page.is_invalid_email_message_present)
-
     @pytest.mark.xfail(reason="Shouldn't be needed anymore with browserid")
     def test_creating_profile_with_non_matching_passwords(self, mozwebqa):
         home_page = Home(mozwebqa)
