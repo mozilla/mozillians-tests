@@ -5,13 +5,14 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import time
+import pytest
 
 from pages.home_page import Home
 from unittestzero import Assert
-import pytest
 
+from tests.base_test import BaseTest
 
-class TestProfile:
+class TestProfile(BaseTest):
 
     @pytest.mark.nondestructive
     def test_profile_deletion_confirmation(self, mozwebqa):
@@ -73,14 +74,35 @@ class TestProfile:
         register_page.click_create_account_button()
         Assert.true(register_page.is_optin_required)
 
-    @pytest.mark.xfail(reason="needs to be updated for browserid")
     def test_profile_creation(self, mozwebqa):
+        user = self.get_new_user()
+        print user['email']
         home_page = Home(mozwebqa)
-        register_page = home_page.click_join_us_link()
-        register_page.set_email("newvaliduserwith@example.com")
-        register_page.set_password("newpassword")
-        register_page.set_first_name("New")
-        register_page.set_last_name("MozilliansUser")
-        register_page.check_privacy_policy_checkbox()
-        login_page = register_page.click_create_account_button()
-        Assert.true(login_page.is_account_needs_verification_message_present)
+
+        profile = home_page.create_new_user(user)
+
+        profile.set_first_name("New")
+        profile.set_last_name("MozilliansUser")
+        profile.set_bio("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely")
+
+        skills = profile.click_next_button()
+        skills.add_skill('test')
+        skills.add_language('english')
+
+        location = skills.click_next_button()
+        location.select_country('United States')
+        location.set_state('California')
+        location.set_city('Mountain View')
+        location.check_privacy()
+
+        profile_page = location.click_create_profile_button()
+
+        Assert.true(profile_page.was_account_created_successfully)
+        Assert.true(profile_page.is_pending_approval_visible)
+
+        Assert.equal('New MozilliansUser', profile_page.name)
+        Assert.equal(user['email'], profile_page.email)
+        Assert.equal("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely", profile_page.biography)
+        Assert.equal('test', profile_page.skills)
+        Assert.equal('english', profile_page.languages)
+        Assert.equal('Mountain View, California\nUnited States', profile_page.location)

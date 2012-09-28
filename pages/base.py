@@ -15,6 +15,10 @@ from pages.page import Page
 class Base(Page):
 
     _csrf_token_locator = (By.NAME, 'csrfmiddlewaretoken')
+    _logged_in_marker_locator = (By.CSS_SELECTOR, "body[class~='auth']")
+
+    _pending_approval_locator = (By.ID, 'pending-approval')
+    _account_created_successfully_locator = (By.CSS_SELECTOR, 'div.alert:nth-child(2)')
 
     # Not logged in
     _browserid_login_locator = (By.CSS_SELECTOR, 'a.browser_id_login')
@@ -28,6 +32,14 @@ class Base(Page):
     def is_csrf_token_present(self):
         return self.is_element_present(*self._csrf_token_locator)
 
+    @property
+    def is_pending_approval_visible(self):
+        return self.is_element_visible(*self._pending_approval_locator)
+
+    @property
+    def was_account_created_successfully(self):
+        return self.is_element_visible(*self._account_created_successfully_locator)
+
     #Not logged in
     def click_browserid_login(self):
         self.selenium.find_element(*self._browserid_login_locator).click()
@@ -36,14 +48,30 @@ class Base(Page):
     def is_browserid_link_present(self):
         return self.is_element_present(*self._browserid_login_locator)
 
+    @property
+    def is_user_loggedin(self):
+        return self.is_element_present(*self._logged_in_marker_locator)
 
     def login(self, user='user'):
         self.click_browserid_login()
         credentials = self.testsetup.credentials[user]
+
         from browserid import BrowserID
         pop_up = BrowserID(self.selenium, self.timeout)
         pop_up.sign_in(credentials['email'], credentials['password'])
-        WebDriverWait(self.selenium, 20).until(lambda s: self.header.is_logout_menu_item_present)
+        WebDriverWait(self.selenium, 20).until(lambda s: self.is_user_loggedin)
+
+
+    def create_new_user(self, user):
+        self.click_browserid_login()
+        from browserid import BrowserID
+        pop_up = BrowserID(self.selenium, self.timeout)
+        pop_up.sign_in(user['email'], user['password'])
+
+        WebDriverWait(self.selenium, 20).until(lambda s: self.is_user_loggedin)
+        from pages.register import ProfileTab
+        return ProfileTab(self.testsetup)
+
 
     #Logged in
 
