@@ -1,0 +1,113 @@
+#!/usr/bin/env python
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
+
+from pages.base import Base
+
+class Register(Base):
+
+    #edit your profile tabs locators
+    _profile_tab_locator = (By.CSS_SELECTOR, 'div.tabbable > ul.nav > li:nth-of-type(1) > a')
+    _skills_tab_locator = (By.CSS_SELECTOR, 'div.tabbable > ul.nav > li:nth-of-type(2) > a')
+    _location_tab_locator = (By.CSS_SELECTOR, 'div.tabbable > ul.nav > li:nth-of-type(3) > a')
+
+    def go_to_tab(self, tab_name):
+        if tab_name is "profile":
+            self.selenium.find_element(*self._profile_tab_locator).click()
+            return ProfileTab(self.testsetup)
+        elif tab_name is "skills":
+            self.selenium.find_element(*self._skills_tab_locator).click()
+            return SkillsAndGroupsTab(self.testsetup)
+        elif tab_name is "location":
+            self.selenium.find_element(*self._location_tab_locator).click()
+            return LocationTab(self.testsetup)
+
+class ProfileTab(Register):
+
+    _first_name_field_locator = (By.ID, 'id_first_name')
+    _last_name_field_locator = (By.ID, 'id_last_name')
+    _website_field_locator = (By.ID, 'id_website')
+    _bio_field_locator = (By.ID, 'id_bio')
+
+    _next_button_locator = (By.ID, 'page2button')
+
+    def set_first_name(self, first_name):
+        element = self.selenium.find_element(*self._first_name_field_locator)
+        element.send_keys(first_name)
+
+    def set_last_name(self, last_name):
+        element = self.selenium.find_element(*self._last_name_field_locator)
+        element.send_keys(last_name)
+
+    def set_website(self, website):
+        element = self.selenium.find_element(*self._website_field_locator)
+        element.send_keys(website)
+
+    def set_bio(self, biography):
+        element = self.selenium.find_element(*self._bio_field_locator)
+        element.send_keys(biography)
+
+    def click_next_button(self):
+        self.selenium.find_element(*self._next_button_locator).click()
+        return SkillsAndGroupsTab(self.testsetup)
+
+class SkillsAndGroupsTab(Register):
+
+    _skills_field_locator = (By.CSS_SELECTOR, '#id_skills + ul input')
+    _language_field_locator = (By.CSS_SELECTOR, '#id_languages + ul input')
+
+    _next_button_locator = (By.ID, 'page3button')
+    _previous_button_locator = (By.ID, 'page1button')
+
+    def add_language(self, language_name):
+        element = self.selenium.find_element(*self._language_field_locator)
+        element.send_keys(language_name)
+
+    def add_skill(self, skill_name):
+        element = self.selenium.find_element(*self._skills_field_locator)
+        element.send_keys(skill_name)
+
+    def click_next_button(self):
+        self.selenium.find_element(*self._next_button_locator).click()
+        return LocationTab(self.testsetup)
+
+    def click_previous_button(self):
+        self.selenium.find_element(*self._previous_button_locator).click()
+        return ProfileTab(self.testsetup)
+
+class LocationTab(Register):
+
+    _country_locator = (By.ID, 'id_country')
+    _state_locator = (By.ID, 'id_region')
+    _city_locator = (By.ID, 'id_city')
+    _privacy_locator = (By.ID, 'id_optin')
+
+    _create_profile_button_locator = (By.CSS_SELECTOR, 'button.span2.btn-large.btn-primary')
+
+
+    def select_country(self, country):
+        element = self.selenium.find_element(*self._country_locator)
+        select = Select(element)
+        select.select_by_value(country)
+
+    def set_state(self, state_name):
+        element = self.selenium.find_element(*self._state_locator)
+        element.send_keys(state_name)
+
+    def set_city(self, city_name):
+        element = self.selenium.find_element(*self._city_locator)
+        element.send_keys(city_name)
+
+    def check_privacy(self):
+        self.selenium.find_element(*self._privacy_locator).click()
+
+    def click_create_profile_button(self):
+        self.selenium.find_element(*self._create_profile_button_locator).click()
+        from pages.profile import Profile
+        return Profile(self.testsetup)
