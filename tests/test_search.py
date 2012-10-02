@@ -40,11 +40,10 @@ class TestSearch:
         search_page = home_page.header.search_for("stephend")
         Assert.true(search_page.results_count > 0)
 
-    @pytest.mark.xfail(reason="selenium issue http://code.google.com/p/selenium/issues/detail?id=4608")
     @pytest.mark.nondestructive
     def test_search_for_no_results(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
-        search_page = home_page.header.search_for(".")
-        Assert.contains('Sorry, we cannot find a group or person related to ".".', search_page.no_results_message_head)
+        search_page = home_page.header.search_for(",")
+        Assert.contains('Sorry, we cannot find a group or person related to ",".', search_page.no_results_message_head) #changed '.' => to ',' as workaround for selenium issue 4608
         Assert.equal("Maybe they're not a Mozillian yet? Invite this person to create a profile.", search_page.no_results_message_body)
