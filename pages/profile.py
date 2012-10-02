@@ -19,6 +19,9 @@ class Profile(Base):
     _website_locator = (By.CSS_SELECTOR, '#profile-info > dl > dd > a[href^="http"]')
     _vouched_by_locator = (By.CSS_SELECTOR, '#profile-info .vouched')
     _biography_locator = (By.ID, 'bio')
+    _skills_locator = (By.ID, 'skills')
+    _languages_locator = (By.ID, 'languages')
+    _location_locator = (By.CSS_SELECTOR, '#profile-info > dl > dd:nth-of-type(2)')
 
     @property
     def name(self):
@@ -44,3 +47,15 @@ class Profile(Base):
         self.selenium.find_element(*self._edit_my_profile_button_locator).click()
         from pages.edit_profile import EditProfile
         return EditProfile(self.testsetup)
+
+    @property
+    def skills(self):
+        return self.selenium.find_element(*self._skills_locator).text
+
+    @property
+    def location(self):
+        return self.selenium.find_element(*self._location_locator).text
+
+    @property
+    def languages(self):
+        return self.selenium.find_element(*self._languages_locator).text

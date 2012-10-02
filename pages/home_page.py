@@ -12,13 +12,7 @@ from pages.base import Base
 
 class Home(Base):
 
-    _sign_in_with_browserid_locator = (By.ID, 'create_profile')
-
-
     def __init__(self, testsetup, open_url=True):
         Base.__init__(self, testsetup)
         if open_url:
             self.selenium.get(self.base_url)
-
-    def click_create_profile_button(self):
-        self.selenium.find_element(*self._sign_in_with_browserid_locator).click()
