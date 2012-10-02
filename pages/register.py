@@ -10,6 +10,7 @@ from selenium.webdriver.support.select import Select
 
 from pages.base import Base
 
+
 class Register(Base):
 
     #edit your profile tabs locators
@@ -27,6 +28,7 @@ class Register(Base):
         elif tab_name is "location":
             self.selenium.find_element(*self._location_tab_locator).click()
             return LocationTab(self.testsetup)
+
 
 class ProfileTab(Register):
 
@@ -57,6 +59,7 @@ class ProfileTab(Register):
         self.selenium.find_element(*self._next_button_locator).click()
         return SkillsAndGroupsTab(self.testsetup)
 
+
 class SkillsAndGroupsTab(Register):
 
     _skills_field_locator = (By.CSS_SELECTOR, '#id_skills + ul input')
@@ -81,6 +84,7 @@ class SkillsAndGroupsTab(Register):
         self.selenium.find_element(*self._previous_button_locator).click()
         return ProfileTab(self.testsetup)
 
+
 class LocationTab(Register):
 
     _country_locator = (By.ID, 'id_country')
@@ -89,7 +93,6 @@ class LocationTab(Register):
     _privacy_locator = (By.ID, 'id_optin')
 
     _create_profile_button_locator = (By.CSS_SELECTOR, 'button.span2.btn-large.btn-primary')
-
 
     def select_country(self, country):
         element = self.selenium.find_element(*self._country_locator)

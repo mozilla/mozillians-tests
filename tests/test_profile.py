@@ -12,6 +12,7 @@ from unittestzero import Assert
 
 from tests.base_test import BaseTest
 
+
 class TestProfile(BaseTest):
 
     @pytest.mark.nondestructive

@@ -12,6 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.page import Page
 
+
 class Base(Page):
 
     _csrf_token_locator = (By.NAME, 'csrfmiddlewaretoken')
@@ -61,7 +62,6 @@ class Base(Page):
         pop_up.sign_in(credentials['email'], credentials['password'])
         WebDriverWait(self.selenium, 20).until(lambda s: self.is_user_loggedin)
 
-
     def create_new_user(self, user):
         self.click_browserid_login()
         from browserid import BrowserID
@@ -71,7 +71,6 @@ class Base(Page):
         WebDriverWait(self.selenium, 20).until(lambda s: self.is_user_loggedin)
         from pages.register import ProfileTab
         return ProfileTab(self.testsetup)
-
 
     #Logged in
 
@@ -134,7 +133,6 @@ class Base(Page):
         @property
         def is_logout_menu_item_present(self):
             return self.is_element_present(*self._logout_menu_item_locator)
-
 
     class Footer(Page):
 

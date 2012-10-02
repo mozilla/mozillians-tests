@@ -7,6 +7,7 @@
 import urllib2
 import json
 
+
 class BaseTest:
     """A base test class that can be extended by other tests to include utility methods."""
 
