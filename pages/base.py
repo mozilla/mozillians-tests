@@ -21,7 +21,7 @@ class Base(Page):
     _account_created_successfully_locator = (By.CSS_SELECTOR, 'div.alert:nth-child(2)')
 
     # Not logged in
-    _browserid_login_locator = (By.CSS_SELECTOR, 'a.browser_id_login')
+    _browserid_login_locator = (By.CSS_SELECTOR, 'a.browser_id_login > img')
 
     @property
     def page_title(self):
