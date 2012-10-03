@@ -4,14 +4,17 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pages.mozillians_page import MozilliansStartPage
+import pytest
 from unittestzero import Assert
+
+from pages.home_page import Home
 
 
 class TestAboutPage:
 
+    @pytest.mark.nondestructive
     def test_about_page(self, mozwebqa):
-        home_page = MozilliansStartPage(mozwebqa)
-        about_mozillians_page = home_page.click_about_link()
+        home_page = Home(mozwebqa)
+        about_mozillians_page = home_page.footer.click_about_link()
         Assert.true(about_mozillians_page.is_privacy_section_present)
         Assert.true(about_mozillians_page.is_get_involved_section_present)
