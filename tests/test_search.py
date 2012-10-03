@@ -8,6 +8,7 @@ import pytest
 from unittestzero import Assert
 
 from pages.home_page import Home
+from pages.profile import Profile
 
 
 class TestSearch:
@@ -34,12 +35,12 @@ class TestSearch:
         Assert.true(search_page.results_count > 0)
 
     @pytest.mark.nondestructive
-    @pytest.mark.xfail(reason="github issue #20")
     def test_that_search_returns_results_for_irc_nickname(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
-        search_page = home_page.header.search_for("stephend")
-        Assert.true(search_page.results_count > 0)
+        home_page.header.search_for("stephend")
+        profile = Profile(mozwebqa)
+        Assert.equal("Stephen Donner", profile.name)
 
     @pytest.mark.nondestructive
     def test_search_for_no_results(self, mozwebqa):
