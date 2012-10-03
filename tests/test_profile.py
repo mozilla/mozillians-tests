@@ -6,10 +6,9 @@
 
 import time
 import pytest
-
-from pages.home_page import Home
 from unittestzero import Assert
 
+from pages.home_page import Home
 from tests.base_test import BaseTest
 
 
@@ -77,7 +76,7 @@ class TestProfile(BaseTest):
 
     def test_profile_creation(self, mozwebqa):
         user = self.get_new_user()
-        print user['email']
+
         home_page = Home(mozwebqa)
 
         profile = home_page.create_new_user(user)
