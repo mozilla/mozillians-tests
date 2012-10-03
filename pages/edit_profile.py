@@ -11,6 +11,7 @@ from pages.base import Base
 from pages.page import Page
 from pages.profile import Profile
 
+
 class EditProfile(Base):
 
     _cancel_button_locator = (By.CSS_SELECTOR, "#edit_controls a")
@@ -43,6 +44,7 @@ class EditProfile(Base):
             self.selenium.find_element(*self._account_tab_locator).click()
             return AccountTab(self.testsetup)
 
+
 class ProfileTab(EditProfile):
 
     _first_name_field_locator = (By.ID, 'id_first_name')
@@ -66,6 +68,7 @@ class ProfileTab(EditProfile):
         element = self.selenium.find_element(*self._bio_field_locator)
         element.send_keys(biography)
 
+
 class SkillsAndGroupsTab(EditProfile):
 
     _groups_field_locator = (By.CSS_SELECTOR, '#id_groups + ul input')
@@ -79,6 +82,7 @@ class SkillsAndGroupsTab(EditProfile):
         element = self.selenium.send_keys(*self._skill_field_locator)
         element.send_keys(skill_name)
 
+
 class VouchesAndInvitesTab(EditProfile):
 
     _voucher_name_locator = (By.CSS_SELECTOR, '#vouches .vouched')
@@ -86,6 +90,7 @@ class VouchesAndInvitesTab(EditProfile):
     @property
     def vouched_by(self):
         return self.selenium.find_element(*self._voucher_name_locator).text
+
 
 class AccountTab(EditProfile):
 

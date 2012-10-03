@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 
 from pages.base import Base
 
+
 class Search(Base):
 
     _result_locator = (By.CSS_SELECTOR, 'div.row > div.result')

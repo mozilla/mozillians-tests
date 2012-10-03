@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 
 from pages.base import Base
 
+
 class Invite(Base):
 
     _recipient_field_locator = (By.ID, 'id_recipient')
