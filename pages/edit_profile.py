@@ -106,11 +106,11 @@ class AccountTab(EditProfile):
     def browserid_email(self):
         return self.selenium.find_element(*self._browserid_mail_locator).text
 
+    @property
+    def is_browserid_link_present(self):
+        return self.is_element_present(*self._browserid_link_locator)
+
     def click_delete_profile_button(self):
         self.selenium.find_element(*self._delete_profile_button_locator).click()
         from pages.confirm_profile_delete import ConfirmProfileDelete
         return ConfirmProfileDelete(self.testsetup)
-
-    @property
-    def is_browserid_link_present(self):
-        return self.is_element_present(*self._browserid_link_locator)

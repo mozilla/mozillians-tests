@@ -43,11 +43,6 @@ class Profile(Base):
     def vouched_by(self):
         return self.selenium.find_element(*self._vouched_by_locator).text
 
-    def click_edit_my_profile_button(self):
-        self.selenium.find_element(*self._edit_my_profile_button_locator).click()
-        from pages.edit_profile import EditProfile
-        return EditProfile(self.testsetup)
-
     @property
     def skills(self):
         return self.selenium.find_element(*self._skills_locator).text
@@ -59,3 +54,8 @@ class Profile(Base):
     @property
     def languages(self):
         return self.selenium.find_element(*self._languages_locator).text
+
+    def click_edit_my_profile_button(self):
+        self.selenium.find_element(*self._edit_my_profile_button_locator).click()
+        from pages.edit_profile import EditProfile
+        return EditProfile(self.testsetup)

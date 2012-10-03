@@ -16,13 +16,13 @@ class Invite(Base):
     _send_invite_button_locator = (By.CSS_SELECTOR, '#main button')
     _error_text_locator = (By.CSS_SELECTOR, '.errorlist > li')
 
+    @property
+    def error_text_message(self):
+        return self.selenium.find_element(*self._error_text_locator).text
+
     def invite(self, email):
         input_field = self.selenium.find_element(*self._recipient_field_locator)
         input_field.send_keys(email)
         self.selenium.find_element(*self._send_invite_button_locator).click()
         from pages.invite_success import InviteSuccess
         return InviteSuccess(self.testsetup)
-
-    @property
-    def error_text_message(self):
-        return self.selenium.find_element(*self._error_text_locator).text
