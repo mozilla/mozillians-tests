@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 
 from pages.base import Base
 
+
 class About(Base):
 
     _privacy_section_locator = (By.ID, 'privacy')

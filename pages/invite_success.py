@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 
 from pages.base import Base
 
+
 class InviteSuccess(Base):
 
     _success_message_head_locator = (By.CSS_SELECTOR, '#main > h1')

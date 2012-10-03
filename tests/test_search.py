@@ -4,9 +4,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pages.home_page import Home
-from unittestzero import Assert
 import pytest
+from unittestzero import Assert
+
+from pages.home_page import Home
 
 
 class TestSearch:
@@ -45,5 +46,5 @@ class TestSearch:
         home_page = Home(mozwebqa)
         home_page.login()
         search_page = home_page.header.search_for(",")
-        Assert.contains('Sorry, we cannot find a group or person related to ",".', search_page.no_results_message_head) #changed '.' => to ',' as workaround for selenium issue 4608
+        Assert.contains('Sorry, we cannot find a group or person related to ",".', search_page.no_results_message_head)  # changed '.' => to ',' as workaround for selenium issue 4608
         Assert.equal("Maybe they're not a Mozillian yet? Invite this person to create a profile.", search_page.no_results_message_body)

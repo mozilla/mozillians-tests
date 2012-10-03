@@ -42,8 +42,6 @@ class Base(Page):
         return self.is_element_visible(*self._account_created_successfully_locator)
 
     #Not logged in
-    def click_browserid_login(self):
-        self.selenium.find_element(*self._browserid_login_locator).click()
 
     @property
     def is_browserid_link_present(self):
@@ -52,6 +50,9 @@ class Base(Page):
     @property
     def is_user_loggedin(self):
         return self.is_element_present(*self._logged_in_marker_locator)
+
+    def click_browserid_login(self):
+        self.selenium.find_element(*self._browserid_login_locator).click()
 
     def login(self, user='user'):
         self.click_browserid_login()
@@ -109,6 +110,10 @@ class Base(Page):
             self.selenium.find_element(*self._profile_menu_locator).click()
             WebDriverWait(self.selenium, self.timeout).until(lambda s: self.selenium.find_element(*self._dropdown_menu_locator))
 
+        @property
+        def is_logout_menu_item_present(self):
+            return self.is_element_present(*self._logout_menu_item_locator)
+
         #menu items
         def click_view_profile_menu_item(self):
             self.click_options()
@@ -130,9 +135,6 @@ class Base(Page):
             self.click_options()
             self.selenium.find_element(*self._logout_menu_item_locator).click()
 
-        @property
-        def is_logout_menu_item_present(self):
-            return self.is_element_present(*self._logout_menu_item_locator)
 
     class Footer(Page):
 

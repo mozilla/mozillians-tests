@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 
 from pages.base import Base
 
+
 class Search(Base):
 
     _result_locator = (By.CSS_SELECTOR, 'div.row > div.result')
@@ -32,6 +33,10 @@ class Search(Base):
     def no_results_message_body(self):
         return self.selenium.find_element(*self._no_results_locator_body).text
 
+    @property
+    def advanced_options_shown(self):
+        return self.is_element_visible(*self._advanced_options_locator)
+
     def search_for(self, search_term):
         element = self.selenium.find_element(*self._search_box_locator)
         element.send_keys(search_term)
@@ -39,10 +44,6 @@ class Search(Base):
 
     def toggle_advanced_options(self):
         self.selenium.find_element(*self._advanced_options_button_locator).click()
-
-    @property
-    def advanced_options_shown(self):
-        return self.is_element_visible(*self._advanced_options_locator)
 
     def check_non_vouched_only(self):
         self.selenium.find_element(*self._non_vouched_only_checkbox_locator).click()

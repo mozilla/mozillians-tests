@@ -8,8 +8,8 @@
 from selenium.webdriver.common.by import By
 
 from pages.base import Base
-from pages.page import Page
 from pages.profile import Profile
+
 
 class EditProfile(Base):
 
@@ -43,6 +43,7 @@ class EditProfile(Base):
             self.selenium.find_element(*self._account_tab_locator).click()
             return AccountTab(self.testsetup)
 
+
 class ProfileTab(EditProfile):
 
     _first_name_field_locator = (By.ID, 'id_first_name')
@@ -66,6 +67,7 @@ class ProfileTab(EditProfile):
         element = self.selenium.find_element(*self._bio_field_locator)
         element.send_keys(biography)
 
+
 class SkillsAndGroupsTab(EditProfile):
 
     _groups_field_locator = (By.CSS_SELECTOR, '#id_groups + ul input')
@@ -79,6 +81,7 @@ class SkillsAndGroupsTab(EditProfile):
         element = self.selenium.send_keys(*self._skill_field_locator)
         element.send_keys(skill_name)
 
+
 class VouchesAndInvitesTab(EditProfile):
 
     _voucher_name_locator = (By.CSS_SELECTOR, '#vouches .vouched')
@@ -86,6 +89,7 @@ class VouchesAndInvitesTab(EditProfile):
     @property
     def vouched_by(self):
         return self.selenium.find_element(*self._voucher_name_locator).text
+
 
 class AccountTab(EditProfile):
 
@@ -102,11 +106,11 @@ class AccountTab(EditProfile):
     def browserid_email(self):
         return self.selenium.find_element(*self._browserid_mail_locator).text
 
+    @property
+    def is_browserid_link_present(self):
+        return self.is_element_present(*self._browserid_link_locator)
+
     def click_delete_profile_button(self):
         self.selenium.find_element(*self._delete_profile_button_locator).click()
         from pages.confirm_profile_delete import ConfirmProfileDelete
         return ConfirmProfileDelete(self.testsetup)
-
-    @property
-    def is_browserid_link_present(self):
-        return self.is_element_present(*self._browserid_link_locator)
