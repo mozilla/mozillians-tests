@@ -18,6 +18,12 @@ class Register(Base):
     _skills_tab_locator = (By.CSS_SELECTOR, 'div.tabbable > ul.nav > li:nth-of-type(2) > a')
     _location_tab_locator = (By.CSS_SELECTOR, 'div.tabbable > ul.nav > li:nth-of-type(3) > a')
 
+    _error_locator = (By.CSS_SELECTOR, 'div.alert.alert-error')
+
+    @property
+    def error_message(self):
+        return self.selenium.find_element(*self._error_locator).text
+
     def go_to_tab(self, tab_name):
         if tab_name is "profile":
             self.selenium.find_element(*self._profile_tab_locator).click()
@@ -28,7 +34,6 @@ class Register(Base):
         elif tab_name is "location":
             self.selenium.find_element(*self._location_tab_locator).click()
             return LocationTab(self.testsetup)
-
 
 class ProfileTab(Register):
 
@@ -91,8 +96,12 @@ class LocationTab(Register):
     _state_locator = (By.ID, 'id_region')
     _city_locator = (By.ID, 'id_city')
     _privacy_locator = (By.ID, 'id_optin')
-
+    _privacy_error_message_locator = (By.CSS_SELECTOR, 'div.control-group > div.controls > label.checkbox + span.help-inline')
     _create_profile_button_locator = (By.CSS_SELECTOR, 'button.span2.btn-large.btn-primary')
+
+    @property
+    def privacy_error_message(self):
+        return self.selenium.find_element(*self._privacy_error_message_locator).text
 
     def select_country(self, country):
         element = self.selenium.find_element(*self._country_locator)

@@ -9,6 +9,7 @@ import pytest
 from unittestzero import Assert
 
 from pages.home_page import Home
+from pages.register import ProfileTab
 from tests.base_test import BaseTest
 
 
@@ -63,16 +64,34 @@ class TestProfile(BaseTest):
         account_tab = edit_profile_page.go_to_tab("account")
         Assert.true(account_tab.is_browserid_link_present)
 
-    @pytest.mark.xfail(reason="Needs to be updated for browserid")
+    @pytest.mark.xfail(reason="Bug 797790 - Create Your Profile page privacy policy error message is ambiguous")
     def test_creating_profile_without_checking_privacy_policy_checkbox(self, mozwebqa):
+        user = self.get_new_user()
+
         home_page = Home(mozwebqa)
-        register_page = home_page.click_join_us_link()
-        register_page.set_email("newvaliduser@example.com")
-        register_page.set_password("newpassword")
-        register_page.set_first_name("NewUser")
-        register_page.set_last_name("DoesNotCheckBox")
-        register_page.click_create_account_button()
-        Assert.true(register_page.is_optin_required)
+
+        profile = home_page.create_new_user(user)
+
+        profile.set_first_name("User that doesn't like policy")
+        profile.set_last_name("MozilliansUser")
+        profile.set_bio("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, and will not check accept the privacy policy")
+
+        skills = profile.click_next_button()
+        skills.add_skill('test')
+        skills.add_language('english')
+
+        location = skills.click_next_button()
+        location.select_country('United States')
+        location.set_state('California')
+        location.set_city('Mountain View')
+
+        location.click_create_profile_button()
+
+        profile = ProfileTab(mozwebqa)
+
+        Assert.equal('new error message', profile.error_message)
+        location = profile.go_to_tab('location')
+        Assert.equal('This field is required.', location.privacy_error_message)
 
     def test_profile_creation(self, mozwebqa):
         user = self.get_new_user()
