@@ -21,6 +21,7 @@ class TestSearch:
         Assert.true(home_page.header.is_search_box_present)
 
     @pytest.mark.nondestructive
+    @pytest.mark.xfail(reason='Bug 802199 - Searching for name, irc nick, or email address does not return any results')
     def test_that_search_returns_results_for_first_name(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
@@ -28,6 +29,7 @@ class TestSearch:
         Assert.true(search_page.results_count > 0)
 
     @pytest.mark.nondestructive
+    @pytest.mark.xfail(reason='Bug 802199 - Searching for name, irc nick, or email address does not return any results')
     def test_that_search_returns_results_for_email_substring(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
@@ -35,6 +37,7 @@ class TestSearch:
         Assert.true(search_page.results_count > 0)
 
     @pytest.mark.nondestructive
+    @pytest.mark.xfail(reason='Bug 802199 - Searching for name, irc nick, or email address does not return any results')
     def test_that_search_returns_results_for_irc_nickname(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
