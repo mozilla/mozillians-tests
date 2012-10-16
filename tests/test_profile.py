@@ -28,7 +28,6 @@ class TestProfile(BaseTest):
         Assert.true(confirm_profile_delete_page.is_cancel_button_present)
         Assert.true(confirm_profile_delete_page.is_delete_button_present)
 
-    @pytest.mark.xfail(reason="Bug 794035 - Editing profile URL with http://1348571949.com returns a invalid url")
     def test_edit_profile_information(self, mozwebqa):
         home_page = Home(mozwebqa)
 
@@ -42,7 +41,7 @@ class TestProfile(BaseTest):
         new_first_name = "Updated %s" % current_time
         new_last_name = "Mozillians User %s" % current_time
         new_biography = "Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely, run at %s" % current_time
-        new_website = "http://%s.com" % current_time
+        new_website = "http://%s.com/" % current_time
         profile_tab.set_first_name(new_first_name)
         profile_tab.set_last_name(new_last_name)
         profile_tab.set_website(new_website)
