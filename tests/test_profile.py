@@ -108,7 +108,7 @@ class TestProfile(BaseTest):
         skills.add_language('english')
 
         location = skills.click_next_button()
-        location.select_country('United States')
+        location.select_country('us')
         location.set_state('California')
         location.set_city('Mountain View')
         location.check_privacy()
