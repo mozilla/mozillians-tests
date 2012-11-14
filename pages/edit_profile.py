@@ -100,7 +100,7 @@ class AccountTab(EditProfile):
     _username_field_locator = (By.ID, 'id_username')
     _browserid_mail_locator = (By.CSS_SELECTOR, '.control-group:nth-of-type(2) .label-text')
     _delete_profile_button_locator = (By.CSS_SELECTOR, '.btn.btn-danger')
-    _browserid_link_locator = (By.CSS_SELECTOR, 'a[href*=browserid]')
+    _browserid_link_locator = (By.CSS_SELECTOR, '#account div.controls > span > a')
 
     @property
     def username(self):
