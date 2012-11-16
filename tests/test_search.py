@@ -42,6 +42,13 @@ class TestSearch:
         Assert.equal("Stephen Donner", profile.name)
 
     @pytest.mark.nondestructive
+    def test_that_search_returns_results_for_region(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+        search_page = home_page.header.search_for("California")
+        Assert.true(search_page.results_count > 0)
+
+    @pytest.mark.nondestructive
     def test_search_function_only_present_for_vouched_users(self, mozwebqa):
         home_page = Home(mozwebqa)
         Assert.false(home_page.header.is_search_box_present)
