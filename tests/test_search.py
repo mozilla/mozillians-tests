@@ -12,19 +12,11 @@ from pages.profile import Profile
 
 
 class TestSearch:
-
     @pytest.mark.nondestructive
-    def test_search_function_only_present_for_vouched_users(self, mozwebqa):
-        home_page = Home(mozwebqa)
-        Assert.false(home_page.header.is_search_box_present)
-        home_page.login()
-        Assert.true(home_page.header.is_search_box_present)
-
-    @pytest.mark.nondestructive
-    def test_that_search_returns_results_for_first_name(self, mozwebqa):
+    def test_that_search_returns_results_for_country(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
-        search_page = home_page.header.search_for("Paul")
+        search_page = home_page.header.search_for("Greece")
         Assert.true(search_page.results_count > 0)
 
     @pytest.mark.nondestructive
@@ -35,12 +27,26 @@ class TestSearch:
         Assert.true(search_page.results_count > 0)
 
     @pytest.mark.nondestructive
+    def test_that_search_returns_results_for_first_name(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+        search_page = home_page.header.search_for("Paul")
+        Assert.true(search_page.results_count > 0)
+
+    @pytest.mark.nondestructive
     def test_that_search_returns_results_for_irc_nickname(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
         home_page.header.search_for("stephend")
         profile = Profile(mozwebqa)
         Assert.equal("Stephen Donner", profile.name)
+
+    @pytest.mark.nondestructive
+    def test_search_function_only_present_for_vouched_users(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        Assert.false(home_page.header.is_search_box_present)
+        home_page.login()
+        Assert.true(home_page.header.is_search_box_present)
 
     @pytest.mark.nondestructive
     def test_search_for_no_results(self, mozwebqa):
