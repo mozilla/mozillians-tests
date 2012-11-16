@@ -13,6 +13,13 @@ from pages.profile import Profile
 
 class TestSearch:
     @pytest.mark.nondestructive
+    def test_that_search_returns_results_for_city(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+        search_page = home_page.header.search_for("Mountain View")
+        Assert.true(search_page.results_count > 0)
+
+    @pytest.mark.nondestructive
     def test_that_search_returns_results_for_country(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
