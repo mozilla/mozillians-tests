@@ -22,7 +22,7 @@ class Base(Page):
     _account_created_successfully_locator = (By.CSS_SELECTOR, 'div.alert:nth-child(2)')
 
     # Not logged in
-    _browserid_login_locator = (By.CSS_SELECTOR, 'a.browser_id_login > img')
+    _browserid_login_locator = (By.CSS_SELECTOR, 'a.browserid-login > img')
 
     @property
     def page_title(self):
@@ -134,7 +134,7 @@ class Base(Page):
         def click_logout_menu_item(self):
             self.click_options()
             self.selenium.find_element(*self._logout_menu_item_locator).click()
-
+            WebDriverWait(self.selenium, self.timeout).until(lambda s: not self.is_logout_menu_item_present)
 
     class Footer(Page):
 
