@@ -12,6 +12,7 @@ from pages.home_page import Home
 
 class TestAccount:
 
+    @pytest.mark.xfail(reason="Bug 816475 - [stage]Click logout does not work")
     @pytest.mark.nondestructive
     def test_login_logout(self, mozwebqa):
         home_page = Home(mozwebqa)
