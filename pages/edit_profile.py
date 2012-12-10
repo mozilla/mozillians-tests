@@ -46,20 +46,14 @@ class EditProfile(Base):
 
 class ProfileTab(EditProfile):
 
-    _first_name_field_locator = (By.ID, 'id_first_name')
-    _last_name_field_locator = (By.ID, 'id_last_name')
+    _full_name_field_locator = (By.ID, 'id_full_name')
     _website_field_locator = (By.ID, 'id_website')
     _bio_field_locator = (By.ID, 'id_bio')
 
-    def set_first_name(self, first_name):
-        element = self.selenium.find_element(*self._first_name_field_locator)
+    def set_full_name(self, full_name):
+        element = self.selenium.find_element(*self._full_name_field_locator)
         element.clear()
-        element.send_keys(first_name)
-
-    def set_last_name(self, last_name):
-        element = self.selenium.find_element(*self._last_name_field_locator)
-        element.clear()
-        element.send_keys(last_name)
+        element.send_keys(full_name)
 
     def set_website(self, website):
         element = self.selenium.find_element(*self._website_field_locator)
