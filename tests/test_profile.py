@@ -38,19 +38,17 @@ class TestProfile(BaseTest):
         profile_tab = edit_profile_page.go_to_tab("profile")
         Assert.true(edit_profile_page.is_csrf_token_present)
         current_time = str(time.time()).split('.')[0]
-        new_first_name = "Updated %s" % current_time
-        new_last_name = "Mozillians User %s" % current_time
+        new_full_name = "Updated Mozillians User %s" % current_time
         new_biography = "Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely, run at %s" % current_time
         new_website = "http://%s.com/" % current_time
-        profile_tab.set_first_name(new_first_name)
-        profile_tab.set_last_name(new_last_name)
+        profile_tab.set_full_name(new_full_name)
         profile_tab.set_website(new_website)
         profile_tab.set_bio(new_biography)
         profile_tab.click_update_button()
         name = profile_page.name
         biography = profile_page.biography
         website = profile_page.website
-        Assert.equal(name, new_first_name + " " + new_last_name)
+        Assert.equal(name, new_full_name)
         Assert.equal(biography, new_biography)
         Assert.equal(website, new_website)
 
@@ -71,8 +69,7 @@ class TestProfile(BaseTest):
 
         profile = home_page.create_new_user(user)
 
-        profile.set_first_name("User that doesn't like policy")
-        profile.set_last_name("MozilliansUser")
+        profile.set_full_name("User that doesn't like policy")
         profile.set_bio("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, and will not check accept the privacy policy")
 
         skills = profile.click_next_button()
@@ -99,8 +96,7 @@ class TestProfile(BaseTest):
 
         profile = home_page.create_new_user(user)
 
-        profile.set_first_name("New")
-        profile.set_last_name("MozilliansUser")
+        profile.set_full_name("New MozilliansUser")
         profile.set_bio("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely")
 
         skills = profile.click_next_button()
