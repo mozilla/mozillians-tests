@@ -12,6 +12,8 @@ from pages.profile import Profile
 
 
 class TestSearch:
+    @pytest.mark.xfail(reason="Bug 822543 - No search results on Mozillians dev")
+    # https://bugzilla.mozilla.org/show_bug.cgi?id=822543
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_city(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -19,6 +21,8 @@ class TestSearch:
         search_page = home_page.header.search_for("Mountain View")
         Assert.true(search_page.results_count > 0)
 
+    @pytest.mark.xfail(reason="Bug 822543 - No search results on Mozillians dev")
+    # https://bugzilla.mozilla.org/show_bug.cgi?id=822543
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_country(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -26,6 +30,8 @@ class TestSearch:
         search_page = home_page.header.search_for("Romania")
         Assert.true(search_page.results_count > 0)
 
+    @pytest.mark.xfail(reason="Bug 822543 - No search results on Mozillians dev")
+    # https://bugzilla.mozilla.org/show_bug.cgi?id=822543
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_email_substring(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -33,6 +39,8 @@ class TestSearch:
         search_page = home_page.header.search_for("@mozilla.com")
         Assert.true(search_page.results_count > 0)
 
+    @pytest.mark.xfail(reason="Bug 822543 - No search results on Mozillians dev")
+    # https://bugzilla.mozilla.org/show_bug.cgi?id=822543
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_first_name(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -40,6 +48,8 @@ class TestSearch:
         search_page = home_page.header.search_for("Paul")
         Assert.true(search_page.results_count > 0)
 
+    @pytest.mark.xfail(reason="Bug 822543 - No search results on Mozillians dev")
+    # https://bugzilla.mozilla.org/show_bug.cgi?id=822543
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_irc_nickname(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -48,6 +58,8 @@ class TestSearch:
         profile = Profile(mozwebqa)
         Assert.equal("Stephen Donner", profile.name)
 
+    @pytest.mark.xfail(reason="Bug 822543 - No search results on Mozillians dev")
+    # https://bugzilla.mozilla.org/show_bug.cgi?id=822543
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_region(self, mozwebqa):
         home_page = Home(mozwebqa)
