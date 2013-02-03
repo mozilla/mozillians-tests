@@ -11,8 +11,6 @@ from pages.home_page import Home
 from pages.profile import Profile
 
 
-@pytest.mark.xfail(reason="Bug 822543 - No search results on Mozillians dev")
-# https://bugzilla.mozilla.org/show_bug.cgi?id=822543
 class TestSearch:
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_city(self, mozwebqa):
