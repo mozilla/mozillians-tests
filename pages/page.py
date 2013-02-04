@@ -5,6 +5,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from unittestzero import Assert
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotVisibleException
@@ -56,3 +57,9 @@ class Page(object):
 
     def return_to_previous_page(self):
         self.selenium.back()
+
+    def maximize_window(self):
+        try:
+            self.selenium.maximize_window()
+        except WebDriverException as e:
+            pass
