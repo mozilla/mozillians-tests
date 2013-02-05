@@ -14,4 +14,3 @@ class Home(Base):
         Base.__init__(self, testsetup)
         if open_url:
             self.selenium.get(self.base_url)
-            self.maximize_window()
