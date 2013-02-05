@@ -72,10 +72,14 @@ class SkillsAndGroupsTab(Register):
     def add_language(self, language_name):
         element = self.selenium.find_element(*self._language_field_locator)
         element.send_keys(language_name)
+        # send tab to make the entry "stick"
+        element.send_keys("\t")
 
     def add_skill(self, skill_name):
         element = self.selenium.find_element(*self._skills_field_locator)
         element.send_keys(skill_name)
+        # send tab to make the entry "stick"
+        element.send_keys("\t")
 
     def click_next_button(self):
         self.selenium.find_element(*self._next_button_locator).click()
