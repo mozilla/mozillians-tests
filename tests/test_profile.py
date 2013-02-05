@@ -100,7 +100,7 @@ class TestProfile(BaseTest):
         profile.set_bio("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely")
 
         skills = profile.click_next_button()
-        skills.add_skill('test')
+        skills.add_skill('this is a test')
         skills.add_language('english')
 
         location = skills.click_next_button()
@@ -117,6 +117,6 @@ class TestProfile(BaseTest):
         Assert.equal('New MozilliansUser', profile_page.name)
         Assert.equal(user['email'], profile_page.email)
         Assert.equal("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely", profile_page.biography)
-        Assert.equal('test', profile_page.skills)
+        Assert.equal('this is a test', profile_page.skills)
         Assert.equal('english', profile_page.languages)
         Assert.equal('Mountain View, California\nUnited States', profile_page.location)
