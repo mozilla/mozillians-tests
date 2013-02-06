@@ -29,9 +29,11 @@ class TestAboutPage:
         about_page = requests.get(url + '/about')
         parsed_html = BeautifulSoup(about_page.text)
 
-        links = [a['href'] for a in parsed_html.find(id='main').findAll('a')]
-        for link in links:
-            r = requests.get(link)
-            Assert.true(
-                r.status_code == requests.codes.ok,
-                'request to %s returned %s code' % (r.url, r.status_code))
+        bad_urls = []
+        urls = [ancor['href'] for ancor in parsed_html.find(id='main').findAll('a')]
+
+        for url in urls:
+            r = requests.get(url)
+            if r.status_code != requests.codes.ok:
+                bad_urls.append('request to %s returned %s code' % (r.url, r.status_code))
+        Assert.equal(0, len(bad_urls), '%s bad links found: ' % len(bad_urls) + ', '.join(bad_urls))
