@@ -30,7 +30,7 @@ class TestAboutPage:
         parsed_html = BeautifulSoup(about_page.text)
 
         bad_urls = []
-        urls = [ancor['href'] for ancor in parsed_html.find(id='main').findAll('a')]
+        urls = [anchor['href'] for anchor in parsed_html.find(id='main').findAll('a')]
 
         for url in urls:
             r = requests.get(url)
