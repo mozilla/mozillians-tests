@@ -8,6 +8,7 @@ import pytest
 from unittestzero import Assert
 
 from pages.home_page import Home
+from pages.link_crawler import LinkCrawler
 
 
 class TestAboutPage:
@@ -22,22 +23,17 @@ class TestAboutPage:
     @pytest.mark.skip_selenium
     @pytest.mark.nondestructive
     def test_that_links_in_the_about_page_return_200_code(self, mozwebqa):
-        import requests
-        from BeautifulSoup import BeautifulSoup
-
-        url = mozwebqa.base_url
-        about_page = requests.get(url + '/about')
-        parsed_html = BeautifulSoup(about_page.text)
-
+        crawler = LinkCrawler(mozwebqa)
+        urls = crawler.collect_links('/about', id='main')
         bad_urls = []
-        urls = [anchor['href'] for anchor in
-                parsed_html.find(id='main').findAll('a')]
+
+        Assert.greater(
+            len(urls), 0, u'something went wrong. no links found')
 
         for url in urls:
-            r = requests.get(url)
-            if r.status_code != requests.codes.ok:
-                bad_urls.append(
-                    u'request to %s returned %s code' % (r.url, r.status_code))
+            check_result = crawler.verify_status_code_is_ok(url)
+            if check_result is not True:
+                bad_urls.append(check_result)
 
         Assert.equal(
             0, len(bad_urls),
