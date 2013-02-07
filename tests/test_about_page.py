@@ -18,3 +18,27 @@ class TestAboutPage:
         about_mozillians_page = home_page.footer.click_about_link()
         Assert.true(about_mozillians_page.is_privacy_section_present)
         Assert.true(about_mozillians_page.is_get_involved_section_present)
+
+    @pytest.mark.skip_selenium
+    @pytest.mark.nondestructive
+    def test_that_links_in_the_about_page_return_200_code(self, mozwebqa):
+        import requests
+        from BeautifulSoup import BeautifulSoup
+
+        url = mozwebqa.base_url
+        about_page = requests.get(url + '/about')
+        parsed_html = BeautifulSoup(about_page.text)
+
+        bad_urls = []
+        urls = [anchor['href'] for anchor in
+                parsed_html.find(id='main').findAll('a')]
+
+        for url in urls:
+            r = requests.get(url)
+            if r.status_code != requests.codes.ok:
+                bad_urls.append(
+                    u'request to %s returned %s code' % (r.url, r.status_code))
+
+        Assert.equal(
+            0, len(bad_urls),
+            u'%s bad links found: ' % len(bad_urls) + ', '.join(bad_urls))
