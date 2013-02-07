@@ -19,10 +19,11 @@ class LinkCrawler(Page):
         If name is True, then links will be collected for whole page.
         Use name argument to pass tag name of element.
         Use kwargs to pass id of element or its class name.
-        Because 'class' is a reserved keyword in Python, you need to pass class as:
-        **{'class': 'container row'}.
+        Because 'class' is a reserved keyword in Python,
+        you need to pass class as: **{'class': 'container row'}.
 
-        Read more about searching elements with BeautifulSoup here: http://goo.gl/85BuZ
+        Read more about searching elements with BeautifulSoup.
+        See: http://goo.gl/85BuZ
         """
 
         #support for absolute and relative URLs
@@ -35,8 +36,7 @@ class LinkCrawler(Page):
         r = requests.get(url)
         Assert.true(
             r.status_code == requests.codes.ok,
-            u'request to {0.url} returned {0.status_code} code. {0.reason} reason'.format(r)
-            )
+            u'{0.url} returned: {0.status_code} {0.reason}'.format(r))
 
         #collecting links
         parsed_html = BeautifulSoup(r.text)
@@ -49,6 +49,6 @@ class LinkCrawler(Page):
     def verify_status_code_is_ok(self, url):
         r = requests.get(url)
         if not r.status_code == requests.codes.ok:
-            return u'url: {0.url}. code: {0.status_code}. reason: {0.reason}'.format(r)
+            return u'{0.url} returned: {0.status_code} {0.reason}'.format(r)
         else:
             return True

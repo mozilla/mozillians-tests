@@ -9,6 +9,6 @@ py==1.4.9
 pytest==2.2.4
 pytest-mozwebqa==1.0
 pytest-xdist==1.8
-requests==0.10.8
+requests==0.13.2
 selenium
 BeautifulSoup==3.2.1

@@ -10,6 +10,7 @@ from unittestzero import Assert
 from pages.home_page import Home
 from pages.link_crawler import LinkCrawler
 
+
 class TestAccount:
 
     @pytest.mark.nondestructive
@@ -25,11 +26,11 @@ class TestAccount:
     @pytest.mark.nondestructive
     def test_that_links_in_footer_return_200_code(self, mozwebqa):
         crawler = LinkCrawler(mozwebqa)
-        urls = crawler.collect_links(mozwebqa.base_url, relative=False, name='footer')
+        urls = crawler.collect_links('/', name='footer')
         bad_urls = []
 
         Assert.greater(
-            len(urls), 0, u'something went wrong. no links found')
+            len(urls), 0, u'something went wrong. no links found.')
 
         for url in urls:
             check_result = crawler.verify_status_code_is_ok(url)
@@ -38,4 +39,4 @@ class TestAccount:
 
         Assert.equal(
             0, len(bad_urls),
-            u'%s bad links found: ' % len(bad_urls) + ', '.join(bad_urls))
+            u'%s bad links found. ' % len(bad_urls) + ', '.join(bad_urls))

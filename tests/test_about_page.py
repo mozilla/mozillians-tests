@@ -28,7 +28,7 @@ class TestAboutPage:
         bad_urls = []
 
         Assert.greater(
-            len(urls), 0, u'something went wrong. no links found')
+            len(urls), 0, u'something went wrong. no links found.')
 
         for url in urls:
             check_result = crawler.verify_status_code_is_ok(url)
@@ -37,4 +37,4 @@ class TestAboutPage:
 
         Assert.equal(
             0, len(bad_urls),
-            u'%s bad links found: ' % len(bad_urls) + ', '.join(bad_urls))
+            u'%s bad links found. ' % len(bad_urls) + ', '.join(bad_urls))
