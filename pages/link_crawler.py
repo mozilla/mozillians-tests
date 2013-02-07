@@ -26,11 +26,9 @@ class LinkCrawler(Page):
         See: http://goo.gl/85BuZ
         """
 
-        #support for absolute and relative URLs
+        #support for relative URLs
         if relative:
             url = '%s%s' % (self.base_url, url)
-        else:
-            url = url
 
         #get the page and verify status code is OK
         r = requests.get(url)
@@ -38,11 +36,12 @@ class LinkCrawler(Page):
             r.status_code == requests.codes.ok,
             u'{0.url} returned: {0.status_code} {0.reason}'.format(r))
 
-        #collecting links
+        #collect links
         parsed_html = BeautifulSoup(r.text)
         urls = [anchor['href'] for anchor in
                 parsed_html.find(name, attrs=kwargs).findAll('a')]
 
+        #prepend base_url to relative links
         return map(
             lambda u: u if u.startswith('http') else '%s%s' % (self.base_url, u), urls)
 
