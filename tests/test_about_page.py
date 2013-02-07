@@ -30,10 +30,15 @@ class TestAboutPage:
         parsed_html = BeautifulSoup(about_page.text)
 
         bad_urls = []
-        urls = [anchor['href'] for anchor in parsed_html.find(id='main').findAll('a')]
+        urls = [anchor['href'] for anchor in
+                parsed_html.find(id='main').findAll('a')]
 
         for url in urls:
             r = requests.get(url)
             if r.status_code != requests.codes.ok:
-                bad_urls.append('request to %s returned %s code' % (r.url, r.status_code))
-        Assert.equal(0, len(bad_urls), '%s bad links found: ' % len(bad_urls) + ', '.join(bad_urls))
+                bad_urls.append(
+                    u'request to %s returned %s code' % (r.url, r.status_code))
+
+        Assert.equal(
+            0, len(bad_urls),
+            u'%s bad links found: ' % len(bad_urls) + ', '.join(bad_urls))
