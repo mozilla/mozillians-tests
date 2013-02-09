@@ -8,6 +8,7 @@
 from selenium.webdriver.common.by import By
 
 from pages.base import Base
+from pages.page import Page
 
 
 class Search(Base):
@@ -49,4 +50,27 @@ class Search(Base):
         self.selenium.find_element(*self._non_vouched_only_checkbox_locator).click()
 
     def check_with_photos_only(self):
-        self.selenium.find_elemennt(*self._with_photos_only_checkbox_locator).click()
+        self.selenium.find_element(*self._with_photos_only_checkbox_locator).click()
+
+    @property
+    def search_results(self):
+        return [self.SearchResult(self.testsetup, root_el) for root_el in
+                self.selenium.find_elements(*self._result_locator)]
+
+    class SearchResult(Page):
+
+        _profile_page_link_locator = (By.CSS_SELECTOR, 'a')
+        _name_locator = (By.CSS_SELECTOR, '.result .details h2')
+
+        def __init__(self, testsetup, root_el):
+            self._root_el = root_el
+            Page.__init__(self, testsetup)
+
+        def open_profile_page(self):
+            self._root_el.find_element(*self._profile_page_link_locator).click()
+            from pages.profile import Profile
+            return Profile(self.testsetup)
+
+        @property
+        def name(self):
+            return self._root_el.find_element(*self._name_locator).text
