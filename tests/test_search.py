@@ -42,7 +42,7 @@ class TestSearch:
     def test_that_search_returns_results_for_email_substring(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
-        search_page = home_page.header.search_for("@mozilla.com")
+        search_page = home_page.header.search_for(u'@mozilla.com')
         Assert.true(search_page.results_count > 0)
 
     @pytest.mark.nondestructive
@@ -55,15 +55,15 @@ class TestSearch:
         #get random index
         random_profile = randrange(search_page.results_count)
         profile_name = search_page.search_results[random_profile].name
-        Assert.contains(query.lower(), profile_name.lower())
+        Assert.contains(query, profile_name)
 
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_irc_nickname(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
-        home_page.header.search_for("stephend")
+        home_page.header.search_for(u'stephend')
         profile = Profile(mozwebqa)
-        Assert.equal("Stephen Donner", profile.name)
+        Assert.equal(u'Stephen Donner', profile.name)
 
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_region(self, mozwebqa):
@@ -88,6 +88,6 @@ class TestSearch:
     def test_search_for_no_results(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
-        search_page = home_page.header.search_for(",")
-        Assert.contains('Sorry, we cannot find a group or person related to ",".', search_page.no_results_message_head)  # changed '.' => to ',' as workaround for selenium issue 4608
-        Assert.equal("Maybe they're not a Mozillian yet? Invite this person to create a profile.", search_page.no_results_message_body)
+        search_page = home_page.header.search_for(u',')
+        Assert.contains(u'Sorry, we cannot find a group or person related to ",".', search_page.no_results_message_head)  # changed '.' => to ',' as workaround for selenium issue 4608
+        Assert.equal(u'Maybe they\'re not a Mozillian yet? Invite this person to create a profile.', search_page.no_results_message_body)
