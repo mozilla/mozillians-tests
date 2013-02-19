@@ -120,3 +120,35 @@ class TestProfile(BaseTest):
         Assert.equal('test', profile_page.skills)
         Assert.equal('english', profile_page.languages)
         Assert.equal('Mountain View, California\nUnited States', profile_page.location)
+
+    @pytest.mark.xfail(reason="Bug 835318 - Error adding groups / skills / or languages with non-latin chars.")
+    def test_non_ascii_characters_are_allowed_in_profile_information(self, mozwebqa):
+        user = self.get_new_user()
+
+        home_page = Home(mozwebqa)
+        profile = home_page.create_new_user(user)
+
+        profile.set_full_name("New MozilliansUser")
+        profile.set_bio("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely")
+
+        skills = profile.click_next_button()
+        skills.add_skill(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2')
+        skills.add_language(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2')
+
+        location = skills.click_next_button()
+        location.select_country('gr')
+        location.set_state('Greece')
+        location.set_city('Athens')
+        location.check_privacy()
+
+        profile_page = location.click_create_profile_button()
+
+        Assert.true(profile_page.was_account_created_successfully)
+        Assert.true(profile_page.is_pending_approval_visible)
+
+        Assert.equal('New MozilliansUser', profile_page.name)
+        Assert.equal(user['email'], profile_page.email)
+        Assert.equal("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely", profile_page.biography)
+        Assert.equal(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2', profile_page.skills)
+        Assert.equal(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2', profile_page.languages)
+        Assert.equal('Athenes, Greece\nGreece', profile_page.location)
