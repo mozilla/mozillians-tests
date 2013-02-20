@@ -21,7 +21,7 @@ class Profile(Base):
     _biography_locator = (By.ID, 'bio')
     _skills_locator = (By.ID, 'skills')
     _languages_locator = (By.ID, 'languages')
-    _location_locator = (By.CSS_SELECTOR, '#profile-info > dl > dd:nth-of-type(2)')
+    _location_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd')
 
     @property
     def name(self):
@@ -50,6 +50,18 @@ class Profile(Base):
     @property
     def location(self):
         return self.selenium.find_element(*self._location_locator).text
+
+    @property
+    def city(self):
+        return self.location.split(', ')[0]
+
+    @property
+    def region(self):
+        return self.location.split(', ')[1]
+
+    @property
+    def country(self):
+        return self.location.split('\n')[1]
 
     @property
     def languages(self):
