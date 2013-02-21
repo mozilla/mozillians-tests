@@ -89,6 +89,7 @@ class TestProfile(BaseTest):
         location = profile.go_to_tab('location')
         Assert.equal('This field is required.', location.privacy_error_message)
 
+    @pytest.mark.xfail(reason="Bug 843537 - Typo mistake in profile page location.")
     def test_profile_creation(self, mozwebqa):
         user = self.get_new_user()
 
@@ -119,7 +120,7 @@ class TestProfile(BaseTest):
         Assert.equal("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely", profile_page.biography)
         Assert.equal('test', profile_page.skills)
         Assert.equal('english', profile_page.languages)
-        Assert.equal('Mountain View , California\nUnited States', profile_page.location)
+        Assert.equal('Mountain View, California\nUnited States', profile_page.location)
 
     @pytest.mark.xfail(reason="Bug 835318 - Error adding groups / skills / or languages with non-latin chars.")
     def test_non_ascii_characters_are_allowed_in_profile_information(self, mozwebqa):
@@ -151,4 +152,4 @@ class TestProfile(BaseTest):
         Assert.equal("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely", profile_page.biography)
         Assert.equal(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2', profile_page.skills)
         Assert.equal(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2', profile_page.languages)
-        Assert.equal('Athenes , Greece\nGreece', profile_page.location)
+        Assert.equal('Athenes, Greece\nGreece', profile_page.location)
