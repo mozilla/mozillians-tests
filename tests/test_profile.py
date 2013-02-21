@@ -89,6 +89,7 @@ class TestProfile(BaseTest):
         location = profile.go_to_tab('location')
         Assert.equal('This field is required.', location.privacy_error_message)
 
+    @pytest.mark.xfail(reason="Bug 843537 - Typo mistake in profile page location.")
     def test_profile_creation(self, mozwebqa):
         user = self.get_new_user()
 
