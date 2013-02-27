@@ -14,7 +14,7 @@ class Invite(Base):
 
     _recipient_field_locator = (By.ID, 'id_recipient')
     _send_invite_button_locator = (By.CSS_SELECTOR, '#main button')
-    _error_text_locator = (By.CSS_SELECTOR, '.errorlist > li')
+    _error_text_locator = (By.CSS_SELECTOR, '.help-inline')
 
     @property
     def error_text_message(self):
