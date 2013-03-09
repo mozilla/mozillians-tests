@@ -65,10 +65,9 @@ If you are running on Ubuntu/Debian you will need to do following first
 to install the required Python libraries.
 
 ####Virtualenv and Virtualenvwrapper (Optional/Intermediate level)
-While most of us have had some experience using virtual machines, [virtualenv][venv] is something else entirely.  It's used to keep libraries that you install from clashing and messing up your local environment.  After installing virtualenv, installing [virtualenvwrapper][wrapper] will give you some nice commands to use with virtualenvwrapper. [virtualenv][venv] will allow you to install Python modules and run your tests in a sandboxed environment. This is not necessary but is really helpful if you are working on multiple Python projects that use different versions of modules.
+While most of us have had some experience using virtual machines, [virtualenv][venv] is something else entirely.  It's used to keep libraries that you install from clashing and messing up your local environment.  After installing virtualenv, installing [virtualenvwrapper][wrapper] will give you some nice commands to use with virtualenvwrapper. [virtualenv][venv] will allow you to install Python modules and run your tests in a sandboxed environment. 
 
-[venv]: http://pypi.python.org/pypi/virtualenv
-[wrapper]: http://www.doughellmann.com/projects/virtualenvwrapper/
+This is not necessary but is really helpful if you are working on multiple Python projects that use different versions of modules.
 
 #### Credentials
 Some of the tests in mozillians-tests require accounts for https://mozillians.allizom.or. You'll need to create three sets of credentials with varying privilege levels.
@@ -141,6 +140,8 @@ This software is licensed under the [MPL] 2.0:
 [GitMacOSX]: http://help.github.com/mac-set-up-git/
 [GitLinux]: http://help.github.com/linux-set-up-git/
 [mozillians]:http://02.chat.mibbit.com/?server=irc.mozilla.org&channel=#mozillians
+[venv]: http://pypi.python.org/pypi/virtualenv
+[wrapper]: http://www.doughellmann.com/projects/virtualenvwrapper/
 [GitHub Templates]: https://github.com/mozilla/mozwebqa-test-templates
 [Style Guide]: https://wiki.mozilla.org/QA/Execution/Web_Testing/Docs/Automation/StyleGuide
 [MPL]: http://www.mozilla.org/MPL/2.0/
