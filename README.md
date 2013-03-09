@@ -2,31 +2,32 @@ Web QA Tests for mozillians.org - A community phonebook for core contributors
 =============================================================================
 
 Thank you for checking out Mozilla's Mozillians test suite! Mozilla and the Mozwebqa team are grateful for the help and hard work of many contributors like yourself.
-The following contributors have submitted pull requests tomozillians-tests:
+The following contributors have submitted pull requests to mozillians-tests:
 
 https://github.com/mozilla/mozillians-tests/contributors
 
 Getting involved as a contributor
 ---------------------------------
 
-We love working with contributors to improve the Selenium test coverage for mozillians-tests, but it does require a few skills.  You will need to be familiar with Python, Selenium, and working with GitHub.
+We love working with contributors to improve the Selenium test coverage for mozillians-tests but it does require a few skills.  You will need to be familiar with Python, Selenium, and have a working knowledge of GitHub.
 
-If you know Python, it's worth having a look at the Selenium framework to understand the basic concepts of browser-based testing and the page objects pattern.
+If you are comfortable with Python, it's worth having a look at the Selenium framework to understand the basic concepts of browser-based testing and the page objects pattern.
 
-If you need to brush up on programming but are eager to start contributing immediately, please consider helping us find bugs in Mozilla [Firefox][firefox] or find bugs in the Mozilla web-sites tested by the [WebQA][webqa] team.
+If you need to brush up on programming but are eager to start contributing immediately, please consider helping out by doing manual testing.  You can help find bugs in Mozilla [Firefox][firefox] or find bugs in the Mozilla web sites tested by the [WebQA][webqa] team.  We have many projects that would be thrilled to have your help!
 
 To brush up on Python skills before engaging with us, [Dive Into Python][dive] is an excellent resource.  MIT also has [lecture notes on Python][mit] available through their open courseware.  The programming concepts you will need to know include functions, working with classes, and the basics of object-oriented programming.
 
 Questions are always welcome
 ----------------------------
-While we take pains to keep our documentation updated, the best source of information is those of us who work on the project.  Don't be afraid to join us in irc.mozilla.org #mozwebqa to ask questions about our Selenium tests.  Mozilla also hosts the #mozillians chat room to answer your general questions about contributing to Mozilla.
+While we take great pains to keep our documentation updated, the best source of information is those of us who work on the project.  Don't be afraid to join us in irc.mozilla.org #mozwebqa to ask questions about our Selenium tests.  Mozilla also hosts the #mozillians chat room to answer your general questions about contributing to Mozilla.
 
 How to setup and build Mozillians tests locally
 ------------------------------------------------
 This repository contains Selenium tests used to test
-development: http://mozillians-dev.allizom.org or
-staging: http://mozillians.allizom.org
-production: http://mozillian.org
+
+* development: http://mozillians-dev.allizom.org or
+* staging: http://mozillians.allizom.org
+* production: http://mozillian.org
 
 Mozilla maintains a guide to running Automated tests on our QMO website:
 
@@ -41,10 +42,7 @@ https://wiki.mozilla.org/QA_SoftVision_Team/WebQA_Automation
 
 #### Git
 If you have cloned this project already then you can skip this!
-GitHub has excellent guides for [Windows][GitWin], [MacOSX][GitMacOSX] and [Linux][GitLinux].
-[GitWin]: http://help.github.com/win-set-up-git/
-[GitMacOSX]: http://help.github.com/mac-set-up-git/
-[GitLinux]: http://help.github.com/linux-set-up-git/
+GitHub has excellent guides for [Windows][GitWin], [MacOSX][GitMacOSX], and [Linux][GitLinux].
 
 #### Python
 Before you will be able to run these tests you will need to have [Python 2.6][Python] installed.
@@ -139,6 +137,9 @@ This software is licensed under the [MPL] 2.0:
 [firefox]: http://quality.mozilla.org/teams/desktop-firefox/
 [webdriver]: http://seleniumhq.org/docs/03_webdriver.html
 [mozwebqa]:http://02.chat.mibbit.com/?server=irc.mozilla.org&channel=#mozwebqa
+[GitWin]: http://help.github.com/win-set-up-git/
+[GitMacOSX]: http://help.github.com/mac-set-up-git/
+[GitLinux]: http://help.github.com/linux-set-up-git/
 [mozillians]:http://02.chat.mibbit.com/?server=irc.mozilla.org&channel=#mozillians
 [GitHub Templates]: https://github.com/mozilla/mozwebqa-test-templates
 [Style Guide]: https://wiki.mozilla.org/QA/Execution/Web_Testing/Docs/Automation/StyleGuide
