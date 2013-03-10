@@ -83,6 +83,11 @@ class Base(Page):
     def footer(self):
         return self.Footer(self.testsetup)
 
+    def open_user_profile(self, username):
+        self.get_relative_path(u'/u/%s' % username)
+        from pages.profile import Profile
+        return Profile(self.testsetup)
+
     class Header(Page):
 
         _search_box_locator = (By.NAME, 'q')

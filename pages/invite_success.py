@@ -22,7 +22,7 @@ class InviteSuccess(Base):
 
     @property
     def success_message_header(self):
-        return  self.selenium.find_element(*self._success_message_head_locator).text
+        return self.selenium.find_element(*self._success_message_head_locator).text
 
     @property
     def is_invite_another_mozillian_link_present(self):
