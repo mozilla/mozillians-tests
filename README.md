@@ -1,7 +1,7 @@
 Web QA Tests for mozillians.org - A community phonebook for core contributors
 =============================================================================
 
-Thank you for checking out Mozilla's Mozillians test suite! Mozilla and the Mozwebqa team are grateful for the help and hard work of many contributors like yourself.
+Thank you for checking out Mozilla's Mozillians test suite! Mozilla and the Web QA team are grateful for the help and hard work of many contributors like yourself.
 The following contributors have submitted pull requests to mozillians-tests:
 
 https://github.com/mozilla/mozillians-tests/contributors
@@ -13,7 +13,7 @@ We love working with contributors to improve the Selenium test coverage for mozi
 
 If you are comfortable with Python, it's worth having a look at the Selenium framework to understand the basic concepts of browser-based testing and the page objects pattern.
 
-If you need to brush up on programming but are eager to start contributing immediately, please consider helping out by doing manual testing.  You can help find bugs in Mozilla [Firefox][firefox] or find bugs in the Mozilla web sites tested by the [WebQA][webqa] team.  We have many projects that would be thrilled to have your help!
+If you need to brush up on programming but are eager to start contributing immediately, please consider helping out by doing manual testing.  You can help find bugs in Mozilla [Firefox][firefox] or find bugs in the Mozilla web sites tested by the [Web QA][webqa] team.  We have many projects that would be thrilled to have your help!
 
 To brush up on Python skills before engaging with us, [Dive Into Python][dive] is an excellent resource.  MIT also has [lecture notes on Python][mit] available through their open courseware.  The programming concepts you will need to know include functions, working with classes, and the basics of object-oriented programming.
 
@@ -21,11 +21,11 @@ Questions are always welcome
 ----------------------------
 While we take great pains to keep our documentation updated, the best source of information is those of us who work on the project.  Don't be afraid to join us in irc.mozilla.org #mozwebqa to ask questions about our Selenium tests.  Mozilla also hosts the #mozillians chat room to answer your general questions about contributing to Mozilla.
 
-How to setup and build Mozillians tests locally
-------------------------------------------------
-This repository contains Selenium tests used to test
+How to setup and run Mozillians tests locally
+---------------------------------------------
+This repository contains Selenium tests used to test:
 
-* development: http://mozillians-dev.allizom.org or
+* development: http://mozillians-dev.allizom.org
 * staging: http://mozillians.allizom.org
 * production: http://mozillian.org
 
@@ -107,7 +107,7 @@ The mozwebqa plugin has advanced command line options for reporting and using br
 
 __Troubleshooting__
 
-If the test run hangs with Firefox open but no URL gets entered in the address box, some combination of the Firefox version, the Selenium RC version, and the python Selenium bindings version may not be compatible. Upgrading each of them to latest should fix it.
+If the test run hangs with Firefox open but no URL gets entered in the address box, some combination of the Firefox version, and the python Selenium bindings version may not be compatible. Upgrading each of them to latest should fix it.
 
 Writing Tests
 -------------
