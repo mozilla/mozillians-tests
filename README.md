@@ -147,7 +147,7 @@ __Note__
 Some options for py.test are pre-specified by the file mozillians-tests/mozwebqa.cfg
 
 The mozwebqa plugin has advanced command line options for reporting and using
-browsers. See the documentation on [davehunt's pytest mozwebqa github][pymozwebqa]:
+browsers. See the documentation on [davehunt's pytest mozwebqa github][pymozwebqa].
 [pymozwebqa]: https://github.com/davehunt/pytest-mozwebqa
 
 __Troubleshooting__
