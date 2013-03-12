@@ -70,7 +70,7 @@ While most of us have had some experience using virtual machines, [virtualenv][v
 This is not necessary but is really helpful if you are working on multiple Python projects that use different versions of modules.
 
 #### Credentials
-Some of the tests in mozillians-tests require accounts for https://mozillians.allizom.or. You'll need to create three sets of credentials with varying privilege levels.
+Some of the tests in mozillians-tests require accounts for https://mozillians.allizom.org. You'll need to create three sets of credentials with varying privilege levels.
 
 1. Create three username and password combinations on https://mozillians.allizom.org
 2. Join #commtools and ask for one of these users to be vouched (or ask someone on #mozwebqa to do this for you)
