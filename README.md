@@ -70,6 +70,19 @@ Before you will be able to run these tests you will need to have
 [Python 2.6][Python] installed.
 [Python]: http://www.python.org/download/releases/2.6.6/
 
+####Virtualenv and Virtualenvwrapper (Optional/Intermediate level)
+While most of us have had some experience using virtual machines, 
+[virtualenv][venv] is something else entirely.  It's used to keep libraries
+that you install from clashing and messing up your local environment.  After
+installing virtualenv, installing [virtualenvwrapper][wrapper] will give you
+some nice commands to use with virtualenvwrapper. [virtualenv][venv] will allow
+you to install Python modules and run your tests in a sandboxed environment. 
+
+__note__
+
+This is not necessary but is really helpful if you are working on multiple
+Python projects that use different versions of modules.
+
 Run
 
     easy_install pip
@@ -90,17 +103,6 @@ If you are running on Ubuntu/Debian you will need to do following first
     sudo apt-get install python-setuptools
 
 to install the required Python libraries.
-
-####Virtualenv and Virtualenvwrapper (Optional/Intermediate level)
-While most of us have had some experience using virtual machines, 
-[virtualenv][venv] is something else entirely.  It's used to keep libraries
-that you install from clashing and messing up your local environment.  After
-installing virtualenv, installing [virtualenvwrapper][wrapper] will give you
-some nice commands to use with virtualenvwrapper. [virtualenv][venv] will allow
-you to install Python modules and run your tests in a sandboxed environment. 
-
-This is not necessary but is really helpful if you are working on multiple
-Python projects that use different versions of modules.
 
 #### Credentials
 Some of the tests in mozillians-tests require accounts for 
