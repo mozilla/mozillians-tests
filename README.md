@@ -117,8 +117,13 @@ with varying privilege levels.
 Before each test run, clean up the repo:
     find . \( -name 'results*' -or -name '*.pyc' \) -print0 | xargs -0 rm -Rf
 
-To run tests locally its a simple case of calling the command below from this
-directory
+To run tests locally it is as simple as calling <code>py.test</code> with
+several flags. To run testcases that do not modify or delete data:
+
+    py.test --driver=firefox --baseurl=http://mozillians.allizom.org --credentials=/full/path/to/credentials.yaml .
+
+To run testcases that are known to change or delete account data use the
+<code>--destructive</code> flag:
 
     py.test --driver=firefox --baseurl=http://mozillians.allizom.org --destructive --credentials=/full/path/to/credentials.yaml .
 
