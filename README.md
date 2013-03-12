@@ -56,6 +56,11 @@ followed by
 
     sudo pip install -r requirements/mozwebqa.txt
 
+#### Submodules
+Be sure to retrieve and initialize the git submodules:
+
+    git submodule update --init
+
 __note__
 
 If you are running on Ubuntu/Debian you will need to do following first
