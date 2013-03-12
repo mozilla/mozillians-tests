@@ -128,6 +128,7 @@ To run testcases that are known to change or delete account data use the
     py.test --driver=firefox --baseurl=http://mozillians.allizom.org --destructive --credentials=/full/path/to/credentials.yaml .
 
 __Output__
+
 Output of a test run should look something like this:
 
     ============================= test session starts ==============================
