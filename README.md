@@ -130,15 +130,15 @@ To run testcases that are known to change or delete account data use the
 __Output__
 Output of a test run should look something like this:
 
-	============================= test session starts ==============================
-	collected 15 items 
+    ============================= test session starts ==============================
+    collected 15 items 
 
-	tests/test_about_page.py ..
-	tests/test_account.py ..
-	tests/test_invite.py ..
-	tests/test_profile.py ...x.x
-	tests/test_search.py ...
-	==================== 13 passed, 2 xpassed in 172.03 seconds ====================
+    tests/test_about_page.py ..
+    tests/test_account.py ..
+    tests/test_invite.py ..
+    tests/test_profile.py ...x.x
+    tests/test_search.py ...
+    ==================== 13 passed, 2 xpassed in 172.03 seconds ====================
 
 __Note__
 "~" will not resolve to the home directory when used in the py.test command line.
