@@ -1,7 +1,11 @@
-Web QA Tests for mozillians.org - A community phonebook for core contributors
-=============================================================================
+Web QA Tests for mozillians.org
+===============================
 
-Thank you for checking out Mozilla's Mozillians test suite! Mozilla and the Web QA team are grateful for the help and hard work of many contributors like yourself.
+A community phonebook for core contributors
+-------------------------------------------
+
+Thank you for checking out Mozilla's Mozillians test suite! Mozilla and the Web
+QA team are grateful for the help and hard work of many contributors like yourself.
 The following contributors have submitted pull requests to mozillians-tests:
 
 https://github.com/mozilla/mozillians-tests/contributors
@@ -9,17 +13,33 @@ https://github.com/mozilla/mozillians-tests/contributors
 Getting involved as a contributor
 ---------------------------------
 
-We love working with contributors to improve the Selenium test coverage for mozillians-tests but it does require a few skills.  You will need to be familiar with Python, Selenium, and have a working knowledge of GitHub.
+We love working with contributors to improve the Selenium test coverage for
+mozillians-tests but it does require a few skills.  You will need to be familiar
+with Python, Selenium, and have a working knowledge of GitHub.
 
-If you are comfortable with Python, it's worth having a look at the Selenium framework to understand the basic concepts of browser-based testing and the page objects pattern.
+If you are comfortable with Python, it's worth having a look at the Selenium
+framework to understand the basic concepts of browser-based testing and the 
+page objects pattern.
 
-If you need to brush up on programming but are eager to start contributing immediately, please consider helping out by doing manual testing.  You can help find bugs in Mozilla [Firefox][firefox] or find bugs in the Mozilla web sites tested by the [Web QA][webqa] team.  We have many projects that would be thrilled to have your help!
+If you need to brush up on programming but are eager to start contributing
+immediately, please consider helping out by doing manual testing.  You can
+help find bugs in Mozilla [Firefox][firefox] or find bugs in the Mozilla web
+sites tested by the [Web QA][webqa] team.  We have many projects that would be
+thrilled to have your help!
 
-To brush up on Python skills before engaging with us, [Dive Into Python][dive] is an excellent resource.  MIT also has [lecture notes on Python][mit] available through their open courseware.  The programming concepts you will need to know include functions, working with classes, and the basics of object-oriented programming.
+To brush up on Python skills before engaging with us, [Dive Into Python][dive]
+is an excellent resource.  MIT also has [lecture notes on Python][mit] available
+through their open courseware.  The programming concepts you will need to know
+include functions, working with classes, and the basics of object-oriented 
+programming.
 
 Questions are always welcome
 ----------------------------
-While we take great pains to keep our documentation updated, the best source of information is those of us who work on the project.  Don't be afraid to join us in irc.mozilla.org #mozwebqa to ask questions about our Selenium tests.  Mozilla also hosts the #mozillians chat room to answer your general questions about contributing to Mozilla.
+While we take great pains to keep our documentation updated, the best source of
+information is those of us who work on the project.  Don't be afraid to join us
+in irc.mozilla.org #mozwebqa to ask questions about our Selenium tests.  Mozilla
+also hosts the #mozillians chat room to answer your general questions about
+contributing to Mozilla.
 
 How to setup and run Mozillians tests locally
 ---------------------------------------------
@@ -42,11 +62,26 @@ https://wiki.mozilla.org/QA_SoftVision_Team/WebQA_Automation
 
 #### Git
 If you have cloned this project already then you can skip this!
-GitHub has excellent guides for [Windows][GitWin], [MacOSX][GitMacOSX], and [Linux][GitLinux].
+GitHub has excellent guides for [Windows][GitWin], [MacOSX][GitMacOSX], and
+[Linux][GitLinux].
 
 #### Python
-Before you will be able to run these tests you will need to have [Python 2.6][Python] installed.
+Before you will be able to run these tests you will need to have
+[Python 2.6][Python] installed.
 [Python]: http://www.python.org/download/releases/2.6.6/
+
+####Virtualenv and Virtualenvwrapper (Optional/Intermediate level)
+While most of us have had some experience using virtual machines, 
+[virtualenv][venv] is something else entirely.  It's used to keep libraries
+that you install from clashing and messing up your local environment.  After
+installing virtualenv, installing [virtualenvwrapper][wrapper] will give you
+some nice commands to use with virtualenvwrapper. [virtualenv][venv] will allow
+you to install Python modules and run your tests in a sandboxed environment. 
+
+__note__
+
+This is not necessary but is really helpful if you are working on multiple
+Python projects that use different versions of modules.
 
 Run
 
@@ -69,13 +104,10 @@ If you are running on Ubuntu/Debian you will need to do following first
 
 to install the required Python libraries.
 
-####Virtualenv and Virtualenvwrapper (Optional/Intermediate level)
-While most of us have had some experience using virtual machines, [virtualenv][venv] is something else entirely.  It's used to keep libraries that you install from clashing and messing up your local environment.  After installing virtualenv, installing [virtualenvwrapper][wrapper] will give you some nice commands to use with virtualenvwrapper. [virtualenv][venv] will allow you to install Python modules and run your tests in a sandboxed environment. 
-
-This is not necessary but is really helpful if you are working on multiple Python projects that use different versions of modules.
-
 #### Credentials
-Some of the tests in mozillians-tests require accounts for https://mozillians.allizom.org. You'll need to create three sets of credentials with varying privilege levels.
+Some of the tests in mozillians-tests require accounts for 
+https://mozillians.allizom.org. You'll need to create three sets of credentials
+with varying privilege levels.
 
 1. Create three username and password combinations on https://mozillians.allizom.org
 2. Join #commtools and ask for one of these users to be vouched (or ask someone on #mozwebqa to do this for you)
@@ -85,34 +117,44 @@ Some of the tests in mozillians-tests require accounts for https://mozillians.al
 Before each test run, clean up the repo:
     find . \( -name 'results*' -or -name '*.pyc' \) -print0 | xargs -0 rm -Rf
 
-To run tests locally its a simple case of calling the command below from this directory
+To run tests locally it is as simple as calling <code>py.test</code> with
+several flags. To run testcases that do not modify or delete data:
+
+    py.test --driver=firefox --baseurl=http://mozillians.allizom.org --credentials=/full/path/to/credentials.yaml .
+
+To run testcases that are known to change or delete account data use the
+<code>--destructive</code> flag:
 
     py.test --driver=firefox --baseurl=http://mozillians.allizom.org --destructive --credentials=/full/path/to/credentials.yaml .
 
 __Output__
+
 Output of a test run should look something like this:
 
-	============================= test session starts ==============================
-	collected 15 items 
+    ============================= test session starts ==============================
+    collected 15 items 
 
-	tests/test_about_page.py ..
-	tests/test_account.py ..
-	tests/test_invite.py ..
-	tests/test_profile.py ...x.x
-	tests/test_search.py ...
-	==================== 13 passed, 2 xpassed in 172.03 seconds ====================
+    tests/test_about_page.py ..
+    tests/test_account.py ..
+    tests/test_invite.py ..
+    tests/test_profile.py ...x.x
+    tests/test_search.py ...
+    ==================== 13 passed, 2 xpassed in 172.03 seconds ====================
 
 __Note__
 "~" will not resolve to the home directory when used in the py.test command line.
 
 Some options for py.test are pre-specified by the file mozillians-tests/mozwebqa.cfg
 
-The mozwebqa plugin has advanced command line options for reporting and using browsers. See the documentation on [davehunt's pytest mozwebqa github][pymozwebqa]:
+The mozwebqa plugin has advanced command line options for reporting and using
+browsers. See the documentation on [davehunt's pytest mozwebqa github][pymozwebqa].
 [pymozwebqa]: https://github.com/davehunt/pytest-mozwebqa
 
 __Troubleshooting__
 
-If the test run hangs with Firefox open but no URL gets entered in the address box, some combination of the Firefox version, and the python Selenium bindings version may not be compatible. Upgrading each of them to latest should fix it.
+If the test run hangs with Firefox open but no URL gets entered in the address
+box, some combination of the Firefox version, and the python Selenium bindings
+version may not be compatible. Upgrading each of them to latest should fix it.
 
 Writing Tests
 -------------
