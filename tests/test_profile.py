@@ -152,3 +152,77 @@ class TestProfile(BaseTest):
         Assert.equal(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2', profile_page.skills)
         Assert.equal(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2', profile_page.languages)
         Assert.equal('Athenes, Greece\nGreece', profile_page.location)
+
+    @pytest.mark.nondestructive
+    def test_that_filter_by_city_works(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+
+        profile_page = home_page.open_user_profile(u'mbrandt')
+        city = profile_page.city
+        country = profile_page.country
+        search_results_page = profile_page.click_city_name(city=city, country=country)
+        expected_results_title = u'Mozillians in %s, %s' % (city, country)
+        actual_results_title = search_results_page.title
+
+        Assert.true(search_results_page.is_the_current_page)
+        Assert.equal(
+            expected_results_title, actual_results_title,
+            u'''Search results title is incorrect.
+                Expected: %s, but got: %s''' % (expected_results_title, actual_results_title))
+
+        random_profile = search_results_page.get_random_profile()
+        random_profile_city = random_profile.city
+
+        Assert.equal(
+            city, random_profile_city,
+            u'Expected city: %s, but got: %s' % (city, random_profile_city))
+
+    @pytest.mark.nondestructive
+    def test_that_filter_by_region_works(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+
+        profile_page = home_page.open_user_profile(u'mbrandt')
+        region = profile_page.region
+        country = profile_page.country
+        search_results_page = profile_page.click_region_name(region=region, country=country)
+        expected_results_title = u'Mozillians in %s, %s' % (region, country)
+        actual_results_title = search_results_page.title
+
+        Assert.true(search_results_page.is_the_current_page)
+        Assert.equal(
+            expected_results_title, actual_results_title,
+            u'''Search results title is incorrect.
+                Expected: %s, but got: %s''' % (expected_results_title, actual_results_title))
+
+        random_profile = search_results_page.get_random_profile()
+        random_profile_region = random_profile.region
+
+        Assert.equal(
+            region, random_profile_region,
+            u'Expected region: %s, but got: %s' % (region, random_profile_region))
+
+    @pytest.mark.nondestructive
+    def test_that_filter_by_county_works(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+
+        profile_page = home_page.open_user_profile(u'mbrandt')
+        country = profile_page.country
+        search_results_page = profile_page.click_country_name(country=country)
+        expected_results_title = u'Mozillians in %s' % country
+        actual_results_title = search_results_page.title
+
+        Assert.true(search_results_page.is_the_current_page)
+        Assert.equal(
+            expected_results_title, actual_results_title,
+            u'''Search results title is incorrect.
+                Expected: %s, but got: %s''' % (expected_results_title, actual_results_title))
+
+        random_profile = search_results_page.get_random_profile()
+        random_profile_country = random_profile.country
+
+        Assert.equal(
+            country, random_profile_country,
+            u'Expected country: %s, but got: %s' % (country, random_profile_country))

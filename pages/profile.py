@@ -22,6 +22,9 @@ class Profile(Base):
     _skills_locator = (By.ID, 'skills')
     _languages_locator = (By.ID, 'languages')
     _location_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd')
+    _city_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[contains(@href, "city")]')
+    _region_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[contains(@href, "region")]')
+    _country_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[last()]')
 
     @property
     def name(self):
@@ -53,15 +56,30 @@ class Profile(Base):
 
     @property
     def city(self):
-        return self.location.split(', ')[0]
+        return self.find_element(*self._city_locator).text
 
     @property
     def region(self):
-        return self.location.split(', ')[1]
+        return self.find_element(*self._region_locator).text
 
     @property
     def country(self):
-        return self.location.split('\n')[1]
+        return self.find_element(*self._country_locator).text
+
+    def click_city_name(self, **kwargs):
+        self.find_element(*self._city_locator).click()
+        from location_search_results import LocationSearchResults
+        return LocationSearchResults(self.testsetup, **kwargs)
+
+    def click_region_name(self, **kwargs):
+        self.find_element(*self._region_locator).click()
+        from location_search_results import LocationSearchResults
+        return LocationSearchResults(self.testsetup, **kwargs)
+
+    def click_country_name(self, **kwargs):
+        self.find_element(*self._country_locator).click()
+        from location_search_results import LocationSearchResults
+        return LocationSearchResults(self.testsetup, **kwargs)
 
     @property
     def languages(self):
