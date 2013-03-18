@@ -67,8 +67,8 @@ GitHub has excellent guides for [Windows][GitWin], [MacOSX][GitMacOSX], and
 
 #### Python
 Before you will be able to run these tests you will need to have
-[Python 2.6][Python] installed.
-[Python]: http://www.python.org/download/releases/2.6.6/
+[Python 2.6.8+][Python] installed.
+[Python]: http://www.python.org/download/releases/2.6.8/
 
 ####Virtualenv and Virtualenvwrapper (Optional/Intermediate level)
 While most of us have had some experience using virtual machines, 
