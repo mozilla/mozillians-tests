@@ -158,7 +158,7 @@ class TestProfile(BaseTest):
         home_page = Home(mozwebqa)
         home_page.login()
 
-        profile_page = home_page.open_user_profile(u'mbrandt')
+        profile_page = home_page.open_user_profile(u'MozilliansUser')
         city = profile_page.city
         country = profile_page.country
         search_results_page = profile_page.click_city_name(city=city, country=country)
@@ -183,7 +183,7 @@ class TestProfile(BaseTest):
         home_page = Home(mozwebqa)
         home_page.login()
 
-        profile_page = home_page.open_user_profile(u'mbrandt')
+        profile_page = home_page.open_user_profile(u'MozilliansUser')
         region = profile_page.region
         country = profile_page.country
         search_results_page = profile_page.click_region_name(region=region, country=country)
@@ -208,7 +208,7 @@ class TestProfile(BaseTest):
         home_page = Home(mozwebqa)
         home_page.login()
 
-        profile_page = home_page.open_user_profile(u'mbrandt')
+        profile_page = home_page.open_user_profile(u'MozilliansUser')
         country = profile_page.country
         search_results_page = profile_page.click_country_name(country=country)
         expected_results_title = u'Mozillians in %s' % country
