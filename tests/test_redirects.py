@@ -39,7 +39,7 @@ class TestRedirects:
             url = mozwebqa.base_url + resource
 
             # prevent redirects - we only want to check the value of the
-            # firest HTTP code.
+            # first HTTP status code.
             response = requests.get(url, allow_redirects=False)
             if response.status_code != requests.codes.found:
                 error_list.append('Expected 302 but got %s. %s' %
