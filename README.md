@@ -89,7 +89,7 @@ Run
 
 followed by
 
-    sudo pip install -r requirements/mozwebqa.txt
+    sudo pip install -r requirements.txt
 
 #### Submodules
 Be sure to retrieve and initialize the git submodules:
