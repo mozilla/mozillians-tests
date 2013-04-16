@@ -34,6 +34,14 @@ class TestRedirects:
 
         Assert.equal(0, len(error_list), error_list)
 
+    @pytest.mark.nondestructive
+    def test_200_for_anonymous_users(self, mozwebqa):
+        dirs = ['/pl/opensearch.xml', '/fr/register/', '/en-US/u/mbrandt/']
+        urls = self.make_absolute_paths(mozwebqa.base_url, dirs)
+        error_list = self.verify_http_response_codes(urls, 200)
+
+        Assert.equal(len(error_list), 0, error_list)
+
     def make_absolute_paths(self, url, dirs):
         urls = []
         for dir in dirs:
