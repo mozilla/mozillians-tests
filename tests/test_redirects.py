@@ -12,7 +12,6 @@ from unittestzero import Assert
 @pytest.mark.skip_selenium
 class TestRedirects:
 
-    @pytest.mark.xfail(reason='Disabled until Bug 846039 is fixed')
     @pytest.mark.nondestructive
     def test_302_redirect_for_anonomous_users(self, mozwebqa):
         dirs = ['/es/country/us/',
