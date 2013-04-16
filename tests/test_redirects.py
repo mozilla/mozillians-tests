@@ -13,7 +13,7 @@ from unittestzero import Assert
 class TestRedirects:
 
     @pytest.mark.nondestructive
-    def test_302_redirect_for_anonomous_users(self, mozwebqa):
+    def test_302_redirect_for_anonymous_users(self, mozwebqa):
         dirs = ['/es/country/us/',
                 '/sq/country/doesnotexist/',
                 '/hu/country/us/region/California/',
