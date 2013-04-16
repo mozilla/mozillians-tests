@@ -26,7 +26,7 @@ class TestRedirects:
              '/lt/user/edit/',
              '/en-US/invite/']
 
-    #@pytest.mark.xfail(reason='Disabled until Bug 846039 is fixed')
+    @pytest.mark.xfail(reason='Disabled until Bug 846039 is fixed')
     @pytest.mark.nondestructive
     def test_302_redirect_for_anonomous_users(self, mozwebqa):
         urls = self.make_absolute_paths(mozwebqa.base_url, self._dirs)
