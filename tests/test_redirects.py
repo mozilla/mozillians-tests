@@ -22,7 +22,6 @@ class TestRedirects:
                  '/zh-TW/group/webqa/',
                  '/zh-CN/group/258-l10n/toggle/',
                  '/sl/group/doesnotexit/',
-                 '/ru/u/MozilliansUser/',
                  '/pt-BR/u/moz.mozillians.unvouched/',
                  '/ca/u/UserDoesNotExist/',
                  '/nl/logout/',
