@@ -14,7 +14,7 @@ class TestRedirects:
 
     @pytest.mark.nondestructive
     def test_302_redirect_for_anonymous_users(self, mozwebqa):
-        dirs = ['/es/country/us/',
+        paths = ['/es/country/us/',
                 '/sq/country/doesnotexist/',
                 '/hu/country/us/region/California/',
                 '/pl/country/in/city/Gulbarga/',
@@ -27,15 +27,15 @@ class TestRedirects:
                 '/lt/user/edit/',
                 '/en-US/invite/',
                 '/fr/register/']
-        urls = self.make_absolute_paths(mozwebqa.base_url, dirs)
+        urls = self.make_absolute_paths(mozwebqa.base_url, paths)
         error_list = self.verify_http_response_codes(urls, 302)
 
         Assert.equal(0, len(error_list), error_list)
 
     @pytest.mark.nondestructive
     def test_200_for_anonymous_users(self, mozwebqa):
-        dirs = ['/pl/opensearch.xml', '/nl/u/MozilliansUser/']
-        urls = self.make_absolute_paths(mozwebqa.base_url, dirs)
+        paths = ['/pl/opensearch.xml', '/nl/u/MozilliansUser/']
+        urls = self.make_absolute_paths(mozwebqa.base_url, paths)
         error_list = self.verify_http_response_codes(urls, 200)
 
         Assert.equal(len(error_list), 0, error_list)
