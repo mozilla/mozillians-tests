@@ -12,7 +12,7 @@ from unittestzero import Assert
 @pytest.mark.skip_selenium
 class TestRedirects:
 
-    _dirs = ['/es/country/us/',
+    _paths = ['/es/country/us/',
              '/sq/country/doesnotexist/',
              '/ar/country/us/region/California/',
              '/pl/country/us/city/',
@@ -29,15 +29,15 @@ class TestRedirects:
     @pytest.mark.xfail(reason='Disabled until Bug 846039 is fixed')
     @pytest.mark.nondestructive
     def test_302_redirect_for_anonomous_users(self, mozwebqa):
-        urls = self.make_absolute_paths(mozwebqa.base_url, self._dirs)
+        urls = self.make_absolute_paths(mozwebqa.base_url, self._paths)
         error_list = self.verify_http_response_codes(urls, 302)
 
         Assert.equal(0, len(error_list), error_list)
 
     @pytest.mark.nondestructive
     def test_200_for_anonymous_users(self, mozwebqa):
-        dirs = ['/pl/opensearch.xml', '/nl/u/MozilliansUser/']
-        urls = self.make_absolute_paths(mozwebqa.base_url, dirs)
+        paths = ['/pl/opensearch.xml', '/nl/u/MozilliansUser/']
+        urls = self.make_absolute_paths(mozwebqa.base_url, paths)
         error_list = self.verify_http_response_codes(urls, 200)
 
         Assert.equal(len(error_list), 0, error_list)
