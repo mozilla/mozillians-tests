@@ -12,7 +12,7 @@ from unittestzero import Assert
 @pytest.mark.skip_selenium
 class TestRedirects:
 
-    _urls = ['/es/country/us/',
+    _paths = ['/es/country/us/',
              '/sq/country/doesnotexist/',
              '/ar/country/us/region/California/',
              '/pl/country/us/city/',
@@ -29,15 +29,32 @@ class TestRedirects:
     @pytest.mark.xfail(reason='Disabled until Bug 846039 is fixed')
     @pytest.mark.nondestructive
     def test_302_redirect_for_anonomous_users(self, mozwebqa):
-        error_list = []
-        for resource in self._urls:
-            url = mozwebqa.base_url + resource
-
-            # prevent redirects - we only want to check the value of the
-            # first HTTP status code.
-            response = requests.get(url, allow_redirects=False)
-            if response.status_code != requests.codes.found:
-                error_list.append('Expected 302 but got %s. %s' %
-                                  (response.status_code, response.url))
+        urls = self.make_absolute_paths(mozwebqa.base_url, self._paths)
+        error_list = self.verify_http_response_codes(urls, 302)
 
         Assert.equal(0, len(error_list), error_list)
+
+    @pytest.mark.nondestructive
+    def test_200_for_anonymous_users(self, mozwebqa):
+        paths = ['/pl/opensearch.xml', '/nl/u/MozilliansUser/']
+        urls = self.make_absolute_paths(mozwebqa.base_url, paths)
+        error_list = self.verify_http_response_codes(urls, 200)
+
+        Assert.equal(len(error_list), 0, error_list)
+
+    def make_absolute_paths(self, url, paths):
+        urls = []
+        for path in paths:
+            urls.append(url + path)
+        return urls
+
+    def verify_http_response_codes(self, urls, expected_http_value):
+        error_list = []
+        for url in urls:
+            # prevent redirects, we only want the value of the 1st HTTP status
+            response = requests.get(url, allow_redirects=False)
+            http_status = response.status_code
+            if http_status != expected_http_value:
+                error_list.append('Expected %s but got %s. %s' %
+                                  (expected_http_value, http_status, url))
+        return error_list
