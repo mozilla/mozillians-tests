@@ -42,10 +42,10 @@ class TestRedirects:
 
         Assert.equal(len(error_list), 0, error_list)
 
-    def make_absolute_paths(self, url, dirs):
+    def make_absolute_paths(self, url, paths):
         urls = []
-        for dir in dirs:
-            urls.append(url + dir)
+        for path in paths:
+            urls.append(url + path)
         return urls
 
     def verify_http_response_codes(self, urls, expected_http_value):
