@@ -34,7 +34,7 @@ class TestRedirects:
 
         Assert.equal(0, len(error_list), error_list)
 
-    @pytest.mark.xfail(reason='Disabled until Bug 846039 is fixed')
+    @pytest.mark.xfail(reason='Bug 846039 - Create additional authorization-state-specific routing rules')
     @pytest.mark.nondestructive
     def test_200_for_anonymous_users(self, mozwebqa):
         paths = ['/pl/opensearch.xml', '/nl/u/MozilliansUser/']
