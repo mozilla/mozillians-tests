@@ -12,24 +12,23 @@ from unittestzero import Assert
 @pytest.mark.skip_selenium
 class TestRedirects:
 
-    _paths = ['/es/country/us/',
-             '/sq/country/doesnotexist/',
-             '/ar/country/us/region/California/',
-             '/pl/country/us/city/',
-             '/zh-TW/group/webqa/',
-             '/zh-CN/group/258-l10n/toggle/',
-             '/sl/group/doesnotexit/',
-             '/rl/u/MozilliansUser/',
-             '/pt-BR/u/moz.mozillians.unvouched/',
-             '/ca/u/UserDoesNotExist',
-             '/nl/logout/',
-             '/lt/user/edit/',
-             '/en-US/invite/']
-
-    @pytest.mark.xfail(reason='Disabled until Bug 846039 is fixed')
     @pytest.mark.nondestructive
-    def test_302_redirect_for_anonomous_users(self, mozwebqa):
-        urls = self.make_absolute_paths(mozwebqa.base_url, self._paths)
+    @pytest.mark.nondestructive
+    def test_302_redirect_for_anonymous_users(self, mozwebqa):
+        paths = ['/es/country/us/',
+                '/sq/country/doesnotexist/',
+                '/hu/country/us/region/California/',
+                '/pl/country/in/city/Gulbarga/',
+                '/zh-TW/group/webqa/',
+                '/zh-CN/group/258-l10n/toggle/',
+                '/sl/group/doesnotexit/',
+                '/pt-BR/u/moz.mozillians.unvouched/',
+                '/ca/u/UserDoesNotExist/',
+                '/nl/logout/',
+                '/lt/user/edit/',
+                '/en-US/invite/',
+                '/fr/register/']
+        urls = self.make_absolute_paths(mozwebqa.base_url, paths)
         error_list = self.verify_http_response_codes(urls, 302)
 
         Assert.equal(0, len(error_list), error_list)
