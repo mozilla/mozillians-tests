@@ -13,6 +13,7 @@ from unittestzero import Assert
 class TestRedirects:
 
     @pytest.mark.nondestructive
+    @pytest.mark.nondestructive
     def test_302_redirect_for_anonymous_users(self, mozwebqa):
         paths = ['/es/country/us/',
                 '/sq/country/doesnotexist/',
@@ -32,6 +33,7 @@ class TestRedirects:
 
         Assert.equal(0, len(error_list), error_list)
 
+    @pytest.mark.xfail(reason='Bug 846039 - Create additional authorization-state-specific routing rules')
     @pytest.mark.nondestructive
     def test_200_for_anonymous_users(self, mozwebqa):
         paths = ['/pl/opensearch.xml', '/nl/u/MozilliansUser/']
@@ -40,10 +42,10 @@ class TestRedirects:
 
         Assert.equal(len(error_list), 0, error_list)
 
-    def make_absolute_paths(self, url, dirs):
+    def make_absolute_paths(self, url, paths):
         urls = []
-        for dir in dirs:
-            urls.append(url + dir)
+        for path in paths:
+            urls.append(url + path)
         return urls
 
     def verify_http_response_codes(self, urls, expected_http_value):
