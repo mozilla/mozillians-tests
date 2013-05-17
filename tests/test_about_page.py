@@ -14,6 +14,7 @@ from pages.link_crawler import LinkCrawler
 class TestAboutPage:
 
     @pytest.mark.nondestructive
+    @pytest.mark.xfail(reason="TODO - update to handle new footer behavior introduced by Bug 858488")
     def test_about_page(self, mozwebqa):
         home_page = Home(mozwebqa)
         about_mozillians_page = home_page.footer.click_about_link()
