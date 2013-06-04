@@ -25,6 +25,4 @@ class TestInvite:
         Assert.true(invite_page.is_csrf_token_present)
         mail_address = "validuser@example.com"
         invite_success_page = invite_page.invite(mail_address)
-        Assert.contains(mail_address, invite_success_page.success_message_body)
-        Assert.equal('Invitation Sent!', invite_success_page.success_message_header)
-        Assert.true(invite_success_page.is_invite_another_mozillian_link_present)
+        Assert.equal("%s has been invited to Mozillians. They'll receive an email with instructions on how to join. You can invite another Mozillian if you like." % mail_address, invite_success_page.success_message)
