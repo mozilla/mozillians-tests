@@ -7,7 +7,7 @@ certifi==0.0.8
 chardet==1.0.1
 py==1.4.9
 pytest==2.2.4
-pytest-mozwebqa==1.0
+pytest-mozwebqa==1.1
 pytest-xdist==1.8
 requests==0.13.2
 selenium
