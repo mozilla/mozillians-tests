@@ -143,7 +143,7 @@ class Base(Page):
 
     class Footer(Page):
 
-        _about_mozillians_link_locator = (By.CSS_SELECTOR, '#footer-links a:nth-child(1)')
+        _about_mozillians_link_locator = (By.CSS_SELECTOR, '.footer-nav.details > li:nth-child(1) > a')
         _language_selector_locator = (By.ID, 'language')
         _language_selection_ok_button = (By.CSS_SELECTOR, '#language-switcher button')
 
