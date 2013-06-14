@@ -16,13 +16,13 @@ from pages.page import Page
 class Base(Page):
 
     _csrf_token_locator = (By.NAME, 'csrfmiddlewaretoken')
-    _logged_in_marker_locator = (By.CSS_SELECTOR, "body[class~='auth']")
+    _logged_in_marker_locator = (By.CSS_SELECTOR, '#nav-main .dropdown-toggle')
 
     _pending_approval_locator = (By.ID, 'pending-approval')
     _account_created_successfully_locator = (By.CSS_SELECTOR, 'div.alert:nth-child(2)')
 
     # Not logged in
-    _browserid_login_locator = (By.CSS_SELECTOR, 'a.browserid-login > img')
+    _browserid_login_locator = (By.ID, 'create_profile')
 
     @property
     def page_title(self):
@@ -91,7 +91,7 @@ class Base(Page):
     class Header(Page):
 
         _search_box_locator = (By.NAME, 'q')
-        _profile_menu_locator = (By.CSS_SELECTOR, '#profile_menu > a.dropdown-toggle')
+        _profile_menu_locator = (By.CSS_SELECTOR, '#nav-main > a.dropdown-toggle')
 
         #menu items
         _dropdown_menu_locator = (By.CSS_SELECTOR, 'ul.dropdown-menu')
