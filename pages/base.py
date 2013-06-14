@@ -41,7 +41,7 @@ class Base(Page):
     def was_account_created_successfully(self):
         return self.is_element_visible(*self._account_created_successfully_locator)
 
-    #Not logged in
+    # Not logged in
 
     @property
     def is_browserid_link_present(self):
@@ -73,7 +73,7 @@ class Base(Page):
         from pages.register import ProfileTab
         return ProfileTab(self.testsetup)
 
-    #Logged in
+    # Logged in
 
     @property
     def header(self):
@@ -93,11 +93,11 @@ class Base(Page):
         _search_box_locator = (By.NAME, 'q')
         _profile_menu_locator = (By.CSS_SELECTOR, '#nav-main > a.dropdown-toggle')
 
-        #menu items
+        # menu items
         _dropdown_menu_locator = (By.CSS_SELECTOR, 'ul.dropdown-menu')
         _view_profile_menu_item_locator = (By.ID, 'profile')
         _invite_menu_item_locator = (By.ID, 'invite')
-        _settings_menu_item_locator = (By.ID, 'edit_profile')
+        _edit_profile_menu_item_locator = (By.CSS_SELECTOR, 'li.edit_profile > a')
         _logout_menu_item_locator = (By.ID, 'logout')
 
         @property
@@ -119,7 +119,7 @@ class Base(Page):
         def is_logout_menu_item_present(self):
             return self.is_element_present(*self._logout_menu_item_locator)
 
-        #menu items
+        # menu items
         def click_view_profile_menu_item(self):
             self.click_options()
             self.selenium.find_element(*self._view_profile_menu_item_locator).click()
@@ -132,9 +132,11 @@ class Base(Page):
             from pages.invite import Invite
             return Invite(self.testsetup)
 
-        def click_settings_menu_item(self):
+        def click_edit_profile_menu_item(self):
             self.click_options()
-            self.selenium.find_element(*self._settings_menu_item_locator).click()
+            self.selenium.find_element(*self._edit_profile_menu_item_locator).click()
+            from pages.edit_profile import EditProfile
+            return EditProfile(self.testsetup)
 
         def click_logout_menu_item(self):
             self.click_options()
