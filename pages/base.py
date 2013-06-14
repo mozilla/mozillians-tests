@@ -41,7 +41,7 @@ class Base(Page):
     def was_account_created_successfully(self):
         return self.is_element_visible(*self._account_created_successfully_locator)
 
-    #Not logged in
+    # Not logged in
 
     @property
     def is_browserid_link_present(self):
@@ -73,7 +73,7 @@ class Base(Page):
         from pages.register import ProfileTab
         return ProfileTab(self.testsetup)
 
-    #Logged in
+    # Logged in
 
     @property
     def header(self):
@@ -90,10 +90,10 @@ class Base(Page):
 
     class Header(Page):
 
-        _search_box_locator = (By.NAME, 'q')
+        _search_box_locator = (By.CSS_SELECTOR, 'input.search-query')
         _profile_menu_locator = (By.CSS_SELECTOR, '#nav-main > a.dropdown-toggle')
 
-        #menu items
+        # menu items
         _dropdown_menu_locator = (By.CSS_SELECTOR, 'ul.dropdown-menu')
         _view_profile_menu_item_locator = (By.ID, 'profile')
         _invite_menu_item_locator = (By.ID, 'invite')
@@ -105,9 +105,9 @@ class Base(Page):
             return self.is_element_present(*self._search_box_locator)
 
         def search_for(self, search_term):
-            term = self.selenium.find_element(*self._search_box_locator)
-            term.send_keys(search_term)
-            term.send_keys(Keys.RETURN)
+            search_field = self.selenium.find_element(*self._search_box_locator)
+            search_field.send_keys(search_term)
+            search_field.send_keys(Keys.RETURN)
             from pages.search import Search
             return Search(self.testsetup)
 
@@ -119,7 +119,7 @@ class Base(Page):
         def is_logout_menu_item_present(self):
             return self.is_element_present(*self._logout_menu_item_locator)
 
-        #menu items
+        # menu items
         def click_view_profile_menu_item(self):
             self.click_options()
             self.selenium.find_element(*self._view_profile_menu_item_locator).click()

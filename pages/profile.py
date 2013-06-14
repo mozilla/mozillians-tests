@@ -13,7 +13,7 @@ from pages.base import Base
 class Profile(Base):
 
     _edit_my_profile_button_locator = (By.ID, 'edit-profile')
-    _name_locator = (By.CSS_SELECTOR, '#profile-info h2')
+    _name_locator = (By.CSS_SELECTOR, 'h1.p-name')
     _email_locator = (By.CSS_SELECTOR, '#profile-info a[href^="mailto:"]')
     _username_locator = (By.CSS_SELECTOR, '#profile-info dd:nth-of-type(2)')
     _website_locator = (By.CSS_SELECTOR, '#profile-info > dl > dd > a[href^="http"]')
