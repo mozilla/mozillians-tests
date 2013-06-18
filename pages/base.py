@@ -97,7 +97,7 @@ class Base(Page):
         _dropdown_menu_locator = (By.CSS_SELECTOR, 'ul.dropdown-menu')
         _view_profile_menu_item_locator = (By.ID, 'profile')
         _invite_menu_item_locator = (By.ID, 'invite')
-        _settings_menu_item_locator = (By.ID, 'edit_profile')
+        _edit_profile_menu_item_locator = (By.CSS_SELECTOR, 'li.edit_profile > a')
         _logout_menu_item_locator = (By.ID, 'logout')
 
         @property
@@ -132,9 +132,11 @@ class Base(Page):
             from pages.invite import Invite
             return Invite(self.testsetup)
 
-        def click_settings_menu_item(self):
+        def click_edit_profile_menu_item(self):
             self.click_options()
-            self.selenium.find_element(*self._settings_menu_item_locator).click()
+            self.selenium.find_element(*self._edit_profile_menu_item_locator).click()
+            from pages.edit_profile import EditProfile
+            return EditProfile(self.testsetup)
 
         def click_logout_menu_item(self):
             self.click_options()
