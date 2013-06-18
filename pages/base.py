@@ -90,7 +90,7 @@ class Base(Page):
 
     class Header(Page):
 
-        _search_box_locator = (By.NAME, 'q')
+        _search_box_locator = (By.CSS_SELECTOR, 'input.search-query')
         _profile_menu_locator = (By.CSS_SELECTOR, '#nav-main > a.dropdown-toggle')
 
         # menu items
@@ -105,9 +105,9 @@ class Base(Page):
             return self.is_element_present(*self._search_box_locator)
 
         def search_for(self, search_term):
-            term = self.selenium.find_element(*self._search_box_locator)
-            term.send_keys(search_term)
-            term.send_keys(Keys.RETURN)
+            search_field = self.selenium.find_element(*self._search_box_locator)
+            search_field.send_keys(search_term)
+            search_field.send_keys(Keys.RETURN)
             from pages.search import Search
             return Search(self.testsetup)
 
