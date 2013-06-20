@@ -16,7 +16,7 @@ from pages.page import Page
 class Base(Page):
 
     _csrf_token_locator = (By.NAME, 'csrfmiddlewaretoken')
-    _logged_in_marker_locator = (By.CSS_SELECTOR, '#nav-main .dropdown-toggle')
+    _logout_locator = (By.ID, 'logout')
 
     _pending_approval_locator = (By.ID, 'pending-approval')
     _account_created_successfully_locator = (By.CSS_SELECTOR, 'div.alert:nth-child(2)')
@@ -49,7 +49,7 @@ class Base(Page):
 
     @property
     def is_user_loggedin(self):
-        return self.is_element_present(*self._logged_in_marker_locator)
+        return self.is_element_present(*self._logout_locator)
 
     def click_browserid_login(self):
         self.selenium.find_element(*self._browserid_login_locator).click()

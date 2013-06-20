@@ -63,8 +63,8 @@ class ProfileTab(Register):
 
 class SkillsAndGroupsTab(Register):
 
-    _skills_field_locator = (By.CSS_SELECTOR, '#id_skills + ul input')
-    _language_field_locator = (By.CSS_SELECTOR, '#id_languages + ul input')
+    _skills_field_locator = (By.ID, 'id_skills')
+    _language_field_locator = (By.ID, 'id_languages')
 
     _next_button_locator = (By.ID, 'page3button')
     _previous_button_locator = (By.ID, 'page1button')
@@ -97,7 +97,7 @@ class LocationTab(Register):
     _city_locator = (By.ID, 'id_city')
     _privacy_locator = (By.ID, 'id_optin')
     _privacy_error_message_locator = (By.CSS_SELECTOR, 'div.control-group > div.controls > label.checkbox + span.help-inline')
-    _create_profile_button_locator = (By.CSS_SELECTOR, 'button.span2.btn-large.btn-primary')
+    _create_profile_button_locator = (By.CSS_SELECTOR, 'button.span3.btn-large.btn-primary')
 
     @property
     def privacy_error_message(self):
