@@ -28,7 +28,6 @@ class TestProfile(BaseTest):
         Assert.true(confirm_profile_delete_page.is_cancel_button_present)
         Assert.true(confirm_profile_delete_page.is_delete_button_present)
 
-    @pytest.mark.xfail(reason='Bug 883194 - Error message appears when trying to save changes in Edit Profile page')
     def test_edit_profile_information(self, mozwebqa):
         home_page = Home(mozwebqa)
 
