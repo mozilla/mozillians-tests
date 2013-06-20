@@ -33,16 +33,18 @@ class TestProfile(BaseTest):
 
         home_page.login()
 
-        edit_profile_page = home_page.header.click_edit_profile_menu_item()
+        profile_page = home_page.header.click_view_profile_menu_item()
+        edit_profile_page = profile_page.click_edit_my_profile_button()
+        profile_tab = edit_profile_page.go_to_tab("profile")
         Assert.true(edit_profile_page.is_csrf_token_present)
         current_time = str(time.time()).split('.')[0]
         new_full_name = "Updated Mozillians User %s" % current_time
         new_biography = "Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely, run at %s" % current_time
         new_website = "http://%s.com/" % current_time
-        edit_profile_page.set_full_name(new_full_name)
-        edit_profile_page.set_website(new_website)
-        edit_profile_page.set_bio(new_biography)
-        profile_page = edit_profile_page.click_update_button()
+        profile_tab.set_full_name(new_full_name)
+        profile_tab.set_website(new_website)
+        profile_tab.set_bio(new_biography)
+        profile_tab.click_update_button()
         name = profile_page.name
         biography = profile_page.biography
         website = profile_page.website

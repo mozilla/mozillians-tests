@@ -16,14 +16,11 @@ class EditProfile(Base):
     _cancel_button_locator = (By.CSS_SELECTOR, "#edit_controls a")
     _update_button_locator = (By.CSS_SELECTOR, "#edit_controls button")
 
-    # Profile
-    _full_name_field_locator = (By.ID, 'id_full_name')
-    _website_field_locator = (By.ID, 'id_website')
-    _bio_field_locator = (By.ID, 'id_bio')
-
-    # Skills
-    _groups_field_locator = (By.CSS_SELECTOR, '#id_groups + ul input')
-    _skills_field_locator = (By.CSS_SELECTOR, '#id_skills + ul input')
+    #edit your profile tabs locators
+    _profile_tab_locator = (By.CSS_SELECTOR, 'div.tabbable > ul.nav > li:nth-of-type(1) > a')
+    _skills_tab_locator = (By.CSS_SELECTOR, 'div.tabbable > ul.nav > li:nth-of-type(2) > a')
+    _vouches_tab_locator = (By.CSS_SELECTOR, 'div.tabbable > ul.nav > li:nth-of-type(3) > a')
+    _account_tab_locator = (By.CSS_SELECTOR, 'div.tabbable > ul.nav > li:nth-of-type(4) > a')
 
     def click_update_button(self):
         self.selenium.find_element(*self._update_button_locator).click()
@@ -31,6 +28,27 @@ class EditProfile(Base):
 
     def click_cancel_button(self):
         self.selenium.find_element(*self._cancel_button_locator).click()
+
+    def go_to_tab(self, tab_name):
+        if tab_name is "profile":
+            self.selenium.find_element(*self._profile_tab_locator).click()
+            return ProfileTab(self.testsetup)
+        elif tab_name is "skills":
+            self.selenium.find_element(*self._skills_tab_locator).click()
+            return SkillsAndGroupsTab(self.testsetup)
+        elif tab_name is "vouches":
+            self.selenium.find_element(*self._vouches_tab_locator).click()
+            return VouchesAndInvitesTab(self.testsetup)
+        elif tab_name is "account":
+            self.selenium.find_element(*self._account_tab_locator).click()
+            return AccountTab(self.testsetup)
+
+
+class ProfileTab(EditProfile):
+
+    _full_name_field_locator = (By.ID, 'id_full_name')
+    _website_field_locator = (By.ID, 'id_website')
+    _bio_field_locator = (By.ID, 'id_bio')
 
     def set_full_name(self, full_name):
         element = self.selenium.find_element(*self._full_name_field_locator)
@@ -46,6 +64,12 @@ class EditProfile(Base):
         element = self.selenium.find_element(*self._bio_field_locator)
         element.clear()
         element.send_keys(biography)
+
+
+class SkillsAndGroupsTab(EditProfile):
+
+    _groups_field_locator = (By.CSS_SELECTOR, '#id_groups + ul input')
+    _skills_field_locator = (By.CSS_SELECTOR, '#id_skills + ul input')
 
     def add_group(self, group_name):
         element = self.selenium.find_element(*self._group_field_locator)

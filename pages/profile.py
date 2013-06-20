@@ -12,7 +12,7 @@ from pages.base import Base
 
 class Profile(Base):
 
-    _edit_my_profile_button_locator = (By.CSS_SELECTOR, 'li.edit_profile')
+    _edit_my_profile_button_locator = (By.ID, 'edit-profile')
     _name_locator = (By.CSS_SELECTOR, 'h2.p-name')
     _email_locator = (By.CSS_SELECTOR, '#profile-info a[href^="mailto:"]')
     _username_locator = (By.CSS_SELECTOR, '#profile-info dd:nth-of-type(2)')
@@ -22,9 +22,9 @@ class Profile(Base):
     _skills_locator = (By.ID, 'skills')
     _languages_locator = (By.ID, 'languages')
     _location_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd')
-    _city_locator = (By.CSS_SELECTOR, '#location > a:nth-child(2)')
-    _region_locator = (By.CSS_SELECTOR, '#location > a:nth-child(3)')
-    _country_locator = (By.CSS_SELECTOR, '#location > a:nth-child(4)')
+    _city_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[contains(@href, "city")]')
+    _region_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[contains(@href, "region")]')
+    _country_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[last()]')
 
     @property
     def name(self):
