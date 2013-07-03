@@ -6,6 +6,7 @@
 
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.base import Base
 
@@ -13,9 +14,9 @@ from pages.base import Base
 class Profile(Base):
 
     _edit_my_profile_button_locator = (By.ID, 'edit-profile')
+    _profile_photo_locator = (By.ID, 'profile-photo')
     _name_locator = (By.CSS_SELECTOR, 'h2.p-name')
     _email_locator = (By.CSS_SELECTOR, '#profile-info a[href^="mailto:"]')
-    _username_locator = (By.CSS_SELECTOR, '#profile-info dd:nth-of-type(2)')
     _website_locator = (By.CSS_SELECTOR, '#profile-info > dl > dd > a[href^="http"]')
     _vouched_by_locator = (By.CSS_SELECTOR, '#profile-info .vouched')
     _biography_locator = (By.ID, 'bio')
@@ -25,6 +26,11 @@ class Profile(Base):
     _city_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[contains(@href, "city")]')
     _region_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[contains(@href, "region")]')
     _country_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[last()]')
+
+    def __init__(self, testsetup):
+        Base.__init__(self, testsetup)
+        WebDriverWait(self.selenium, self.timeout).until(
+            lambda s: self.is_element_visible(*self._profile_photo_locator))
 
     @property
     def name(self):
