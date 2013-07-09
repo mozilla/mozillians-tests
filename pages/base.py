@@ -16,13 +16,13 @@ from pages.page import Page
 class Base(Page):
 
     _csrf_token_locator = (By.NAME, 'csrfmiddlewaretoken')
-    _logged_in_marker_locator = (By.CSS_SELECTOR, "body[class~='auth']")
+    _logout_locator = (By.ID, 'logout')
 
     _pending_approval_locator = (By.ID, 'pending-approval')
     _account_created_successfully_locator = (By.CSS_SELECTOR, 'div.alert:nth-child(2)')
 
     # Not logged in
-    _browserid_login_locator = (By.CSS_SELECTOR, 'a.browserid-login > img')
+    _browserid_login_locator = (By.ID, 'create_profile')
 
     @property
     def page_title(self):
@@ -41,7 +41,7 @@ class Base(Page):
     def was_account_created_successfully(self):
         return self.is_element_visible(*self._account_created_successfully_locator)
 
-    #Not logged in
+    # Not logged in
 
     @property
     def is_browserid_link_present(self):
@@ -49,7 +49,7 @@ class Base(Page):
 
     @property
     def is_user_loggedin(self):
-        return self.is_element_present(*self._logged_in_marker_locator)
+        return self.is_element_present(*self._logout_locator)
 
     def click_browserid_login(self):
         self.selenium.find_element(*self._browserid_login_locator).click()
@@ -73,7 +73,7 @@ class Base(Page):
         from pages.register import ProfileTab
         return ProfileTab(self.testsetup)
 
-    #Logged in
+    # Logged in
 
     @property
     def header(self):
@@ -90,14 +90,14 @@ class Base(Page):
 
     class Header(Page):
 
-        _search_box_locator = (By.NAME, 'q')
-        _profile_menu_locator = (By.CSS_SELECTOR, '#profile_menu > a.dropdown-toggle')
+        _search_box_locator = (By.CSS_SELECTOR, 'input.search-query')
+        _profile_menu_locator = (By.CSS_SELECTOR, '#nav-main > a.dropdown-toggle')
 
-        #menu items
+        # menu items
         _dropdown_menu_locator = (By.CSS_SELECTOR, 'ul.dropdown-menu')
         _view_profile_menu_item_locator = (By.ID, 'profile')
         _invite_menu_item_locator = (By.ID, 'invite')
-        _settings_menu_item_locator = (By.ID, 'edit_profile')
+        _edit_profile_menu_item_locator = (By.CSS_SELECTOR, 'li.edit_profile > a')
         _logout_menu_item_locator = (By.ID, 'logout')
 
         @property
@@ -105,9 +105,9 @@ class Base(Page):
             return self.is_element_present(*self._search_box_locator)
 
         def search_for(self, search_term):
-            term = self.selenium.find_element(*self._search_box_locator)
-            term.send_keys(search_term)
-            term.send_keys(Keys.RETURN)
+            search_field = self.selenium.find_element(*self._search_box_locator)
+            search_field.send_keys(search_term)
+            search_field.send_keys(Keys.RETURN)
             from pages.search import Search
             return Search(self.testsetup)
 
@@ -119,7 +119,7 @@ class Base(Page):
         def is_logout_menu_item_present(self):
             return self.is_element_present(*self._logout_menu_item_locator)
 
-        #menu items
+        # menu items
         def click_view_profile_menu_item(self):
             self.click_options()
             self.selenium.find_element(*self._view_profile_menu_item_locator).click()
@@ -132,9 +132,11 @@ class Base(Page):
             from pages.invite import Invite
             return Invite(self.testsetup)
 
-        def click_settings_menu_item(self):
+        def click_edit_profile_menu_item(self):
             self.click_options()
-            self.selenium.find_element(*self._settings_menu_item_locator).click()
+            self.selenium.find_element(*self._edit_profile_menu_item_locator).click()
+            from pages.edit_profile import EditProfile
+            return EditProfile(self.testsetup)
 
         def click_logout_menu_item(self):
             self.click_options()
@@ -143,7 +145,7 @@ class Base(Page):
 
     class Footer(Page):
 
-        _about_mozillians_link_locator = (By.CSS_SELECTOR, '#footer-links a:nth-child(1)')
+        _about_mozillians_link_locator = (By.CSS_SELECTOR, '.footer-nav.details > li:nth-child(1) > a')
         _language_selector_locator = (By.ID, 'language')
         _language_selection_ok_button = (By.CSS_SELECTOR, '#language-switcher button')
 
