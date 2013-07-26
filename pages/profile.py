@@ -13,13 +13,12 @@ from pages.base import Base
 
 class Profile(Base):
 
-    _edit_my_profile_button_locator = (By.ID, 'edit-profile')
-    _profile_photo_locator = (By.ID, 'profile-photo')
-    _name_locator = (By.CSS_SELECTOR, 'h2.p-name')
+    _profile_photo_locator = (By.CSS_SELECTOR, '.profile-photo > img')
+    _name_locator = (By.CSS_SELECTOR, 'h1.p-name')
     _email_locator = (By.CSS_SELECTOR, '#profile-info a[href^="mailto:"]')
-    _website_locator = (By.CSS_SELECTOR, '#profile-info > dl > dd > a[href^="http"]')
+    _website_locator = (By.CSS_SELECTOR, '.u-url.url > a')
     _vouched_by_locator = (By.CSS_SELECTOR, '#profile-info .vouched')
-    _biography_locator = (By.ID, 'bio')
+    _biography_locator = (By.CSS_SELECTOR, '#bio > p')
     _skills_locator = (By.ID, 'skills')
     _languages_locator = (By.ID, 'languages')
     _location_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd')
@@ -90,8 +89,3 @@ class Profile(Base):
     @property
     def languages(self):
         return self.selenium.find_element(*self._languages_locator).text
-
-    def click_edit_my_profile_button(self):
-        self.selenium.find_element(*self._edit_my_profile_button_locator).click()
-        from pages.edit_profile import EditProfile
-        return EditProfile(self.testsetup)
