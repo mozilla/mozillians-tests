@@ -9,7 +9,6 @@ import pytest
 from unittestzero import Assert
 
 from pages.home_page import Home
-from pages.register import Register
 from tests.base_test import BaseTest
 
 
@@ -98,17 +97,17 @@ class TestProfile(BaseTest):
         profile.set_full_name("New MozilliansUser")
         profile.set_bio("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely")
 
-        skills = profile.click_next_button()
-        skills.add_skill('test')
-        skills.add_language('english')
+        # Skills
+        profile.add_skill('test')
+        profile.add_language('english')
 
-        location = skills.click_next_button()
-        location.select_country('us')
-        location.set_state('California')
-        location.set_city('Mountain View')
-        location.check_privacy()
+        # Location
+        profile.select_country('us')
+        profile.set_state('California')
+        profile.set_city('Mountain View')
+        profile.check_privacy()
 
-        profile_page = location.click_create_profile_button()
+        profile_page = profile.click_create_profile_button()
 
         Assert.true(profile_page.was_account_created_successfully)
         Assert.true(profile_page.is_pending_approval_visible)
@@ -118,9 +117,9 @@ class TestProfile(BaseTest):
         Assert.equal("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely", profile_page.biography)
         Assert.equal('test', profile_page.skills)
         Assert.equal('english', profile_page.languages)
-        Assert.equal('Mountain View, California\nUnited States', profile_page.location)
+        Assert.equal('Mountain View, California, United States', profile_page.location)
 
-    @pytest.mark.xfail(reason="Bug 835318 - Error adding groups / skills / or languages with non-latin chars.")
+    @pytest.mark.xfail(reason="Bug   - Error adding groups / skills / or languages with non-latin chars.")
     def test_non_ascii_characters_are_allowed_in_profile_information(self, mozwebqa):
         user = self.get_new_user()
 
@@ -130,17 +129,17 @@ class TestProfile(BaseTest):
         profile.set_full_name("New MozilliansUser")
         profile.set_bio("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely")
 
-        skills = profile.click_next_button()
-        skills.add_skill(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2')
-        skills.add_language(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2')
+        # Skills
+        profile.add_skill(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2')
+        profile.add_language(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2')
 
-        location = skills.click_next_button()
-        location.select_country('gr')
-        location.set_state('Greece')
-        location.set_city('Athens')
-        location.check_privacy()
+        # Location
+        profile.select_country('gr')
+        profile.set_state('Greece')
+        profile.set_city('Athens')
+        profile.check_privacy()
 
-        profile_page = location.click_create_profile_button()
+        profile_page = profile.click_create_profile_button()
 
         Assert.true(profile_page.was_account_created_successfully)
         Assert.true(profile_page.is_pending_approval_visible)
@@ -150,14 +149,14 @@ class TestProfile(BaseTest):
         Assert.equal("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely", profile_page.biography)
         Assert.equal(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2', profile_page.skills)
         Assert.equal(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2', profile_page.languages)
-        Assert.equal('Athenes, Greece\nGreece', profile_page.location)
+        Assert.equal('Athenes, Greece, Greece', profile_page.location)
 
     @pytest.mark.nondestructive
     def test_that_filter_by_city_works(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
 
-        profile_page = home_page.open_user_profile(u'MozilliansUser')
+        profile_page = home_page.open_user_profile(u'Mozillians.User')
         city = profile_page.city
         country = profile_page.country
         search_results_page = profile_page.click_city_name(city=city, country=country)
@@ -182,7 +181,7 @@ class TestProfile(BaseTest):
         home_page = Home(mozwebqa)
         home_page.login()
 
-        profile_page = home_page.open_user_profile(u'MozilliansUser')
+        profile_page = home_page.open_user_profile(u'Mozillians.User')
         region = profile_page.region
         country = profile_page.country
         search_results_page = profile_page.click_region_name(region=region, country=country)
@@ -207,7 +206,7 @@ class TestProfile(BaseTest):
         home_page = Home(mozwebqa)
         home_page.login()
 
-        profile_page = home_page.open_user_profile(u'MozilliansUser')
+        profile_page = home_page.open_user_profile(u'Mozillians.User')
         country = profile_page.country
         search_results_page = profile_page.click_country_name(country=country)
         expected_results_title = u'Mozillians in %s' % country

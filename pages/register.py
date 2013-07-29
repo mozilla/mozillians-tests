@@ -55,9 +55,6 @@ class Register(Base):
         # send tab to make the entry "stick"
         element.send_keys("\t")
 
-    def click_next_button(self):
-        self.selenium.find_element(*self._next_button_locator).click()
-
     def click_previous_button(self):
         self.selenium.find_element(*self._previous_button_locator).click()
 

@@ -15,16 +15,16 @@ class Profile(Base):
 
     _profile_photo_locator = (By.CSS_SELECTOR, '.profile-photo > img')
     _name_locator = (By.CSS_SELECTOR, 'h1.p-name')
-    _email_locator = (By.CSS_SELECTOR, '#profile-info a[href^="mailto:"]')
+    _email_locator = (By.CSS_SELECTOR, '.u-email.email')
     _website_locator = (By.CSS_SELECTOR, '.u-url.url > a')
     _vouched_by_locator = (By.CSS_SELECTOR, '#profile-info .vouched')
     _biography_locator = (By.CSS_SELECTOR, '#bio > p')
     _skills_locator = (By.ID, 'skills')
     _languages_locator = (By.ID, 'languages')
-    _location_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd')
-    _city_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[contains(@href, "city")]')
-    _region_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[contains(@href, "region")]')
-    _country_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd/a[last()]')
+    _location_locator = (By.ID, 'location')
+    _city_locator = (By.CSS_SELECTOR, '#location > a:nth-child(2)')
+    _region_locator = (By.CSS_SELECTOR, '#location > a:nth-child(3)')
+    _country_locator = (By.CSS_SELECTOR, '#location > a:nth-child(4)')
 
     def __init__(self, testsetup):
         Base.__init__(self, testsetup)
@@ -53,7 +53,7 @@ class Profile(Base):
 
     @property
     def skills(self):
-        return self.selenium.find_element(*self._skills_locator).text
+        return self.selenium.find_element(*self._skills_locator).text.split('\n')[1]
 
     @property
     def location(self):
@@ -88,4 +88,4 @@ class Profile(Base):
 
     @property
     def languages(self):
-        return self.selenium.find_element(*self._languages_locator).text
+        return self.selenium.find_element(*self._languages_locator).text.split('\n')[1]
