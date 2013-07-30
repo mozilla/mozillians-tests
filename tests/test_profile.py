@@ -56,14 +56,6 @@ class TestProfile(BaseTest):
         Assert.equal(biography, new_biography)
         Assert.equal(website, new_website)
 
-    @pytest.mark.nondestructive
-    def test_browserid_link_present(self, mozwebqa):
-        home_page = Home(mozwebqa)
-        home_page.login()
-
-        edit_profile_page = home_page.header.click_edit_profile_menu_item()
-        Assert.true(edit_profile_page.is_browserid_link_present)
-
     def test_creating_profile_without_checking_privacy_policy_checkbox(self, mozwebqa):
         user = self.get_new_user()
 

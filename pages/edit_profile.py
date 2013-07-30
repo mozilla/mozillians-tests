@@ -25,7 +25,6 @@ class EditProfile(Base):
     _username_field_locator = (By.ID, 'id_username')
     _browserid_mail_locator = (By.CSS_SELECTOR, '.control-group:nth-of-type(2) .label-text')
     _delete_profile_button_locator = (By.CSS_SELECTOR, '.delete')
-    _browserid_link_locator = (By.CSS_SELECTOR, '#account div.controls > span > a')
 
     def click_update_button(self):
         self.selenium.find_element(*self._update_button_locator).click()
@@ -68,10 +67,6 @@ class EditProfile(Base):
     @property
     def browserid_email(self):
         return self.selenium.find_element(*self._browserid_mail_locator).text
-
-    @property
-    def is_browserid_link_present(self):
-        return self.is_element_present(*self._browserid_link_locator)
 
     def click_delete_profile_button(self):
         self.selenium.find_element(*self._acknowledge_deletion_checkbox_locator).click()
