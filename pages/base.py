@@ -70,8 +70,8 @@ class Base(Page):
         pop_up.sign_in(user['email'], user['password'])
 
         WebDriverWait(self.selenium, 20).until(lambda s: self.is_user_loggedin)
-        from pages.register import ProfileTab
-        return ProfileTab(self.testsetup)
+        from pages.register import Register
+        return Register(self.testsetup)
 
     # Logged in
 
