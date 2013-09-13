@@ -88,6 +88,9 @@ class Base(Page):
         from pages.profile import Profile
         return Profile(self.testsetup)
 
+    def logout_using_url(self):
+        self.get_relative_path(u'/logout')
+
     class Header(Page):
 
         _search_box_locator = (By.CSS_SELECTOR, 'input.search-query')
