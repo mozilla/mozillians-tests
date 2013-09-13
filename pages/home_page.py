@@ -7,10 +7,15 @@
 
 from pages.base import Base
 
-
 class Home(Base):
 
     def __init__(self, testsetup, open_url=True):
         Base.__init__(self, testsetup)
         if open_url:
             self.selenium.get(self.base_url)
+
+    @property
+    def go_to_edit_page(self):
+        self.get_relative_path("/en-US/user/edit/")
+        from pages.edit_profile import EditProfile
+        return EditProfile(self.testsetup)

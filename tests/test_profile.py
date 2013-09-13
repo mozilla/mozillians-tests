@@ -216,3 +216,13 @@ class TestProfile(BaseTest):
         Assert.equal(
             country, random_profile_country,
             u'Expected country: %s, but got: %s' % (country, random_profile_country))
+
+    @pytest.mark.nondestructive
+    def test_non_US_user_cant_set_get_involved_date(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+        edit_page = home_page.go_to_edit_page
+        edit_page.select_month("5")
+        edit_page.select_year("2000")
+        profile_page = edit_page.click_update_button()
+        Assert.equal(profile_page.profile_message, "Your Profile")

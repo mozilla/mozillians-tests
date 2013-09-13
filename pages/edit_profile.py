@@ -6,7 +6,7 @@
 
 
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.support.select import Select
 from pages.base import Base
 from pages.profile import Profile
 
@@ -25,6 +25,8 @@ class EditProfile(Base):
     _username_field_locator = (By.ID, 'id_username')
     _browserid_mail_locator = (By.CSS_SELECTOR, '.control-group:nth-of-type(2) .label-text')
     _delete_profile_button_locator = (By.CSS_SELECTOR, '.delete')
+    _select_month_locator = (By.CSS_SELECTOR, '#id_date_mozillian_month')
+    _select_year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year')
 
     def click_update_button(self):
         self.selenium.find_element(*self._update_button_locator).click()
@@ -73,3 +75,13 @@ class EditProfile(Base):
         self.selenium.find_element(*self._delete_profile_button_locator).click()
         from pages.confirm_profile_delete import ConfirmProfileDelete
         return ConfirmProfileDelete(self.testsetup)
+
+    def select_month(self, option_month):
+        element = self.selenium.find_element(*self._select_month_locator)
+        select = Select(element)
+        select.select_by_value(option_month)
+
+    def select_year(self, option_year):
+        element = self.selenium.find_element(*self._select_year_locator)
+        select = Select(element)
+        select.select_by_value(option_year)
