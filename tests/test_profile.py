@@ -4,12 +4,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import time
 import pytest
 from unittestzero import Assert
-
 from pages.home_page import Home
 from tests.base_test import BaseTest
+import time
 
 
 class TestProfile(BaseTest):
@@ -222,7 +221,7 @@ class TestProfile(BaseTest):
         home_page = Home(mozwebqa)
         home_page.login()
         edit_page = home_page.go_to_edit_page
-        edit_page.select_month("5")
-        edit_page.select_year("2000")
+        edit_page.select_random_month()
+        edit_page.select_random_year()
         profile_page = edit_page.click_update_button()
         Assert.equal(profile_page.profile_message, "Your Profile")

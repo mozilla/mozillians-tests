@@ -16,6 +16,6 @@ class Home(Base):
 
     @property
     def go_to_edit_page(self):
-        self.get_relative_path("/en-US/user/edit/")
+        self.get_relative_path("/es/user/edit/")
         from pages.edit_profile import EditProfile
         return EditProfile(self.testsetup)
