@@ -14,8 +14,7 @@ class Home(Base):
         if open_url:
             self.selenium.get(self.base_url)
 
-    @property
-    def go_to_edit_page(self):
-        self.get_relative_path("/es/user/edit/")
+    def go_to_localized_edit_profile_page(self, non_US):
+        self.get_relative_path("/" + non_US + "/user/edit/")
         from pages.edit_profile import EditProfile
         return EditProfile(self.testsetup)

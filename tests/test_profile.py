@@ -3,12 +3,11 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
+import time
 import pytest
 from unittestzero import Assert
 from pages.home_page import Home
 from tests.base_test import BaseTest
-import time
 
 
 class TestProfile(BaseTest):
@@ -217,11 +216,14 @@ class TestProfile(BaseTest):
             u'Expected country: %s, but got: %s' % (country, random_profile_country))
 
     @pytest.mark.nondestructive
-    def test_non_US_user_cant_set_get_involved_date(self, mozwebqa):
+    def test_that_non_US_user_can_set_get_involved_date(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
-        edit_page = home_page.go_to_edit_page
+        edit_page = home_page.go_to_localized_edit_profile_page("es")
+        selected_date = edit_page.get_month + edit_page.get_year
         edit_page.select_random_month()
         edit_page.select_random_year()
         profile_page = edit_page.click_update_button()
         Assert.equal(profile_page.profile_message, "Your Profile")
+        edit_page = profile_page.header.click_edit_profile_menu_item()
+        Assert.not_equal(selected_date, edit_page.get_month + edit_page.get_year, "The date is not changed")
