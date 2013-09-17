@@ -25,7 +25,7 @@ class Profile(Base):
     _city_locator = (By.CSS_SELECTOR, '#location > a:nth-child(2)')
     _region_locator = (By.CSS_SELECTOR, '#location > a:nth-child(3)')
     _country_locator = (By.CSS_SELECTOR, '#location > a:nth-child(4)')
-    _your_profile_locator = (By.CSS_SELECTOR, '.alert')
+    _profile_message_locator = (By.CSS_SELECTOR, '.alert')
 
     def __init__(self, testsetup):
         Base.__init__(self, testsetup)
@@ -93,4 +93,4 @@ class Profile(Base):
 
     @property
     def profile_message(self):
-        return self.selenium.find_element(*self._your_profile_locator).text
+        return self.selenium.find_element(*self._profile_message_locator).text
