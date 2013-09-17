@@ -10,6 +10,7 @@ from selenium.webdriver.support.select import Select
 import random
 from pages.base import Base
 from pages.profile import Profile
+from pages.page import PageRegion
 
 class EditProfile(Base):
 
