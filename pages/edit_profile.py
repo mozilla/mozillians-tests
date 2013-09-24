@@ -92,11 +92,11 @@ class EditProfile(Base):
         select.select_by_value(option_year)
 
     @property
-    def get_month(self):
+    def month(self):
         return self.selenium.find_element(*self._selected_month_locator).text
 
     @property
-    def get_year(self):
+    def year(self):
         return self.selenium.find_element(*self._selected_year_locator).text
 
     @property
