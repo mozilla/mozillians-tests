@@ -7,6 +7,7 @@
 from unittestzero import Assert
 
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotVisibleException
 
@@ -28,6 +29,12 @@ class Page(object):
 
         for key, value in kwargs.items():
             setattr(self, key, value)
+
+    def maximize_window(self):
+        try:
+            self.selenium.maximize_window()
+        except WebDriverException:
+            pass
 
     @property
     def is_the_current_page(self):
