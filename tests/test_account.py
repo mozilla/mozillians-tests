@@ -22,6 +22,19 @@ class TestAccount:
         home_page.header.click_logout_menu_item()
         Assert.true(home_page.is_browserid_link_present)
 
+    @pytest.mark.nondestructive
+    def test_logout_verify_bid(self, mozwebqa):
+        # issue https://github.com/mozilla/mozillians-tests/issues/99
+
+        home_page = Home(mozwebqa)
+        Assert.true(home_page.is_csrf_token_present)
+        home_page.login()
+        Assert.true(home_page.header.is_logout_menu_item_present)
+        home_page.logout_using_url()
+
+        home_page.wait_for_user_login()
+        Assert.true(home_page.is_browserid_link_present)
+
     @pytest.mark.skip_selenium
     @pytest.mark.nondestructive
     def test_that_links_in_footer_return_200_code(self, mozwebqa):
