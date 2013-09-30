@@ -7,6 +7,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from pages.base import Base
 
+
 class Home(Base):
 
     def __init__(self, testsetup, open_url=True):
