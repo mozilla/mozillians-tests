@@ -6,7 +6,8 @@
 
 
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.support.select import Select
+import random
 from pages.base import Base
 from pages.profile import Profile
 
@@ -25,6 +26,12 @@ class EditProfile(Base):
     _username_field_locator = (By.ID, 'id_username')
     _browserid_mail_locator = (By.CSS_SELECTOR, '.control-group:nth-of-type(2) .label-text')
     _delete_profile_button_locator = (By.CSS_SELECTOR, '.delete')
+    _select_month_locator = (By.ID, 'id_date_mozillian_month')
+    _select_year_locator = (By.ID, 'id_date_mozillian_year')
+    _month_locator = (By.CSS_SELECTOR, '#id_date_mozillian_month > option')
+    _year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year > option')
+    _selected_month_locator = (By.CSS_SELECTOR, '#id_date_mozillian_month > option[selected="selected"]')
+    _selected_year_locator=(By.CSS_SELECTOR, '#id_date_mozillian_year > option[selected="selected"]')
 
     def click_update_button(self):
         self.selenium.find_element(*self._update_button_locator).click()
@@ -73,3 +80,35 @@ class EditProfile(Base):
         self.selenium.find_element(*self._delete_profile_button_locator).click()
         from pages.confirm_profile_delete import ConfirmProfileDelete
         return ConfirmProfileDelete(self.testsetup)
+
+    def select_month(self, option_month):
+        element = self.selenium.find_element(*self._select_month_locator)
+        select = Select(element)
+        select.select_by_value(option_month)
+
+    def select_year(self, option_year):
+        element = self.selenium.find_element(*self._select_year_locator)
+        select = Select(element)
+        select.select_by_value(option_year)
+
+    @property
+    def month(self):
+        return self.selenium.find_element(*self._selected_month_locator).text
+
+    @property
+    def year(self):
+        return self.selenium.find_element(*self._selected_year_locator).text
+
+    @property
+    def months_values(self):
+        return [month.get_attribute('value') for month in self.selenium.find_elements(*self._month_locator)]
+
+    def select_random_month(self):
+        return self.select_month(random.choice(self.months_values[1:]))
+
+    @property
+    def years_values(self):
+        return [year.get_attribute('value') for year in self.selenium.find_elements(*self._year_locator)]
+
+    def select_random_year(self):
+        return self.select_year(random.choice(self.years_values[1:]))
