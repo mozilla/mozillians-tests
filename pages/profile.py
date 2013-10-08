@@ -18,7 +18,7 @@ class Profile(Base):
     _email_locator = (By.CSS_SELECTOR, '.email')
     _website_locator = (By.CSS_SELECTOR, '.url')
     _vouched_by_locator = (By.CSS_SELECTOR, '#profile-info .vouched')
-    _biography_locator = (By.CSS_SELECTOR, '#bio > p')
+    _biography_locator = (By.CSS_SELECTOR, '#bio > p:nth-child(3)')
     _skills_locator = (By.ID, 'skills')
     _languages_locator = (By.ID, 'languages')
     _location_locator = (By.ID, 'location')
