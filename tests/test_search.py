@@ -49,12 +49,15 @@ class TestSearch:
         home_page.login()
         search_page = home_page.header.search_for(query)
         Assert.true(search_page.results_count == 0)
-        Assert.contains(query, u'Sorry, we cannot find a group or person related to "{0}".'.format(query))
+        Assert.contains(query, u'Sorry, we cannot find a group or person '
+                        'related to "{0}".'.format(query))
 
     @pytest.mark.nondestructive
-    def test_search_for_not_existing_mozillian_when_not_logged_in(self, mozwebqa):
+    def test_search_for_not_existing_mozillian_when_not_logged_in(self,
+                                                                  mozwebqa):
         query = u'kkk'
         home_page = Home(mozwebqa)
         search_page = home_page.header.search_for(query)
         Assert.true(search_page.results_count == 0)
-        Assert.contains(query, u'Sorry, we cannot find a group or person related to "{0}".'.format(query))
+        Assert.contains(query, u'Sorry, we cannot find a group or person '
+                        'related to "{0}".'.format(query))
