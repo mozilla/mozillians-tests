@@ -9,7 +9,7 @@ py==1.4.9
 pytest==2.2.4
 pytest-mozwebqa==1.1
 pytest-xdist==1.8
-requests==0.13.2
+requests==2.0.0
 selenium
 BeautifulSoup==3.2.1
 -e git+https://github.com/mozilla/bidpom.git@master#egg=browserid
