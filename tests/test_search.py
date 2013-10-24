@@ -41,3 +41,28 @@ class TestSearch:
         home_page.header.search_for(u'stephend')
         profile = Profile(mozwebqa)
         Assert.equal(u'Stephen Donner', profile.name)
+
+    @pytest.mark.nondestructive
+    def test_search_for_not_existing_mozillian_when_logged_in(self, mozwebqa):
+        query = u'Qwerty'
+        home_page = Home(mozwebqa)
+        home_page.login()
+        search_page = home_page.header.search_for(query)
+        Assert.equal(search_page.results_count, 0)
+
+    @pytest.mark.nondestructive
+    def test_search_for_not_existing_mozillian_when_not_logged_in(self,
+                                                                  mozwebqa):
+        query = u'Qwerty'
+        home_page = Home(mozwebqa)
+        search_page = home_page.header.search_for(query)
+        Assert.equal(search_page.results_count, 0)
+
+    @pytest.mark.nondestructive
+    def test_search_for_empty_string_redirects_to_search_page(self, mozwebqa):
+        # Searching for empty string redirects to the Search page
+        # with publicly available profiles
+        query = u''
+        home_page = Home(mozwebqa)
+        search_page = home_page.header.search_for(query)
+        Assert.true(search_page.results_count > 0)
