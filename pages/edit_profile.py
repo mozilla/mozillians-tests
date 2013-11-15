@@ -18,7 +18,7 @@ class EditProfile(Base):
     _cancel_button_locator = (By.CSS_SELECTOR, "#edit_controls a")
     _update_button_locator = (By.CSS_SELECTOR, "#edit_controls button")
     _full_name_field_locator = (By.ID, 'id_full_name')
-    _website_field_locator = (By.ID, 'id_website')
+    _website_field_locator = (By.ID, 'id_externalaccount_set-0-identifier')
     _bio_field_locator = (By.ID, 'id_bio')
     _groups_field_locator = (By.CSS_SELECTOR, '#id_groups + ul input')
     _skills_field_locator = (By.CSS_SELECTOR, '#id_skills + ul input')
