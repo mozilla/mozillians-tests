@@ -35,7 +35,7 @@ class TestRedirects:
 
     @pytest.mark.nondestructive
     def test_200_for_anonymous_users(self, mozwebqa):
-        paths = ['/pl/opensearch.xml', '/nl/u/MozilliansUser/']
+        paths = ['/pl/opensearch.xml', '/nl/u/Mozillians.User/']
         urls = self.make_absolute_paths(mozwebqa.base_url, paths)
         error_list = self.verify_http_response_codes(urls, 200)
 

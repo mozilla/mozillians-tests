@@ -24,7 +24,7 @@ class Profile(Base):
     _location_locator = (By.ID, 'location')
     _city_locator = (By.CSS_SELECTOR, '#location > a:nth-child(2)')
     _region_locator = (By.CSS_SELECTOR, '#location > a:nth-child(3)')
-    _country_locator = (By.CSS_SELECTOR, '#location > a:nth-child(4)')
+    _country_locator = (By.CSS_SELECTOR, '#location .country-name')
     _profile_message_locator = (By.CSS_SELECTOR, '.alert')
 
     def __init__(self, testsetup):
