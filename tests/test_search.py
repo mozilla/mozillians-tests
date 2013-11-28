@@ -40,9 +40,9 @@ class TestSearch:
     def test_that_search_returns_results_for_irc_nickname(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
-        home_page.header.search_for(u'Mozillians.User')
+        home_page.header.search_for(u'mbrandt')
         profile = Profile(mozwebqa)
-        Assert.equal(u'Mozillians.User', profile.name)
+        Assert.equal(u'Matt Brandt', profile.name)
 
     @pytest.mark.nondestructive
     def test_search_for_not_existing_mozillian_when_logged_in(self, mozwebqa):
