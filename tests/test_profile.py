@@ -55,6 +55,65 @@ class TestProfile(BaseTest):
         Assert.equal(biography, new_biography)
         Assert.equal(website, new_website)
 
+    def test_group_addition(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+
+        edit_profile_page = home_page.header.click_edit_profile_menu_item()
+        edit_profile_page.add_group("Hello World")
+        profile_page = edit_profile_page.click_update_button()
+
+        Assert.true(profile_page.is_groups_present, "No groups added to profile.")
+        groups = profile_page.groups
+        Assert.greater(groups.find("hello world"), -1, "Group 'Hello World' not added to profile.")
+
+    def test_group_deletion(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+
+        edit_profile_page = home_page.header.click_edit_profile_menu_item()
+        edit_profile_page.add_group("Hello World")
+        profile_page = edit_profile_page.click_update_button()
+        edit_profile_page = profile_page.header.click_edit_profile_menu_item()
+
+        groups = edit_profile_page.groups
+        group_delete_buttons = edit_profile_page.delete_group_buttons
+        group_delete_buttons[groups.index("hello world")].click()
+        profile_page = edit_profile_page.click_update_button()
+
+        if profile_page.is_groups_present:
+            groups = profile_page.groups
+            Assert.equal(groups.find("hello world"), -1, "Group 'hello world' not deleted.")
+
+    def test_skill_addition(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+
+        edit_profile_page = home_page.header.click_edit_profile_menu_item()
+        edit_profile_page.add_skill("Hello World")
+        profile_page = edit_profile_page.click_update_button()
+
+        Assert.true(profile_page.is_skills_present, "No skills added to profile.")
+        skills = profile_page.skills
+        Assert.greater(skills.find("hello world"), -1, "Skill 'hello world' not added to profile.")
+
+    def test_skill_deletion(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+
+        edit_profile_page = home_page.header.click_edit_profile_menu_item()
+        edit_profile_page.add_skill("Hello World")
+        profile_page = edit_profile_page.click_update_button()
+        edit_profile_page = profile_page.header.click_edit_profile_menu_item()
+
+        skills = edit_profile_page.skills
+        skill_delete_buttons = edit_profile_page.delete_skill_buttons
+        skill_delete_buttons[skills.index("hello world")].click()
+
+        if profile_page.is_skills_present:
+            skills = profile_page.skills
+            Assert.equal(skills.find("hello world"), -1, "Skill 'hello world' not deleted.")
+
     def test_creating_profile_without_checking_privacy_policy_checkbox(self, mozwebqa):
         user = self.get_new_user()
 

@@ -20,6 +20,7 @@ class Profile(Base):
     _vouched_by_locator = (By.CSS_SELECTOR, '#profile-info .vouched')
     _biography_locator = (By.CSS_SELECTOR, '#bio > p:nth-child(3)')
     _skills_locator = (By.ID, 'skills')
+    _groups_locator = (By.ID, 'groups')
     _languages_locator = (By.ID, 'languages')
     _location_locator = (By.ID, 'location')
     _city_locator = (By.CSS_SELECTOR, '#location > a:nth-child(2)')
@@ -55,6 +56,10 @@ class Profile(Base):
     @property
     def skills(self):
         return self.selenium.find_element(*self._skills_locator).text.split('\n')[1]
+
+    @property
+    def groups(self):
+        return self.selenium.find_element(*self._groups_locator).text.split('\n')[1]
 
     @property
     def location(self):
@@ -94,3 +99,11 @@ class Profile(Base):
     @property
     def profile_message(self):
         return self.selenium.find_element(*self._profile_message_locator).text
+    
+    @property
+    def is_groups_present(self):
+        return self.is_element_present(*self._groups_locator)
+
+    @property
+    def is_skills_present(self):
+        return self.is_element_present(*self._skills_locator)
