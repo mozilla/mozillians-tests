@@ -169,7 +169,7 @@ class TestProfile(BaseTest):
         Assert.equal('english', profile_page.languages)
         Assert.equal('Mountain View, California, United States', profile_page.location)
 
-    @pytest.mark.xfail(reason="Bug   - Error adding groups / skills / or languages with non-latin chars.")
+    @pytest.mark.xfail(reason="Bug 835318 - Error adding groups / skills / or languages with non-latin chars.")
     def test_non_ascii_characters_are_allowed_in_profile_information(self, mozwebqa):
         user = self.get_new_user()
 
@@ -275,7 +275,6 @@ class TestProfile(BaseTest):
             country, random_profile_country,
             u'Expected country: %s, but got: %s' % (country, random_profile_country))
 
-    @pytest.mark.nondestructive
     def test_that_non_US_user_can_set_get_involved_date(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
