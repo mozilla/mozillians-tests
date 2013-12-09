@@ -276,7 +276,6 @@ class TestProfile(BaseTest):
             u'Expected country: %s, but got: %s' % (country, random_profile_country))
 
     @pytest.mark.nondestructive
-    @pytest.mark.xfail(reason='Bug 914448 - "When did you get involved" (date_mozillians) field does not validate in /es/')
     def test_that_non_US_user_can_set_get_involved_date(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
@@ -285,6 +284,6 @@ class TestProfile(BaseTest):
         edit_page.select_random_month()
         edit_page.select_random_year()
         profile_page = edit_page.click_update_button()
-        Assert.equal(profile_page.profile_message, "Your Profile")
+        Assert.equal(profile_page.profile_message, "Tu perfil")
         edit_page = profile_page.header.click_edit_profile_menu_item()
         Assert.not_equal(selected_date, edit_page.month + edit_page.year, "The date is not changed")
