@@ -117,6 +117,9 @@ with varying privilege levels.
 Before each test run, clean up the repo:
     find . \( -name 'results*' -or -name '*.pyc' \) -print0 | xargs -0 rm -Rf
 
+Note: If you are running tests on a Mac, run:
+    find . -name 'results*' -or -name '*.pyc' -print0 | xargs -0 rm -Rf
+
 To run tests locally it is as simple as calling <code>py.test</code> with
 several flags. To run testcases that do not modify or delete data:
 
