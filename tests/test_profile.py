@@ -67,6 +67,8 @@ class TestProfile(BaseTest):
         groups = profile_page.groups
         Assert.greater(groups.find("hello world"), -1, "Group 'Hello World' not added to profile.")
 
+    @pytest.mark.xfail("'allizom' in config.getvalue('base_url')",
+                       reason="Bug 938184 - Users should not create, join, or leave groups from the profile create/edit screens")
     def test_group_deletion(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
