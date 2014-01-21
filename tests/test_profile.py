@@ -55,6 +55,8 @@ class TestProfile(BaseTest):
         Assert.equal(biography, new_biography)
         Assert.equal(website, new_website)
 
+    @pytest.mark.xfail("'allizom' in config.getvalue('base_url')",
+                       reason="Bug 938184 - Users should not create, join, or leave groups from the profile create/edit screens")
     def test_group_addition(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
