@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
+import random
+from pages.base import Base
+from pages.profile import Profile
+from selenium.webdriver.common.keys import Keys
+
+class CreateGroupPage(Base):
+    
+    _create_group_name = (By.NAME, 'name')
+    _create_group_submit_button = (By.NAME, 'Create Group')     #Located on the actual group creation page
+    
+    def create_group_name(self, group_name):
+        element = self.selenium.find_element(*self._create_group_name)
+        element.send_keys(group_name)
+        
+    def click_create_group_submit(self):
+        element = self.selenium.find_element(*self._create_group_submit_button).click()
+    
