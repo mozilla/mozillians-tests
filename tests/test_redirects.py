@@ -13,15 +13,13 @@ from unittestzero import Assert
 class TestRedirects:
 
     @pytest.mark.nondestructive
-    @pytest.mark.xfail("'allizom' in config.getvalue('base_url')",
-                       reason="Bug 960592 - [dev][stage] anonomously viewing /zh-CN/group/258-l10n/toggle/ returns 404 not the expected 302 ")
     def test_302_redirect_for_anonymous_users(self, mozwebqa):
         paths = ['/es/country/us/',
                 '/sq/country/doesnotexist/',
                 '/hu/country/us/region/California/',
                 '/pl/country/in/city/Gulbarga/',
                 '/zh-TW/group/webqa/',
-                '/zh-CN/group/258-l10n/toggle/',
+                '/zh-CN/group/258/join/',
                 '/sl/group/doesnotexit/',
                 '/pt-BR/u/moz.mozillians.unvouched/',
                 '/ca/u/UserDoesNotExist/',
