@@ -16,8 +16,8 @@ from selenium.webdriver.common.keys import Keys
 class EditProfile(Base):
 
     _acknowledge_deletion_checkbox_locator = (By.CSS_SELECTOR, '.acknowledge')
-    _cancel_button_locator = (By.CSS_SELECTOR, "#edit_controls a")
-    _update_button_locator = (By.CSS_SELECTOR, "#edit_controls button")
+    _cancel_button_locator = (By.CSS_SELECTOR, 'a.cancel')
+    _update_button_locator = (By.ID, 'form-submit')
     _full_name_field_locator = (By.ID, 'id_full_name')
     _website_field_locator = (By.ID, 'id_externalaccount_set-0-identifier')
     _bio_field_locator = (By.ID, 'id_bio')
