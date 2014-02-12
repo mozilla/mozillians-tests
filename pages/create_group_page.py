@@ -6,11 +6,9 @@
 
 
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.select import Select
-import random
-from pages.base import Base
-from pages.profile import Profile
 from selenium.webdriver.common.keys import Keys
+from pages.base import Base
+
 
 class CreateGroupPage(Base):
     
@@ -22,5 +20,5 @@ class CreateGroupPage(Base):
         element.send_keys(group_name)
         
     def click_create_group_submit(self):
-        element = self.selenium.find_element(*self._create_group_submit_button).click()
+        self.selenium.find_element(*self._create_group_submit_button).click()
         

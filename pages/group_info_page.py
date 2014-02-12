@@ -7,13 +7,12 @@
 
 from selenium.webdriver.common.by import By
 from pages.base import Base
-from pages.create_group_page import CreateGroupPage
 
-
-class GroupPage(Base):
+class GroupInfoPage(Base):
     
-    _create_group_main_button = (By.CLASS_NAME, 'large')
+    _delete_group_button = (By.ID, 'delete-group')
     
-    def click_create_group_main_button(self):
-        self.selenium.find_element(*self._create_group_main_button).click()
-        return CreateGroupPage(self.testsetup)
+    def delete_group(self):
+        self.selenium.find_element(*self._delete_group_button).click()
+        from pages.group_page import GroupPage
+        return GroupPage(self.testsetup)

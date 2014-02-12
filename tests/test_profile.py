@@ -5,13 +5,13 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import pytest
+import time
 from unittestzero import Assert
 from selenium.webdriver.common.by import By
 from pages.home_page import Home
 from pages.search import Search
 from pages.base import Base
 from tests.base_test import BaseTest
-import time
 
 
 class TestProfile(BaseTest):
@@ -301,7 +301,7 @@ class TestProfile(BaseTest):
         
         home_page = Home(mozwebqa)
         home_page.login()
-        edit_page = home_page.go_to_localized_edit_profile_page("en")
+        edit_page = home_page.header.click_edit_profile_menu_item()
         groups = edit_page.click_find_group_link()
         create_group = groups.click_create_group_main_button()
         create_group.create_group_name(group_name)
@@ -310,3 +310,6 @@ class TestProfile(BaseTest):
         search_listings = create_group.header.search_for(group_name)
         
         Assert.true(search_listings.is_element_present(By.LINK_TEXT, group_name))
+        
+        group_info = search_listings.open_group(group_name)
+        group_info.delete_group()
