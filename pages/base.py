@@ -93,7 +93,7 @@ class Base(Page):
 
     class Header(Page):
 
-        _search_box_locator = (By.CSS_SELECTOR, '#homepage-search .search-query')
+        _search_box_locator = (By.CSS_SELECTOR, '.search-query')
         _profile_menu_locator = (By.CSS_SELECTOR, '#nav-main > a.dropdown-toggle')
 
         # menu items

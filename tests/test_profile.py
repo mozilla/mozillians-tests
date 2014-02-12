@@ -4,11 +4,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import time
 import pytest
 from unittestzero import Assert
+from selenium.webdriver.common.by import By
 from pages.home_page import Home
+from pages.search import Search
+from pages.base import Base
 from tests.base_test import BaseTest
+import time
 
 
 class TestProfile(BaseTest):
@@ -282,7 +285,7 @@ class TestProfile(BaseTest):
     def test_that_non_US_user_can_set_get_involved_date(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
-        edit_page = home_page.go_to_localized_edit_profile_page("en")
+        edit_page = home_page.go_to_localized_edit_profile_page("es")
         selected_date = edit_page.month + edit_page.year
         edit_page.select_random_month()
         edit_page.select_random_year()
@@ -293,10 +296,17 @@ class TestProfile(BaseTest):
     
     @pytest.mark.nondestructive
     def test_adding_new_group(self, mozwebqa):
+        current_time = time.strftime("%x"+"-"+"%X")
+        group_name = ('qa_test' + ' ' + current_time)
+        
         home_page = Home(mozwebqa)
         home_page.login()
         edit_page = home_page.go_to_localized_edit_profile_page("en")
         groups = edit_page.click_find_group_link()
         create_group = groups.click_create_group_main_button()
-        create_group.create_group_name('qa auto test group')
-  
+        create_group.create_group_name(group_name)
+        create_group.click_create_group_submit()
+        
+        search_listings = create_group.header.search_for(group_name)
+        
+        Assert.true(search_listings.is_element_present(By.LINK_TEXT, group_name))

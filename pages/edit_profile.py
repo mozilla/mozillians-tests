@@ -38,7 +38,7 @@ class EditProfile(Base):
     _year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year > option')
     _selected_month_locator = (By.CSS_SELECTOR, '#id_date_mozillian_month > option[selected="selected"]')
     _selected_year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year > option[selected="selected"]')
-    _find_group_page = (By.LINK_TEXT, 'find the group\'s page')
+    _find_group_page = (By.PARTIAL_LINK_TEXT, 'find the group')
 
     def click_update_button(self):
         self.selenium.find_element(*self._update_button_locator).click()

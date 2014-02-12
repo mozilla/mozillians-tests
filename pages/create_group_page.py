@@ -15,7 +15,7 @@ from selenium.webdriver.common.keys import Keys
 class CreateGroupPage(Base):
     
     _create_group_name = (By.NAME, 'name')
-    _create_group_submit_button = (By.NAME, 'Create Group')     #Located on the actual group creation page
+    _create_group_submit_button = (By.ID, 'create_group_button')
     
     def create_group_name(self, group_name):
         element = self.selenium.find_element(*self._create_group_name)
@@ -23,4 +23,4 @@ class CreateGroupPage(Base):
         
     def click_create_group_submit(self):
         element = self.selenium.find_element(*self._create_group_submit_button).click()
-    
+        
