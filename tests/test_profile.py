@@ -293,8 +293,7 @@ class TestProfile(BaseTest):
         Assert.equal(profile_page.profile_message, "Tu perfil")
         edit_page = profile_page.header.click_edit_profile_menu_item()
         Assert.not_equal(selected_date, edit_page.month + edit_page.year, "The date is not changed")
-    
-    @pytest.mark.nondestructive
+
     def test_that_user_can_create_and_delete_group(self, mozwebqa):
         current_time = time.strftime("%x"+"-"+"%X")
         group_name = ('qa_test' + ' ' + current_time)

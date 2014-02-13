@@ -21,4 +21,3 @@ class CreateGroupPage(Base):
         
     def click_create_group_submit(self):
         self.selenium.find_element(*self._create_group_submit_button).click()
-        
