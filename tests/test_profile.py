@@ -4,10 +4,13 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import time
 import pytest
+import time
 from unittestzero import Assert
+from selenium.webdriver.common.by import By
 from pages.home_page import Home
+from pages.search import Search
+from pages.base import Base
 from tests.base_test import BaseTest
 
 
@@ -290,3 +293,22 @@ class TestProfile(BaseTest):
         Assert.equal(profile_page.profile_message, "Tu perfil")
         edit_page = profile_page.header.click_edit_profile_menu_item()
         Assert.not_equal(selected_date, edit_page.month + edit_page.year, "The date is not changed")
+
+    def test_that_user_can_create_and_delete_group(self, mozwebqa):
+        current_time = time.strftime("%x"+"-"+"%X")
+        group_name = ('qa_test' + ' ' + current_time)
+        
+        home_page = Home(mozwebqa)
+        home_page.login()
+        edit_page = home_page.header.click_edit_profile_menu_item()
+        groups = edit_page.click_find_group_link()
+        create_group = groups.click_create_group_main_button()
+        create_group.create_group_name(group_name)
+        create_group.click_create_group_submit()
+        
+        search_listings = create_group.header.search_for(group_name)
+        
+        Assert.true(search_listings.is_element_present(By.LINK_TEXT, group_name))
+        
+        group_info = search_listings.open_group(group_name)
+        group_info.delete_group()

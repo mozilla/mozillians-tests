@@ -10,6 +10,7 @@ from selenium.webdriver.support.select import Select
 import random
 from pages.base import Base
 from pages.profile import Profile
+from pages.group_page import GroupPage
 from selenium.webdriver.common.keys import Keys
 
 
@@ -36,7 +37,8 @@ class EditProfile(Base):
     _month_locator = (By.CSS_SELECTOR, '#id_date_mozillian_month > option')
     _year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year > option')
     _selected_month_locator = (By.CSS_SELECTOR, '#id_date_mozillian_month > option[selected="selected"]')
-    _selected_year_locator=(By.CSS_SELECTOR, '#id_date_mozillian_year > option[selected="selected"]')
+    _selected_year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year > option[selected="selected"]')
+    _find_group_page = (By.PARTIAL_LINK_TEXT, 'find the group')
 
     def click_update_button(self):
         self.selenium.find_element(*self._update_button_locator).click()
@@ -44,6 +46,10 @@ class EditProfile(Base):
 
     def click_cancel_button(self):
         self.selenium.find_element(*self._cancel_button_locator).click()
+        
+    def click_find_group_link(self):
+        self.selenium.find_element(*self._find_group_page).click()
+        return GroupPage(self.testsetup)
 
     def set_full_name(self, full_name):
         element = self.selenium.find_element(*self._full_name_field_locator)

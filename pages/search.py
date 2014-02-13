@@ -56,6 +56,11 @@ class Search(Base):
     def search_results(self):
         return [self.SearchResult(self.testsetup, web_element) for web_element in
                 self.selenium.find_elements(*self._result_locator)]
+            
+    def open_group(self, name):
+        self.selenium.find_element_by_link_text(name).click()
+        from pages.group_info_page import GroupInfoPage
+        return GroupInfoPage(self.testsetup)
 
     class SearchResult(Page):
 
