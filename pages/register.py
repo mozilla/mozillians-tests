@@ -25,7 +25,7 @@ class Register(Base):
     _city_locator = (By.ID, 'id_city')
     _privacy_locator = (By.ID, 'id_optin')
     _privacy_error_message_locator = (By.CSS_SELECTOR, '.error-message')
-    _create_profile_button_locator = (By.ID, 'form-submit')
+    _create_profile_button_locator = (By.CSS_SELECTOR, '#edit-controls > button')
 
     @property
     def error_message(self):
