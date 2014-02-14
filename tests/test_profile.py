@@ -311,4 +311,6 @@ class TestProfile(BaseTest):
         Assert.true(search_listings.is_element_present(By.LINK_TEXT, group_name))
         
         group_info = search_listings.open_group(group_name)
-        group_info.delete_group()
+        search_listings = group_info.delete_group()
+        
+        Assert.false(search_listings.is_element_present(By.LINK_TEXT, group_name))
