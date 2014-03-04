@@ -7,7 +7,6 @@
 from random import randrange
 
 import pytest
-import requests
 from unittestzero import Assert
 
 from pages.home_page import Home
@@ -69,28 +68,3 @@ class TestSearch:
         home_page = Home(mozwebqa)
         search_page = home_page.header.search_for(query)
         Assert.true(search_page.results_count > 0)
-        
-    @pytest.mark.xfail(reason="bug 977424 - API count and actual count do not return the same values")
-    @pytest.mark.nondestructive
-    def test_vouched_user_count(self, mozwebqa):
-        credentials = mozwebqa.credentials['api_user']
-        r = requests.get('https://mozillians-dev.allizom.org/api/v1/users/', params={
-            'app_name': credentials['app_name'],
-            'app_key': credentials['api_key'],
-            'format': 'json',
-            'limit': 1,
-            'is_vouched': 'true'
-        })
-
-        r = r.json()
-
-        api_count = r['meta'].get('total_count')
-        home_page = Home(mozwebqa)
-        search_results = home_page.header.search_for('')
-        results_on_page = search_results.results_count
-        print results_on_page
-        number_of_pages = int(search_results.number_of_pages)
-        print number_of_pages
-        ui_count = results_on_page * number_of_pages
-
-        Assert.true((ui_count - results_on_page) < api_count < (ui_count + results_on_page), u'API Count = %s : UI Count = %s.' % (api_count, ui_count))
