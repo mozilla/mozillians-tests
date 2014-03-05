@@ -36,7 +36,7 @@ class Profile(Base):
             lambda s: self.is_element_visible(*self._profile_photo_locator))
 
     def view_profile_as_anonymous(self):
-        select = Select(self.selenium.find_element_by_id("view-privacy-mode"))
+        select = Select(self.selenium.find_element(*self._view_as_locator))
         select.select_by_visible_text("Public")
 
     @property
