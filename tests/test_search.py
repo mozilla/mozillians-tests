@@ -69,7 +69,7 @@ class TestSearch:
         home_page = Home(mozwebqa)
         search_page = home_page.header.search_for(query)
         Assert.true(search_page.results_count > 0)
-        
+
     @pytest.mark.xfail(reason="bug 977424 - API count and actual count do not return the same values")
     @pytest.mark.nondestructive
     def test_vouched_user_count(self, mozwebqa):
@@ -88,9 +88,8 @@ class TestSearch:
         home_page = Home(mozwebqa)
         search_results = home_page.header.search_for('')
         results_on_page = search_results.results_count
-        print results_on_page
         number_of_pages = int(search_results.number_of_pages)
-        print number_of_pages
         ui_count = results_on_page * number_of_pages
 
-        Assert.true((ui_count - results_on_page) < api_count < (ui_count + results_on_page), u'API Count = %s : UI Count = %s.' % (api_count, ui_count))
+        Assert.true((ui_count - results_on_page) < api_count < (ui_count + results_on_page),
+                    u'API Count = %s : UI Count = %s.' % (api_count, ui_count))
