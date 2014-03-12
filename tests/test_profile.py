@@ -40,7 +40,7 @@ class TestProfile(BaseTest):
         # New profile data
         new_full_name = "Updated Mozillians User %s" % current_time
         new_biography = "Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely, run at %s" % current_time
-        new_website = "http://%s.com/" % current_time
+        new_website = "http://%s.com" % current_time
 
         # Update the profile fields
         edit_profile_page.set_full_name(new_full_name)
