@@ -6,13 +6,15 @@
 
 
 from selenium.webdriver.common.by import By
+
 from pages.base import Base
 
+
 class GroupInfoPage(Base):
-    
-    _delete_group_button = (By.ID, 'delete-group')
-    
+
+    _delete_group_button = (By.CSS_SELECTOR, '.button.delete.right')
+
     def delete_group(self):
         self.selenium.find_element(*self._delete_group_button).click()
-        from pages.group_page import GroupPage
-        return GroupPage(self.testsetup)
+        from pages.groups_page import GroupsPage
+        return GroupsPage(self.testsetup)

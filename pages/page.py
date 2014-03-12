@@ -4,11 +4,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import time
+
 from unittestzero import Assert
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import ElementNotVisibleException
 
 
@@ -56,6 +59,45 @@ class Page(object):
             self._selenium_root.find_element(*locator)
             return True
         except NoSuchElementException:
+            return False
+        finally:
+            # set back to where you once belonged
+            self.selenium.implicitly_wait(self.testsetup.default_implicit_wait)
+
+    def wait_for_element_visible(self, *locator):
+        count = 0
+        while not self.is_element_visible(*locator):
+            time.sleep(1)
+            count += 1
+            if count == self.timeout:
+                raise Exception(':'.join(locator) + " is not visible")
+
+    def wait_for_element_not_visible(self, *locator):
+        count = 0
+        while self.is_element_visible(*locator):
+            time.sleep(1)
+            count += 1
+            if count == self.timeout:
+                raise Exception(':'.join(locator) + " is still visible")
+
+    def wait_for_element_present(self, *locator):
+        """Wait for an element to become present."""
+        self.selenium.implicitly_wait(0)
+        try:
+            WebDriverWait(self.selenium, 10).until(lambda s: self._selenium_root.find_element(*locator))
+        except TimeoutException:
+            Assert.fail(TimeoutException)
+        finally:
+            # set back to where you once belonged
+            self.selenium.implicitly_wait(self.testsetup.default_implicit_wait)
+
+    def wait_for_element_not_present(self, *locator):
+        """Wait for an element to become not present."""
+        self.selenium.implicitly_wait(0)
+        try:
+            WebDriverWait(self.selenium, 10).until(lambda s: len(self._selenium_root.find_elements(*locator)) < 1)
+            return True
+        except TimeoutException:
             return False
         finally:
             # set back to where you once belonged
