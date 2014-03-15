@@ -325,7 +325,7 @@ class TestProfile(BaseTest):
 
         home_page.login('vouched_with_private_fields')
         profile_page = home_page.header.click_view_profile_menu_item()
-        profile_page.view_profile_as_anonymous()
+        profile_page.view_profile_as('Public')
 
         Assert.false(profile_page.is_groups_present, 
                      u'Profile: ' + profile_page.get_url_current_page())

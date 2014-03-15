@@ -35,9 +35,10 @@ class Profile(Base):
         WebDriverWait(self.selenium, self.timeout).until(
             lambda s: self.is_element_visible(*self._profile_photo_locator))
 
-    def view_profile_as_anonymous(self):
-        select = Select(self.selenium.find_element(*self._view_as_locator))
-        select.select_by_visible_text("Public")
+    def view_profile_as(self, view_as):
+        element = self.selenium.find_element(*self._view_as_locator)
+        select = Select(element)
+        select.select_by_visible_text(view_as)
 
     @property
     def name(self):
