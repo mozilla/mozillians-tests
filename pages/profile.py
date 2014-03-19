@@ -7,6 +7,7 @@
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.select import Select
 
 from pages.base import Base
 
@@ -27,11 +28,17 @@ class Profile(Base):
     _region_locator = (By.CSS_SELECTOR, '#location > a:nth-child(3)')
     _country_locator = (By.CSS_SELECTOR, '#location .country-name')
     _profile_message_locator = (By.CSS_SELECTOR, '.alert')
+    _view_as_locator = (By.ID, 'view-privacy-mode')
 
     def __init__(self, testsetup):
         Base.__init__(self, testsetup)
         WebDriverWait(self.selenium, self.timeout).until(
             lambda s: self.is_element_visible(*self._profile_photo_locator))
+
+    def view_profile_as(self, view_as):
+        element = self.selenium.find_element(*self._view_as_locator)
+        select = Select(element)
+        select.select_by_visible_text(view_as)
 
     @property
     def name(self):
