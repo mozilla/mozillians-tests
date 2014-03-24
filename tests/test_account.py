@@ -13,6 +13,7 @@ from pages.link_crawler import LinkCrawler
 
 class TestAccount:
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_login_logout(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -22,6 +23,7 @@ class TestAccount:
         home_page.header.click_logout_menu_item()
         Assert.true(home_page.is_browserid_link_present)
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_logout_verify_bid(self, mozwebqa):
         # issue https://github.com/mozilla/mozillians-tests/issues/99

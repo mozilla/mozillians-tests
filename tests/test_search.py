@@ -15,6 +15,7 @@ from pages.profile import Profile
 
 class TestSearch:
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     @pytest.mark.xfail("config.getvalue('base_url') == 'https://mozillians-dev.allizom.org'")
     # uncovered on dev - bug 944101 - Searching by email substring does not return all results
@@ -24,6 +25,7 @@ class TestSearch:
         search_page = home_page.header.search_for(u'@mozilla.com')
         Assert.true(search_page.results_count > 0)
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_first_name(self, mozwebqa):
         query = u'Matt'
@@ -36,6 +38,7 @@ class TestSearch:
         profile_name = search_page.search_results[random_profile].name
         Assert.contains(query, profile_name)
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_irc_nickname(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -44,6 +47,7 @@ class TestSearch:
         profile = Profile(mozwebqa)
         Assert.equal(u'Matt Brandt', profile.name)
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_search_for_not_existing_mozillian_when_logged_in(self, mozwebqa):
         query = u'Qwerty'

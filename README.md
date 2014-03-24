@@ -10,6 +10,10 @@ The following contributors have submitted pull requests to mozillians-tests:
 
 https://github.com/mozilla/mozillians-tests/contributors
 
+Continuous Integration
+----------------------
+[![Build Status](https://secure.travis-ci.org/mozilla/mozillians-tests.png?branch=master)](http://travis-ci.org/mozilla/mozillians-tests/)
+
 Getting involved as a contributor
 ---------------------------------
 
