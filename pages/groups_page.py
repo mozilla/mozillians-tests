@@ -10,10 +10,14 @@ from pages.base import Base
 from pages.create_group_page import CreateGroupPage
 
 
-class GroupPage(Base):
-    
+class GroupsPage(Base):
+
     _create_group_main_button = (By.CLASS_NAME, 'large')
-    
+    _alert_message_locator = (By.CSS_SELECTOR, '.alert-info')
+
     def click_create_group_main_button(self):
         self.selenium.find_element(*self._create_group_main_button).click()
         return CreateGroupPage(self.testsetup)
+
+    def wait_for_alert_message(self):
+        self.wait_for_element_visible(*self._alert_message_locator)

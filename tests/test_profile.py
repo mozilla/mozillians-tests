@@ -297,7 +297,7 @@ class TestProfile(BaseTest):
     def test_that_user_can_create_and_delete_group(self, mozwebqa):
         current_time = time.strftime("%x"+"-"+"%X")
         group_name = ('qa_test' + ' ' + current_time)
-        
+
         home_page = Home(mozwebqa)
         home_page.login()
         edit_page = home_page.header.click_edit_profile_menu_item()
@@ -305,12 +305,39 @@ class TestProfile(BaseTest):
         create_group = groups.click_create_group_main_button()
         create_group.create_group_name(group_name)
         create_group.click_create_group_submit()
-        
+
         search_listings = create_group.header.search_for(group_name)
-        
+
         Assert.true(search_listings.is_element_present(By.LINK_TEXT, group_name))
-        
+
         group_info = search_listings.open_group(group_name)
-        search_listings = group_info.delete_group()
-        
+        groups_page = group_info.delete_group()
+        groups_page.wait_for_alert_message()
+
+        home_page.header.click_edit_profile_menu_item()
+
         Assert.false(search_listings.is_element_present(By.LINK_TEXT, group_name))
+
+    @pytest.mark.nondestructive
+    def test_private_groups_field_as_public_when_logged_in(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        # User has certain fields preset to values to run the test properly
+            # groups - private
+            # belongs to at least one group
+        credentials = mozwebqa.credentials['vouched_with_private_fields']
+
+        home_page.login('vouched_with_private_fields')
+        profile_page = home_page.header.click_view_profile_menu_item()
+        profile_page.view_profile_as('Public')
+
+        Assert.false(profile_page.is_groups_present, 
+                     u'Profile: ' + profile_page.get_url_current_page())
+
+    @pytest.mark.nondestructive
+    def test_private_groups_field_when_not_logged_in(self, mozwebqa):
+        credentials = mozwebqa.credentials['vouched_with_private_fields']
+        home_page = Home(mozwebqa)
+        profile_page = home_page.open_user_profile(credentials['name'])
+
+        Assert.false(profile_page.is_groups_present, 
+                     u'Profile: ' + profile_page.get_url_current_page())

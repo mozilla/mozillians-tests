@@ -7,7 +7,6 @@
 from random import randrange
 
 import pytest
-import requests
 from unittestzero import Assert
 
 from pages.home_page import Home

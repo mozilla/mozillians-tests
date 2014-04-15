@@ -10,7 +10,7 @@ from selenium.webdriver.support.select import Select
 import random
 from pages.base import Base
 from pages.profile import Profile
-from pages.group_page import GroupPage
+from pages.groups_page import GroupsPage
 from selenium.webdriver.common.keys import Keys
 
 
@@ -49,7 +49,7 @@ class EditProfile(Base):
         
     def click_find_group_link(self):
         self.selenium.find_element(*self._find_group_page).click()
-        return GroupPage(self.testsetup)
+        return GroupsPage(self.testsetup)
 
     def set_full_name(self, full_name):
         element = self.selenium.find_element(*self._full_name_field_locator)
