@@ -21,7 +21,7 @@ class Search(Base):
     _with_photos_only_checkbox_locator = (By.ID, 'id_picture_only')
     _no_results_locator_head = (By.ID, 'not-found')
     _no_results_locator_body = (By.CSS_SELECTOR, 'div.well > p:nth-of-type(2)')
-    _last_page_number = (By.CSS_SELECTOR, '#pagination-form select option:last-child')
+    _last_page_number_locator = (By.CSS_SELECTOR, '#pagination-form select option:last-child')
 
     @property
     def results_count(self):
@@ -29,7 +29,7 @@ class Search(Base):
 
     @property
     def number_of_pages(self):
-        element = self.selenium.find_element(*self._last_page_number)
+        element = self.selenium.find_element(*self._last_page_number_locator)
         return element.get_attribute('text')
 
     @property
