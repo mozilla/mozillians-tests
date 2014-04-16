@@ -97,6 +97,8 @@ class TestProfile(BaseTest):
             Assert.equal(groups.find("hello world"), -1, "Group 'hello world' not deleted.")
 
     @pytest.mark.credentials
+    @pytest.mark.xfail("'dev' in config.getvalue('base_url')",
+                       reason="Bug 997455 - [dev] Unable to add/remove new skills")
     def test_skill_addition(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
@@ -110,6 +112,8 @@ class TestProfile(BaseTest):
         Assert.greater(skills.find("hello world"), -1, "Skill 'hello world' not added to profile.")
 
     @pytest.mark.credentials
+    @pytest.mark.xfail("'dev' in config.getvalue('base_url')",
+                       reason="Bug 997455 - [dev] Unable to add/remove new skills")
     def test_skill_deletion(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
