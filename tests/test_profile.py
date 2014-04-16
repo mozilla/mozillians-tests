@@ -16,6 +16,7 @@ from tests.base_test import BaseTest
 
 class TestProfile(BaseTest):
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_profile_deletion_confirmation(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -27,6 +28,7 @@ class TestProfile(BaseTest):
         Assert.true(confirm_profile_delete_page.is_cancel_button_present)
         Assert.true(confirm_profile_delete_page.is_delete_button_present)
 
+    @pytest.mark.credentials
     def test_edit_profile_information(self, mozwebqa):
         home_page = Home(mozwebqa)
 
@@ -60,6 +62,7 @@ class TestProfile(BaseTest):
 
     @pytest.mark.xfail("'allizom' in config.getvalue('base_url')",
                        reason="Bug 938184 - Users should not create, join, or leave groups from the profile create/edit screens")
+    @pytest.mark.credentials
     def test_group_addition(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
@@ -74,6 +77,7 @@ class TestProfile(BaseTest):
 
     @pytest.mark.xfail("'allizom' in config.getvalue('base_url')",
                        reason="Bug 938184 - Users should not create, join, or leave groups from the profile create/edit screens")
+    @pytest.mark.credentials
     def test_group_deletion(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
@@ -92,6 +96,7 @@ class TestProfile(BaseTest):
             groups = profile_page.groups
             Assert.equal(groups.find("hello world"), -1, "Group 'hello world' not deleted.")
 
+    @pytest.mark.credentials
     def test_skill_addition(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
@@ -104,6 +109,7 @@ class TestProfile(BaseTest):
         skills = profile_page.skills
         Assert.greater(skills.find("hello world"), -1, "Skill 'hello world' not added to profile.")
 
+    @pytest.mark.credentials
     def test_skill_deletion(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
@@ -208,6 +214,7 @@ class TestProfile(BaseTest):
         Assert.equal(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2', profile_page.languages)
         Assert.equal('Athenes, Greece, Greece', profile_page.location)
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_that_filter_by_city_works(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -233,6 +240,7 @@ class TestProfile(BaseTest):
             city, random_profile_city,
             u'Expected city: %s, but got: %s' % (city, random_profile_city))
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_that_filter_by_region_works(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -258,6 +266,7 @@ class TestProfile(BaseTest):
             region, random_profile_region,
             u'Expected region: %s, but got: %s' % (region, random_profile_region))
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_that_filter_by_county_works(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -282,6 +291,7 @@ class TestProfile(BaseTest):
             country, random_profile_country,
             u'Expected country: %s, but got: %s' % (country, random_profile_country))
 
+    @pytest.mark.credentials
     def test_that_non_US_user_can_set_get_involved_date(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
@@ -294,6 +304,7 @@ class TestProfile(BaseTest):
         edit_page = profile_page.header.click_edit_profile_menu_item()
         Assert.not_equal(selected_date, edit_page.month + edit_page.year, "The date is not changed")
 
+    @pytest.mark.credentials
     def test_that_user_can_create_and_delete_group(self, mozwebqa):
         current_time = time.strftime("%x"+"-"+"%X")
         group_name = ('qa_test' + ' ' + current_time)
@@ -318,6 +329,7 @@ class TestProfile(BaseTest):
 
         Assert.false(search_listings.is_element_present(By.LINK_TEXT, group_name))
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_private_groups_field_as_public_when_logged_in(self, mozwebqa):
         home_page = Home(mozwebqa)
@@ -333,6 +345,7 @@ class TestProfile(BaseTest):
         Assert.false(profile_page.is_groups_present, 
                      u'Profile: ' + profile_page.get_url_current_page())
 
+    @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_private_groups_field_when_not_logged_in(self, mozwebqa):
         credentials = mozwebqa.credentials['vouched_with_private_fields']

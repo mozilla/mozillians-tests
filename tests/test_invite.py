@@ -4,6 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import pytest
 from unittestzero import Assert
 
 from pages.home_page import Home
@@ -11,6 +12,7 @@ from pages.home_page import Home
 
 class TestInvite:
 
+    @pytest.mark.credentials
     def test_inviting_an_invalid_email_address(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
@@ -18,6 +20,7 @@ class TestInvite:
         invite_page.invite("invalidmail")
         Assert.equal('Enter a valid e-mail address.', invite_page.error_text_message)
 
+    @pytest.mark.credentials
     def test_invite(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
