@@ -18,7 +18,7 @@ class TestInvite:
         home_page.login()
         invite_page = home_page.header.click_invite_menu_item()
         invite_page.invite("invalidmail")
-        Assert.equal('Enter a valid e-mail address.', invite_page.error_text_message)
+        Assert.equal('Enter a valid email address.', invite_page.error_text_message)
 
     @pytest.mark.credentials
     def test_invite(self, mozwebqa):
