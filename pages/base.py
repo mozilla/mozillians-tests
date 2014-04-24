@@ -16,13 +16,13 @@ from pages.page import Page
 class Base(Page):
 
     _csrf_token_locator = (By.NAME, 'csrfmiddlewaretoken')
-    _logout_locator = (By.ID, 'logout')
+    _logout_locator = (By.ID, 'nav-logout')
 
     _pending_approval_locator = (By.ID, 'pending-approval')
     _account_created_successfully_locator = (By.CSS_SELECTOR, 'div.alert:nth-child(2)')
 
     # Not logged in
-    _browserid_login_locator = (By.ID, 'create_profile')
+    _browserid_login_locator = (By.ID, 'nav-login')
 
     @property
     def page_title(self):
@@ -98,10 +98,10 @@ class Base(Page):
 
         # menu items
         _dropdown_menu_locator = (By.CSS_SELECTOR, 'ul.dropdown-menu')
-        _view_profile_menu_item_locator = (By.ID, 'profile')
-        _invite_menu_item_locator = (By.ID, 'invite')
-        _edit_profile_menu_item_locator = (By.CSS_SELECTOR, 'li.edit_profile > a')
-        _logout_menu_item_locator = (By.ID, 'logout')
+        _view_profile_menu_item_locator = (By.ID, 'nav-profile')
+        _invite_menu_item_locator = (By.ID, 'nav-invite')
+        _edit_profile_menu_item_locator = (By.ID, 'nav-edit-profile')
+        _logout_menu_item_locator = (By.ID, 'nav-logout')
 
         @property
         def is_search_box_present(self):
