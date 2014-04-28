@@ -14,7 +14,7 @@ from pages.base import Base
 
 class Profile(Base):
 
-    _profile_photo_locator = (By.CSS_SELECTOR, '.profile-photo > img')
+    _profile_photo_locator = (By.CSS_SELECTOR, '.profile-photo img')
     _name_locator = (By.CSS_SELECTOR, 'h1.p-name')
     _email_locator = (By.CSS_SELECTOR, '.email')
     _website_locator = (By.CSS_SELECTOR, '.url')
