@@ -9,8 +9,6 @@ import time
 from unittestzero import Assert
 from selenium.webdriver.common.by import By
 from pages.home_page import Home
-from pages.search import Search
-from pages.base import Base
 from tests.base_test import BaseTest
 
 
@@ -142,9 +140,7 @@ class TestProfile(BaseTest):
         profile.select_language('en')
 
         # Location
-        profile.select_country('us')
-        profile.set_state('California')
-        profile.set_city('Mountain View')
+        profile.set_location('Durango, Colorado')
 
         profile.click_create_profile_button()
 
@@ -165,9 +161,9 @@ class TestProfile(BaseTest):
         profile.select_language('en')
 
         # Location
-        profile.select_country('us')
-        profile.set_state('California')
-        profile.set_city('Mountain View')
+        profile.set_location('Mountain View, California')
+
+        # agreed to privacy policy
         profile.check_privacy()
 
         profile_page = profile.click_create_profile_button()
@@ -197,9 +193,9 @@ class TestProfile(BaseTest):
         profile.add_language(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2')
 
         # Location
-        profile.select_country('gr')
-        profile.set_state('Greece')
-        profile.set_city('Athens')
+        profile.set_location('Athens, Greece')
+
+        # agreed to privacy policy
         profile.check_privacy()
 
         profile_page = profile.click_create_profile_button()
@@ -342,7 +338,7 @@ class TestProfile(BaseTest):
         profile_page = home_page.header.click_view_profile_menu_item()
         profile_page.view_profile_as('Public')
 
-        Assert.false(profile_page.is_groups_present, 
+        Assert.false(profile_page.is_groups_present,
                      u'Profile: ' + profile_page.get_url_current_page())
 
     @pytest.mark.credentials
@@ -352,5 +348,5 @@ class TestProfile(BaseTest):
         home_page = Home(mozwebqa)
         profile_page = home_page.open_user_profile(credentials['name'])
 
-        Assert.false(profile_page.is_groups_present, 
+        Assert.false(profile_page.is_groups_present,
                      u'Profile: ' + profile_page.get_url_current_page())
