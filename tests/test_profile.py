@@ -212,6 +212,8 @@ class TestProfile(BaseTest):
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
+    @pytest.mark.xfail("'allizom' in config.getvalue('base_url')",
+                       reason="Bug 1025160 - [stage][regression] location based search results are incorrect")
     def test_that_filter_by_city_works(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
