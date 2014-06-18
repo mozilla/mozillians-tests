@@ -8,6 +8,7 @@ from random import randrange
 
 import pytest
 from unittestzero import Assert
+import requests
 
 from pages.home_page import Home
 from pages.profile import Profile
