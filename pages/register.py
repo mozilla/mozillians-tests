@@ -6,7 +6,9 @@
 
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.base import Base
 
@@ -20,9 +22,8 @@ class Register(Base):
     _skills_field_locator = (By.CSS_SELECTOR, '#id_skills + ul input')
     _language_locator = (By.ID, 'id_language_set-0-code')
     _previous_button_locator = (By.ID, 'page1button')
-    _country_locator = (By.ID, 'id_country')
-    _state_locator = (By.ID, 'id_region')
-    _city_locator = (By.ID, 'id_city')
+    _map_search_box_locator = (By.ID, 'location_search')
+    _country_locator = (By.ID, 'display_country')
     _privacy_locator = (By.ID, 'id_optin')
     _privacy_error_message_locator = (By.CSS_SELECTOR, '.error-message')
     _create_profile_button_locator = (By.CSS_SELECTOR, '#edit-controls > button')
@@ -30,6 +31,13 @@ class Register(Base):
     @property
     def error_message(self):
         return self.selenium.find_element(*self._error_locator).text
+
+    def set_location(self, location):
+        element = self.selenium.find_element(*self._map_search_box_locator)
+        element.send_keys(location)
+        element.send_keys(Keys.RETURN)
+        WebDriverWait(self.selenium, self.timeout).until(
+            lambda s: self._selenium_root.find_element(*self._country_locator).text != "")
 
     def set_full_name(self, full_name):
         element = self.selenium.find_element(*self._full_name_field_locator)
