@@ -18,15 +18,6 @@ class LocationSearchResults(Base):
     _result_item_locator = (By.CSS_SELECTOR, 'div.row > div.result')
 
     @property
-    def _page_title(self):
-        if hasattr(self, 'region'):
-            return u'Mozillians: %s, %s' % (self.region, self.country)
-        elif hasattr(self, 'city'):
-            return u'Mozillians: %s, %s' % (self.city, self.country)
-        else:
-            return u'Mozillians: %s' % self.country
-
-    @property
     def title(self):
         return self.find_element(*self._results_title_locator).text
 
