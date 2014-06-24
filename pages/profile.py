@@ -84,20 +84,20 @@ class Profile(Base):
     def country(self):
         return self.find_element(*self._country_locator).text
 
-    def click_city_name(self, **kwargs):
+    def click_profile_city_filter(self):
         self.find_element(*self._city_locator).click()
         from location_search_results import LocationSearchResults
-        return LocationSearchResults(self.testsetup, **kwargs)
+        return LocationSearchResults(self.testsetup)
 
-    def click_region_name(self, **kwargs):
+    def click_profile_region_filter(self,):
         self.find_element(*self._region_locator).click()
         from location_search_results import LocationSearchResults
-        return LocationSearchResults(self.testsetup, **kwargs)
+        return LocationSearchResults(self.testsetup)
 
-    def click_country_name(self, **kwargs):
+    def click_profile_country_filter(self):
         self.find_element(*self._country_locator).click()
         from location_search_results import LocationSearchResults
-        return LocationSearchResults(self.testsetup, **kwargs)
+        return LocationSearchResults(self.testsetup)
 
     @property
     def languages(self):
@@ -106,7 +106,7 @@ class Profile(Base):
     @property
     def profile_message(self):
         return self.selenium.find_element(*self._profile_message_locator).text
-    
+
     @property
     def is_groups_present(self):
         return self.is_element_present(*self._groups_locator)

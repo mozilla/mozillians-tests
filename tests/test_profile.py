@@ -219,11 +219,11 @@ class TestProfile(BaseTest):
         profile_page = home_page.open_user_profile(u'Mozillians.User')
         city = profile_page.city
         country = profile_page.country
-        search_results_page = profile_page.click_city_name(city=city, country=country)
+
+        search_results_page = profile_page.click_profile_city_filter()
         expected_results_title = u'Mozillians in %s, %s' % (city, country)
         actual_results_title = search_results_page.title
 
-        Assert.true(search_results_page.is_the_current_page)
         Assert.equal(
             expected_results_title, actual_results_title,
             u'''Search results title is incorrect.
@@ -245,11 +245,10 @@ class TestProfile(BaseTest):
         profile_page = home_page.open_user_profile(u'Mozillians.User')
         region = profile_page.region
         country = profile_page.country
-        search_results_page = profile_page.click_region_name(region=region, country=country)
+        search_results_page = profile_page.click_profile_region_filter()
         expected_results_title = u'Mozillians in %s, %s' % (region, country)
         actual_results_title = search_results_page.title
 
-        Assert.true(search_results_page.is_the_current_page)
         Assert.equal(
             expected_results_title, actual_results_title,
             u'''Search results title is incorrect.
@@ -270,11 +269,10 @@ class TestProfile(BaseTest):
 
         profile_page = home_page.open_user_profile(u'Mozillians.User')
         country = profile_page.country
-        search_results_page = profile_page.click_country_name(country=country)
+        search_results_page = profile_page.click_profile_country_filter()
         expected_results_title = u'Mozillians in %s' % country
         actual_results_title = search_results_page.title
 
-        Assert.true(search_results_page.is_the_current_page)
         Assert.equal(
             expected_results_title, actual_results_title,
             u'''Search results title is incorrect.
