@@ -263,7 +263,7 @@ class TestProfile(BaseTest):
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_that_filter_by_county_works(self, mozwebqa):
+    def test_that_filter_by_country_works(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
 
