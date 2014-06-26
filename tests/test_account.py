@@ -15,6 +15,8 @@ class TestAccount:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
+    @pytest.mark.xfail("'allizom' in config.getvalue('base_url')",
+                       reason="Bug 1000908 -  Upgrade django-browserid to v0.10")
     def test_login_logout(self, mozwebqa):
         home_page = Home(mozwebqa)
         Assert.true(home_page.is_csrf_token_present)
@@ -25,8 +27,9 @@ class TestAccount:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
+    @pytest.mark.xfail("'allizom' in config.getvalue('base_url')",
+                       reason="Bug 1000908 -  Upgrade django-browserid to v0.10")
     def test_logout_verify_bid(self, mozwebqa):
-        # issue https://github.com/mozilla/mozillians-tests/issues/99
 
         home_page = Home(mozwebqa)
         Assert.true(home_page.is_csrf_token_present)
