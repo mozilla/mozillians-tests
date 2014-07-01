@@ -21,7 +21,6 @@ class TestProfile(BaseTest):
         home_page.login()
         edit_profile_page = home_page.header.click_edit_profile_menu_item()
         confirm_profile_delete_page = edit_profile_page.click_delete_profile_button()
-        Assert.true(confirm_profile_delete_page.is_csrf_token_present)
         Assert.true(confirm_profile_delete_page.is_confirm_text_present)
         Assert.true(confirm_profile_delete_page.is_cancel_button_present)
         Assert.true(confirm_profile_delete_page.is_delete_button_present)
@@ -34,7 +33,6 @@ class TestProfile(BaseTest):
 
         profile_page = home_page.header.click_view_profile_menu_item()
         edit_profile_page = home_page.header.click_edit_profile_menu_item()
-        Assert.true(edit_profile_page.is_csrf_token_present)
         current_time = str(time.time()).split('.')[0]
 
         # New profile data
