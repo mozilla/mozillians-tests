@@ -25,7 +25,6 @@ class TestInvite:
         home_page = Home(mozwebqa)
         home_page.login()
         invite_page = home_page.header.click_invite_menu_item()
-        Assert.true(invite_page.is_csrf_token_present)
         mail_address = "validuser@example.com"
         invite_success_page = invite_page.invite(mail_address)
         Assert.equal("%s has been invited to Mozillians. They'll receive an email with instructions on how to join.\

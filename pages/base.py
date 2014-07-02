@@ -15,7 +15,6 @@ from pages.page import Page
 
 class Base(Page):
 
-    _csrf_token_locator = (By.NAME, 'csrfmiddlewaretoken')
     _logout_locator = (By.ID, 'nav-logout')
 
     _pending_approval_locator = (By.ID, 'pending-approval')
@@ -28,10 +27,6 @@ class Base(Page):
     def page_title(self):
         WebDriverWait(self.selenium, 10).until(lambda s: self.selenium.title)
         return self.selenium.title
-
-    @property
-    def is_csrf_token_present(self):
-        return self.is_element_present(*self._csrf_token_locator)
 
     @property
     def is_pending_approval_visible(self):
