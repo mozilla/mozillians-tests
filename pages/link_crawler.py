@@ -46,7 +46,7 @@ class LinkCrawler(Page):
             lambda u: u if u.startswith('http') else '%s%s' % (self.base_url, u), urls)
 
     def verify_status_code_is_ok(self, url):
-        r = requests.get(url)
+        r = requests.get(url, verify=False)
         if not r.status_code == requests.codes.ok:
             return u'{0.url} returned: {0.status_code} {0.reason}'.format(r)
         else:
