@@ -324,13 +324,12 @@ class TestProfile(BaseTest):
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_private_groups_field_as_public_when_logged_in(self, mozwebqa):
-        home_page = Home(mozwebqa)
         # User has certain fields preset to values to run the test properly
-            # groups - private
-            # belongs to at least one group
-        credentials = mozwebqa.credentials['vouched_with_private_fields']
-
+        # groups - private
+        # belongs to at least one group
+        home_page = Home(mozwebqa)
         home_page.login('vouched_with_private_fields')
+
         profile_page = home_page.header.click_view_profile_menu_item()
         profile_page.view_profile_as('Public')
 
