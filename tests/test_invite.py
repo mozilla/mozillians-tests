@@ -25,7 +25,7 @@ class TestInvite:
         home_page = Home(mozwebqa)
         home_page.login()
         invite_page = home_page.header.click_invite_menu_item()
-        mail_address = "validuser@example.com"
-        invite_success_page = invite_page.invite(mail_address)
+        email_address = "user@example.com"
+        invite_success_page = invite_page.invite(email_address, 'Just a bot sending a test invite to a test account.')
         Assert.equal("%s has been invited to Mozillians. They'll receive an email with instructions on how to join.\
- You can invite another Mozillian if you like." % mail_address, invite_success_page.success_message)
+ You can invite another Mozillian if you like." % email_address, invite_success_page.success_message)
