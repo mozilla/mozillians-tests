@@ -39,11 +39,8 @@ class EditProfile(Base):
     _selected_month_locator = (By.CSS_SELECTOR, '#id_date_mozillian_month > option[selected="selected"]')
     _selected_year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year > option[selected="selected"]')
     _find_group_page = (By.PARTIAL_LINK_TEXT, 'find the group')
-    _services_bugzilla_locator = (By.LINK_TEXT, 'Bugzilla')
-    _services_mozilla_reps_locator = (By.LINK_TEXT, 'Mozilla Reps Portal')
-    _services_api_locator = (By.PARTIAL_LINK_TEXT, 'API methods')
-    _services_file_bug_locator = (By.LINK_TEXT, 'file a bug')
-    _services_development_forum_locator = (By.LINK_TEXT, 'development forum')
+    _services_bugzilla_locator = (By.ID, 'services-bugzilla-url')
+    _services_mozilla_reps_locator = (By.ID, 'services-mozilla-reps')
 
     def click_update_button(self):
         self.selenium.find_element(*self._update_button_locator).click()
@@ -150,7 +147,7 @@ class EditProfile(Base):
         return self.select_year(random.choice(self.years_values[1:]))
 
     def get_services_urls(self):
-        locs = [self._services_bugzilla_locator, self._services_mozilla_reps_locator, self._services_api_locator, self._services_file_bug_locator, self._services_development_forum_locator]
+        locs = [self._services_bugzilla_locator, self._services_mozilla_reps_locator]
         urls = []
 
         for element in locs:
