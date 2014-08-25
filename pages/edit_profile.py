@@ -39,6 +39,8 @@ class EditProfile(Base):
     _selected_month_locator = (By.CSS_SELECTOR, '#id_date_mozillian_month > option[selected="selected"]')
     _selected_year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year > option[selected="selected"]')
     _find_group_page = (By.PARTIAL_LINK_TEXT, 'find the group')
+    _services_bugzilla_locator = (By.ID, 'services-bugzilla-url')
+    _services_mozilla_reps_locator = (By.ID, 'services-mozilla-reps')
 
     def click_update_button(self):
         self.selenium.find_element(*self._update_button_locator).click()
@@ -46,7 +48,7 @@ class EditProfile(Base):
 
     def click_cancel_button(self):
         self.selenium.find_element(*self._cancel_button_locator).click()
-        
+
     def click_find_group_link(self):
         self.selenium.find_element(*self._find_group_page).click()
         return GroupsPage(self.testsetup)
@@ -144,3 +146,12 @@ class EditProfile(Base):
     def select_random_year(self):
         return self.select_year(random.choice(self.years_values[1:]))
 
+    def get_services_urls(self):
+        locs = [self._services_bugzilla_locator, self._services_mozilla_reps_locator]
+        urls = []
+
+        for element in locs:
+            url = self.selenium.find_element(*element).get_attribute('href')
+            urls.append(url)
+
+        return urls

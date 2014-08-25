@@ -6,9 +6,11 @@
 
 import pytest
 import time
+
 from unittestzero import Assert
 from selenium.webdriver.common.by import By
 from pages.home_page import Home
+from pages.link_crawler import LinkCrawler
 from tests.base_test import BaseTest
 
 
@@ -345,3 +347,26 @@ class TestProfile(BaseTest):
 
         Assert.false(profile_page.is_groups_present,
                      u'Profile: ' + profile_page.get_url_current_page())
+
+    @pytest.mark.credentials
+    @pytest.mark.nondestructive
+    def test_that_links_in_the_services_page_return_200_code(self, mozwebqa):
+        home_page = Home(mozwebqa)
+        home_page.login()
+
+        edit_profile_page = home_page.header.click_edit_profile_menu_item()
+        crawler = LinkCrawler(mozwebqa)
+        urls = edit_profile_page.get_services_urls()
+        bad_urls = []
+
+        Assert.greater(
+            len(urls), 0, u'something went wrong. no links found.')
+
+        for url in urls:
+            check_result = crawler.verify_status_code_is_ok(url)
+            if check_result is not True:
+                bad_urls.append(check_result)
+
+        Assert.equal(
+            0, len(bad_urls),
+            u'%s bad links found. ' % len(bad_urls) + ', '.join(bad_urls))
