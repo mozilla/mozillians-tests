@@ -190,7 +190,6 @@ class TestProfile(BaseTest):
 
         # Skills
         profile.add_skill(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2')
-        profile.add_language(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2')
 
         # Location
         profile.set_location('Athens, Greece')
