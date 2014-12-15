@@ -55,7 +55,7 @@ This repository contains Selenium tests used to test:
 
 Mozilla maintains a guide to running Automated tests on our QMO website:
 
-https://wiki.mozilla.org/QA/Execution/Web_Testing/Docs/Automation
+https://wiki.mozilla.org/QA/Execution/Web_Testing/Docs/Automation/
 
 ###You will need to install the following:
 
