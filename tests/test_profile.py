@@ -161,7 +161,7 @@ class TestProfile(BaseTest):
         profile.select_language('en')
 
         # Location
-        profile.set_location('Mountain View, California')
+        profile.set_location('Mountain View, 94041, California')
 
         # agreed to privacy policy
         profile.check_privacy()
