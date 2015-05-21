@@ -108,9 +108,10 @@ Some of the tests in mozillians-tests require accounts for
 https://mozillians.allizom.org. You'll need to create three sets of credentials
 with varying privilege levels.
 
-1. Create three username and password combinations on https://mozillians.allizom.org
-2. Join #commtools and ask for one of these users to be vouched (or ask someone on #mozwebqa to do this for you)
-3. Copy mozillians-tests/credentials.yaml to a location outside of mozillians-tests. Update the 'user', 'unvouched', and 'unconfirmed' users in credentials.yaml with those credentials
+1. Create two username and password combinations on https://mozillians.allizom.org
+2. Join #commtools and ask for these users to be vouched (or ask someone on #mozwebqa to do this for you)
+3. In one of these users profile, join at least one group and mark groups as private
+4. Copy mozillians-tests/variables.json to a location outside of mozillians-tests. Update the 'vouched' and 'private' users in variables.json with those credentials
 
 #### Running tests locally
 Before each test run, clean up the repo:
@@ -122,12 +123,12 @@ Note: If you are running tests on a Mac, run:
 To run tests locally it is as simple as calling <code>py.test</code> with
 several flags. To run testcases that do not modify or delete data:
 
-    py.test --driver=firefox --baseurl=http://mozillians.allizom.org --credentials=/full/path/to/credentials.yaml .
+    py.test --driver=firefox --baseurl=http://mozillians.allizom.org --variables=/full/path/to/variables.json .
 
 To run testcases that are known to change or delete account data use the
 <code>--destructive</code> flag:
 
-    py.test --driver=firefox --baseurl=http://mozillians.allizom.org --destructive --credentials=/full/path/to/credentials.yaml .
+    py.test --driver=firefox --baseurl=http://mozillians.allizom.org --destructive --variables=/full/path/to/variables.json .
 
 __Output__
 

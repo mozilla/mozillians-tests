@@ -15,18 +15,18 @@ class TestAccount:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_login_logout(self, mozwebqa):
+    def test_login_logout(self, mozwebqa, vouched_user):
         home_page = Home(mozwebqa)
-        home_page.login()
+        home_page.login(vouched_user['email'], vouched_user['password'])
         Assert.true(home_page.header.is_logout_menu_item_present)
         home_page.header.click_logout_menu_item()
         Assert.true(home_page.is_browserid_link_present)
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_logout_verify_bid(self, mozwebqa):
+    def test_logout_verify_bid(self, mozwebqa, vouched_user):
         home_page = Home(mozwebqa)
-        home_page.login()
+        home_page.login(vouched_user['email'], vouched_user['password'])
         Assert.true(home_page.header.is_logout_menu_item_present)
         home_page.logout_using_url()
 

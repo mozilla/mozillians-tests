@@ -49,20 +49,18 @@ class Base(Page):
     def click_browserid_login(self):
         self.selenium.find_element(*self._browserid_login_locator).click()
 
-    def login(self, user='user'):
+    def login(self, email, password):
         self.click_browserid_login()
-        credentials = self.testsetup.credentials[user]
-
         from browserid import BrowserID
         pop_up = BrowserID(self.selenium, self.timeout)
-        pop_up.sign_in(credentials['email'], credentials['password'])
+        pop_up.sign_in(email, password)
         WebDriverWait(self.selenium, 20).until(lambda s: self.is_user_loggedin)
 
-    def create_new_user(self, user):
+    def create_new_user(self, email, password):
         self.click_browserid_login()
         from browserid import BrowserID
         pop_up = BrowserID(self.selenium, self.timeout)
-        pop_up.sign_in(user['email'], user['password'])
+        pop_up.sign_in(email, password)
 
         WebDriverWait(self.selenium, 20).until(lambda s: self.is_user_loggedin)
         from pages.register import Register

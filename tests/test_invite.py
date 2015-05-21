@@ -13,17 +13,17 @@ from pages.home_page import Home
 class TestInvite:
 
     @pytest.mark.credentials
-    def test_inviting_an_invalid_email_address(self, mozwebqa):
+    def test_inviting_an_invalid_email_address(self, mozwebqa, vouched_user):
         home_page = Home(mozwebqa)
-        home_page.login()
+        home_page.login(vouched_user['email'], vouched_user['password'])
         invite_page = home_page.header.click_invite_menu_item()
         invite_page.invite("invalidmail")
         Assert.equal('Enter a valid email address.', invite_page.error_text_message)
 
     @pytest.mark.credentials
-    def test_invite(self, mozwebqa):
+    def test_invite(self, mozwebqa, vouched_user):
         home_page = Home(mozwebqa)
-        home_page.login()
+        home_page.login(vouched_user['email'], vouched_user['password'])
         invite_page = home_page.header.click_invite_menu_item()
         email_address = "user@example.com"
         invite_success_page = invite_page.invite(email_address, 'Just a bot sending a test invite to a test account.')

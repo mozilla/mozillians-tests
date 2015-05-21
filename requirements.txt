@@ -1,13 +1,13 @@
 # This pulls in all the libraries needed to run Selenium tests
 # on Mozilla WebQA projects
 
-PyYAML==3.10
 UnittestZero
 certifi==0.0.8
 chardet==1.0.1
 py==1.4.26
 pytest==2.7.0
 pytest-mozwebqa
+pytest-variables
 requests==2.4.3
 selenium
 BeautifulSoup==3.2.1

@@ -20,18 +20,18 @@ class TestSearch:
     @pytest.mark.nondestructive
     @pytest.mark.xfail("config.getvalue('base_url') == 'https://mozillians-dev.allizom.org'")
     # uncovered on dev - bug 944101 - Searching by email substring does not return all results
-    def test_that_search_returns_results_for_email_substring(self, mozwebqa):
+    def test_that_search_returns_results_for_email_substring(self, mozwebqa, vouched_user):
         home_page = Home(mozwebqa)
-        home_page.login()
+        home_page.login(vouched_user['email'], vouched_user['password'])
         search_page = home_page.header.search_for(u'@mozilla.com')
         Assert.true(search_page.results_count > 0)
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_that_search_returns_results_for_first_name(self, mozwebqa):
+    def test_that_search_returns_results_for_first_name(self, mozwebqa, vouched_user):
         query = u'Matt'
         home_page = Home(mozwebqa)
-        home_page.login()
+        home_page.login(vouched_user['email'], vouched_user['password'])
         search_page = home_page.header.search_for(query)
         Assert.true(search_page.results_count > 0)
         # get random index
@@ -41,25 +41,24 @@ class TestSearch:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_that_search_returns_results_for_irc_nickname(self, mozwebqa):
+    def test_that_search_returns_results_for_irc_nickname(self, mozwebqa, vouched_user):
         home_page = Home(mozwebqa)
-        home_page.login()
+        home_page.login(vouched_user['email'], vouched_user['password'])
         home_page.header.search_for(u'mbrandt')
         profile = Profile(mozwebqa)
         Assert.equal(u'Matt Brandt', profile.name)
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_search_for_not_existing_mozillian_when_logged_in(self, mozwebqa):
+    def test_search_for_not_existing_mozillian_when_logged_in(self, mozwebqa, vouched_user):
         query = u'Qwerty'
         home_page = Home(mozwebqa)
-        home_page.login()
+        home_page.login(vouched_user['email'], vouched_user['password'])
         search_page = home_page.header.search_for(query)
         Assert.equal(search_page.results_count, 0)
 
     @pytest.mark.nondestructive
-    def test_search_for_not_existing_mozillian_when_not_logged_in(self,
-                                                                  mozwebqa):
+    def test_search_for_not_existing_mozillian_when_not_logged_in(self, mozwebqa):
         query = u'Qwerty'
         home_page = Home(mozwebqa)
         search_page = home_page.header.search_for(query)
@@ -76,11 +75,10 @@ class TestSearch:
 
     @pytest.mark.xfail(reason="bug 977424 - API count and actual count do not return the same values")
     @pytest.mark.nondestructive
-    def test_vouched_user_count(self, mozwebqa):
-        credentials = mozwebqa.credentials['api_user']
+    def test_vouched_user_count(self, mozwebqa, variables):
         r = requests.get('https://mozillians-dev.allizom.org/api/v1/users/', params={
-            'app_name': credentials['app_name'],
-            'app_key': credentials['api_key'],
+            'app_name': variables['api']['application'],
+            'app_key': variables['api']['key'],
             'format': 'json',
             'limit': 1,
             'is_vouched': 'true'
