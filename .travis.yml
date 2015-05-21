@@ -1,21 +1,6 @@
 language: python
-python:
-  - 2.7
-
-before_install:
-  - git submodule update --init --recursive
-
-install:
-  - "pip install -Ur requirements.txt"
-
-before_script:
-  - sh -e /etc/init.d/xvfb start
-
-script: py.test -n 4 -v -r fsxX --baseurl=https://mozillians-dev.allizom.org --driver=firefox --destructive -m "not credentials"
-
-env:
-  - DISPLAY=':99.0'
-
+python: 2.7
+install: "pip install flake8"
+script: "flake8 ."
 notifications:
-  email:
-    - webqa-ci@mozilla.org
+  email: webqa-ci@mozilla.org
