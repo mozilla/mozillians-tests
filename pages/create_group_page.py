@@ -10,13 +10,13 @@ from pages.base import Base
 
 
 class CreateGroupPage(Base):
-    
+
     _create_group_name = (By.NAME, 'name')
     _create_group_submit_button = (By.ID, 'create_group_button')
-    
+
     def create_group_name(self, group_name):
         element = self.selenium.find_element(*self._create_group_name)
         element.send_keys(group_name)
-        
+
     def click_create_group_submit(self):
         self.selenium.find_element(*self._create_group_submit_button).click()

@@ -34,7 +34,7 @@ class TestSearch:
         home_page.login()
         search_page = home_page.header.search_for(query)
         Assert.true(search_page.results_count > 0)
-        #get random index
+        # get random index
         random_profile = randrange(search_page.results_count)
         profile_name = search_page.search_results[random_profile].name
         Assert.contains(query, profile_name)

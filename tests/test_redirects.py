@@ -15,18 +15,18 @@ class TestRedirects:
     @pytest.mark.nondestructive
     def test_302_redirect_for_anonymous_users(self, mozwebqa):
         paths = ['/es/country/us/',
-                '/sq/country/doesnotexist/',
-                '/hu/country/us/region/California/',
-                '/pl/country/in/city/Gulbarga/',
-                '/zh-TW/group/webqa/',
-                '/zh-CN/group/258/join/',
-                '/sl/group/doesnotexit/',
-                '/pt-BR/u/moz.mozillians.unvouched/',
-                '/ca/u/UserDoesNotExist/',
-                '/nl/logout/',
-                '/lt/user/edit/',
-                '/en-US/invite/',
-                '/fr/register/']
+                 '/sq/country/doesnotexist/',
+                 '/hu/country/us/region/California/',
+                 '/pl/country/in/city/Gulbarga/',
+                 '/zh-TW/group/webqa/',
+                 '/zh-CN/group/258/join/',
+                 '/sl/group/doesnotexit/',
+                 '/pt-BR/u/moz.mozillians.unvouched/',
+                 '/ca/u/UserDoesNotExist/',
+                 '/nl/logout/',
+                 '/lt/user/edit/',
+                 '/en-US/invite/',
+                 '/fr/register/']
         urls = self.make_absolute_paths(mozwebqa.base_url, paths)
         error_list = self.verify_http_response_codes(urls, 302)
 

@@ -285,7 +285,7 @@ class TestProfile(BaseTest):
             u'Expected country: %s, but got: %s' % (country, random_profile_country))
 
     @pytest.mark.credentials
-    def test_that_non_US_user_can_set_get_involved_date(self, mozwebqa):
+    def test_that_non_us_user_can_set_get_involved_date(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
         edit_page = home_page.go_to_localized_edit_profile_page("es")
@@ -299,7 +299,7 @@ class TestProfile(BaseTest):
 
     @pytest.mark.credentials
     def test_that_user_can_create_and_delete_group(self, mozwebqa):
-        current_time = time.strftime("%x"+"-"+"%X")
+        current_time = time.strftime("%x" + "-" + "%X")
         group_name = ('qa_test' + ' ' + current_time)
 
         home_page = Home(mozwebqa)
