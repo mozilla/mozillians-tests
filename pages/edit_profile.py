@@ -22,7 +22,6 @@ class EditProfile(Base):
     _full_name_field_locator = (By.ID, 'id_full_name')
     _website_field_locator = (By.ID, 'id_externalaccount_set-0-identifier')
     _bio_field_locator = (By.ID, 'id_bio')
-    _groups_field_locator = (By.CSS_SELECTOR, '#id_groups + ul input')
     _skills_field_locator = (By.CSS_SELECTOR, '#id_skills + ul input')
     _groups_locator = (By.CSS_SELECTOR, "#groups .tagit-label")
     _skills_locator = (By.CSS_SELECTOR, "#skills .tagit-label")
@@ -30,7 +29,6 @@ class EditProfile(Base):
     _username_field_locator = (By.ID, 'id_username')
     _browserid_mail_locator = (By.CSS_SELECTOR, '.control-group:nth-of-type(2) .label-text')
     _delete_profile_button_locator = (By.CSS_SELECTOR, '.delete')
-    _delete_group_buttons_locator = (By.CSS_SELECTOR, '#groups .tagit-close')
     _delete_skill_buttons_locator = (By.CSS_SELECTOR, '#skills .tagit-close')
     _select_month_locator = (By.ID, 'id_date_mozillian_month')
     _select_year_locator = (By.ID, 'id_date_mozillian_year')
@@ -67,11 +65,6 @@ class EditProfile(Base):
         element = self.selenium.find_element(*self._bio_field_locator)
         element.clear()
         element.send_keys(biography)
-
-    def add_group(self, group_name):
-        element = self.selenium.find_element(*self._groups_field_locator)
-        element.send_keys(group_name)
-        element.send_keys(Keys.RETURN)
 
     def add_skill(self, skill_name):
         element = self.selenium.find_element(*self._skills_field_locator)
@@ -134,10 +127,6 @@ class EditProfile(Base):
     def skills(self):
         skills = self.selenium.find_elements(*self._skills_locator)
         return [skills[i].text for i in range(0, len(skills))]
-
-    @property
-    def delete_group_buttons(self):
-        return self.selenium.find_elements(*self._delete_group_buttons_locator)
 
     @property
     def delete_skill_buttons(self):
