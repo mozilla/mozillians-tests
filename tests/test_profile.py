@@ -55,41 +55,6 @@ class TestProfile:
         Assert.equal(biography, new_biography)
         Assert.equal(website, new_website)
 
-    @pytest.mark.xfail("'allizom' in config.getvalue('base_url')",
-                       reason="Bug 938184 - Users should not create, join, or leave groups from the profile create/edit screens")
-    @pytest.mark.credentials
-    def test_group_addition(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
-        home_page.login(vouched_user['email'], vouched_user['password'])
-        edit_profile_page = home_page.header.click_edit_profile_menu_item()
-        edit_profile_page.add_group("Hello World")
-        profile_page = edit_profile_page.click_update_button()
-
-        Assert.true(profile_page.is_groups_present, "No groups added to profile.")
-        groups = profile_page.groups
-        Assert.greater(groups.find("hello world"), -1, "Group 'Hello World' not added to profile.")
-
-    @pytest.mark.xfail("'allizom' in config.getvalue('base_url')",
-                       reason="Bug 938184 - Users should not create, join, or leave groups from the profile create/edit screens")
-    @pytest.mark.credentials
-    def test_group_deletion(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
-        home_page.login(vouched_user['email'], vouched_user['password'])
-
-        edit_profile_page = home_page.header.click_edit_profile_menu_item()
-        edit_profile_page.add_group("Hello World")
-        profile_page = edit_profile_page.click_update_button()
-        edit_profile_page = profile_page.header.click_edit_profile_menu_item()
-
-        groups = edit_profile_page.groups
-        group_delete_buttons = edit_profile_page.delete_group_buttons
-        group_delete_buttons[groups.index("hello world")].click()
-        profile_page = edit_profile_page.click_update_button()
-
-        if profile_page.is_groups_present:
-            groups = profile_page.groups
-            Assert.equal(groups.find("hello world"), -1, "Group 'hello world' not deleted.")
-
     @pytest.mark.credentials
     def test_skill_addition(self, mozwebqa, vouched_user):
         home_page = Home(mozwebqa)
