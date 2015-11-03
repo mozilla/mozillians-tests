@@ -18,8 +18,6 @@ class TestSearch:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    @pytest.mark.xfail("config.getvalue('base_url') == 'https://mozillians-dev.allizom.org'")
-    # uncovered on dev - bug 944101 - Searching by email substring does not return all results
     def test_that_search_returns_results_for_email_substring(self, mozwebqa, vouched_user):
         home_page = Home(mozwebqa)
         home_page.login(vouched_user['email'], vouched_user['password'])
