@@ -8,10 +8,11 @@ import requests
 from BeautifulSoup import BeautifulSoup
 from unittestzero import Assert
 
-from pages.page import Page
 
+class LinkCrawler(object):
 
-class LinkCrawler(Page):
+    def __init__(self, base_url):
+        self.base_url = base_url
 
     def collect_links(self, url, relative=True, name=True, **kwargs):
         """Collects links for given page URL.

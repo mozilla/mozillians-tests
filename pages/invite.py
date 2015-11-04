@@ -28,4 +28,4 @@ class Invite(Base):
         reason_field.send_keys(reason)
         self.selenium.find_element(*self._send_invite_button_locator).click()
         from pages.invite_success import InviteSuccess
-        return InviteSuccess(self.testsetup)
+        return InviteSuccess(self.base_url, self.selenium)

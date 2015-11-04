@@ -18,17 +18,17 @@ class TestSearch:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_that_search_returns_results_for_email_substring(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_that_search_returns_results_for_email_substring(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         search_page = home_page.header.search_for(u'@mozilla.com')
         Assert.true(search_page.results_count > 0)
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_that_search_returns_results_for_first_name(self, mozwebqa, vouched_user):
+    def test_that_search_returns_results_for_first_name(self, base_url, selenium, vouched_user):
         query = u'Matt'
-        home_page = Home(mozwebqa)
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         search_page = home_page.header.search_for(query)
         Assert.true(search_page.results_count > 0)
@@ -39,41 +39,41 @@ class TestSearch:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_that_search_returns_results_for_irc_nickname(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_that_search_returns_results_for_irc_nickname(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         home_page.header.search_for(u'mbrandt')
-        profile = Profile(mozwebqa)
+        profile = Profile(base_url, selenium)
         Assert.equal(u'Matt Brandt', profile.name)
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_search_for_not_existing_mozillian_when_logged_in(self, mozwebqa, vouched_user):
+    def test_search_for_not_existing_mozillian_when_logged_in(self, base_url, selenium, vouched_user):
         query = u'Qwerty'
-        home_page = Home(mozwebqa)
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         search_page = home_page.header.search_for(query)
         Assert.equal(search_page.results_count, 0)
 
     @pytest.mark.nondestructive
-    def test_search_for_not_existing_mozillian_when_not_logged_in(self, mozwebqa):
+    def test_search_for_not_existing_mozillian_when_not_logged_in(self, base_url, selenium):
         query = u'Qwerty'
-        home_page = Home(mozwebqa)
+        home_page = Home(base_url, selenium)
         search_page = home_page.header.search_for(query)
         Assert.equal(search_page.results_count, 0)
 
     @pytest.mark.nondestructive
-    def test_search_for_empty_string_redirects_to_search_page(self, mozwebqa):
+    def test_search_for_empty_string_redirects_to_search_page(self, base_url, selenium):
         # Searching for empty string redirects to the Search page
         # with publicly available profiles
         query = u''
-        home_page = Home(mozwebqa)
+        home_page = Home(base_url, selenium)
         search_page = home_page.header.search_for(query)
         Assert.true(search_page.results_count > 0)
 
     @pytest.mark.xfail(reason="bug 977424 - API count and actual count do not return the same values")
     @pytest.mark.nondestructive
-    def test_vouched_user_count(self, mozwebqa, variables):
+    def test_vouched_user_count(self, base_url, selenium, variables):
         r = requests.get('https://mozillians-dev.allizom.org/api/v1/users/', params={
             'app_name': variables['api']['application'],
             'app_key': variables['api']['key'],
@@ -85,7 +85,7 @@ class TestSearch:
         r = r.json()
 
         api_count = r['meta'].get('total_count')
-        home_page = Home(mozwebqa)
+        home_page = Home(base_url, selenium)
         search_results = home_page.header.search_for('')
         results_on_page = search_results.results_count
         number_of_pages = int(search_results.number_of_pages)

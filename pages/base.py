@@ -25,7 +25,7 @@ class Base(Page):
 
     @property
     def page_title(self):
-        WebDriverWait(self.selenium, 10).until(lambda s: self.selenium.title)
+        WebDriverWait(self.selenium, self.timeout).until(lambda s: self.selenium.title)
         return self.selenium.title
 
     @property
@@ -54,7 +54,7 @@ class Base(Page):
         from browserid import BrowserID
         pop_up = BrowserID(self.selenium, self.timeout)
         pop_up.sign_in(email, password)
-        WebDriverWait(self.selenium, 20).until(lambda s: self.is_user_loggedin)
+        WebDriverWait(self.selenium, self.timeout).until(lambda s: self.is_user_loggedin)
 
     def create_new_user(self, email, password):
         self.click_browserid_login()
@@ -62,24 +62,24 @@ class Base(Page):
         pop_up = BrowserID(self.selenium, self.timeout)
         pop_up.sign_in(email, password)
 
-        WebDriverWait(self.selenium, 20).until(lambda s: self.is_user_loggedin)
+        WebDriverWait(self.selenium, self.timeout).until(lambda s: self.is_user_loggedin)
         from pages.register import Register
-        return Register(self.testsetup)
+        return Register(self.base_url, self.selenium)
 
     # Logged in
 
     @property
     def header(self):
-        return self.Header(self.testsetup)
+        return self.Header(self.base_url, self.selenium)
 
     @property
     def footer(self):
-        return self.Footer(self.testsetup)
+        return self.Footer(self.base_url, self.selenium)
 
     def open_user_profile(self, username):
         self.get_relative_path(u'/u/%s' % username)
         from pages.profile import Profile
-        return Profile(self.testsetup)
+        return Profile(self.base_url, self.selenium)
 
     def logout_using_url(self):
         self.get_relative_path(u'/logout')
@@ -105,7 +105,7 @@ class Base(Page):
             search_field.send_keys(search_term)
             search_field.send_keys(Keys.RETURN)
             from pages.search import Search
-            return Search(self.testsetup)
+            return Search(self.base_url, self.selenium)
 
         def click_options(self):
             self.selenium.find_element(*self._profile_menu_locator).click()
@@ -120,19 +120,19 @@ class Base(Page):
             self.click_options()
             self.selenium.find_element(*self._view_profile_menu_item_locator).click()
             from pages.profile import Profile
-            return Profile(self.testsetup)
+            return Profile(self.base_url, self.selenium)
 
         def click_invite_menu_item(self):
             self.click_options()
             self.selenium.find_element(*self._invite_menu_item_locator).click()
             from pages.invite import Invite
-            return Invite(self.testsetup)
+            return Invite(self.base_url, self.selenium)
 
         def click_edit_profile_menu_item(self):
             self.click_options()
             self.selenium.find_element(*self._edit_profile_menu_item_locator).click()
             from pages.edit_profile import EditProfile
-            return EditProfile(self.testsetup)
+            return EditProfile(self.base_url, self.selenium)
 
         def click_logout_menu_item(self):
             self.click_options()
@@ -148,7 +148,7 @@ class Base(Page):
         def click_about_link(self):
             self.selenium.find_element(*self._about_mozillians_link_locator).click()
             from pages.about import About
-            return About(self.testsetup)
+            return About(self.base_url, self.selenium)
 
         def select_language(self, lang_code):
             element = self.selenium.find_element(*self._language_selector_locator)

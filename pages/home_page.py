@@ -10,21 +10,20 @@ from pages.base import Base
 
 class Home(Base):
 
-    def __init__(self, testsetup, open_url=True):
-        Base.__init__(self, testsetup)
-        self.maximize_window()
+    def __init__(self, base_url, selenium, open_url=True):
+        Base.__init__(self, base_url, selenium)
         if open_url:
             self.selenium.get(self.base_url)
 
     def go_to_localized_edit_profile_page(self, non_US):
         self.get_relative_path("/" + non_US + "/user/edit/")
         from pages.edit_profile import EditProfile
-        return EditProfile(self.testsetup)
+        return EditProfile(self.base_url, self.selenium)
 
     def wait_for_user_login(self):
         # waits to see if user gets logged back in
         # if not then all ok
         try:
-            WebDriverWait(self.selenium, 20).until(lambda s: self.is_user_loggedin)
+            WebDriverWait(self.selenium, self.timeout).until(lambda s: self.is_user_loggedin)
         except Exception:
             pass

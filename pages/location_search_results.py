@@ -19,16 +19,16 @@ class LocationSearchResults(Base):
 
     @property
     def title(self):
-        return self.find_element(*self._results_title_locator).text
+        return self.selenium.find_element(*self._results_title_locator).text
 
     @property
     def results_count(self):
-        return len(self.find_elements(*self._result_item_locator))
+        return len(self.selenium.find_elements(*self._result_item_locator))
 
     @property
     def search_results(self):
-        return [self.SearchResult(self.testsetup, web_element)
-                for web_element in self.find_elements(*self._result_item_locator)]
+        return [self.SearchResult(self.base_url, self.selenium, el) for el in
+                self.selenium.find_elements(*self._result_item_locator)]
 
     def get_random_profile(self):
         random_index = randrange(self.results_count)
@@ -39,6 +39,6 @@ class LocationSearchResults(Base):
         _profile_page_link_locator = (By.CSS_SELECTOR, 'a')
 
         def open_profile_page(self):
-            self.find_element(*self._profile_page_link_locator).click()
+            self._root_element.find_element(*self._profile_page_link_locator).click()
             from pages.profile import Profile
-            return Profile(self.testsetup)
+            return Profile(self.base_url, self.selenium)

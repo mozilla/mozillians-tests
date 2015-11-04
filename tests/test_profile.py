@@ -17,8 +17,8 @@ class TestProfile:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_profile_deletion_confirmation(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_profile_deletion_confirmation(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         edit_profile_page = home_page.header.click_edit_profile_menu_item()
         confirm_profile_delete_page = edit_profile_page.click_delete_profile_button()
@@ -27,8 +27,8 @@ class TestProfile:
         Assert.true(confirm_profile_delete_page.is_delete_button_present)
 
     @pytest.mark.credentials
-    def test_edit_profile_information(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_edit_profile_information(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         profile_page = home_page.header.click_view_profile_menu_item()
         edit_profile_page = home_page.header.click_edit_profile_menu_item()
@@ -56,8 +56,8 @@ class TestProfile:
         Assert.equal(website, new_website)
 
     @pytest.mark.credentials
-    def test_skill_addition(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_skill_addition(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
 
         edit_profile_page = home_page.header.click_edit_profile_menu_item()
@@ -69,8 +69,8 @@ class TestProfile:
         Assert.greater(skills.find("hello world"), -1, "Skill 'hello world' not added to profile.")
 
     @pytest.mark.credentials
-    def test_skill_deletion(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_skill_deletion(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
 
         edit_profile_page = home_page.header.click_edit_profile_menu_item()
@@ -86,8 +86,8 @@ class TestProfile:
             skills = profile_page.skills
             Assert.equal(skills.find("hello world"), -1, "Skill 'hello world' not deleted.")
 
-    def test_creating_profile_without_checking_privacy_policy_checkbox(self, mozwebqa, new_user):
-        home_page = Home(mozwebqa)
+    def test_creating_profile_without_checking_privacy_policy_checkbox(self, base_url, selenium, new_user):
+        home_page = Home(base_url, selenium)
         profile = home_page.create_new_user(new_user['email'], new_user['password'])
 
         profile.set_full_name("User that doesn't like policy")
@@ -104,8 +104,8 @@ class TestProfile:
 
         Assert.equal('Please correct the errors below.', profile.error_message)
 
-    def test_profile_creation(self, mozwebqa, new_user):
-        home_page = Home(mozwebqa)
+    def test_profile_creation(self, base_url, selenium, new_user):
+        home_page = Home(base_url, selenium)
         profile = home_page.create_new_user(new_user['email'], new_user['password'])
 
         profile.set_full_name("New MozilliansUser")
@@ -134,8 +134,8 @@ class TestProfile:
         Assert.equal('Mountain View, California, United States', profile_page.location)
 
     @pytest.mark.xfail(reason="Bug 835318 - Error adding groups / skills / or languages with non-latin chars.")
-    def test_non_ascii_characters_are_allowed_in_profile_information(self, mozwebqa, new_user):
-        home_page = Home(mozwebqa)
+    def test_non_ascii_characters_are_allowed_in_profile_information(self, base_url, selenium, new_user):
+        home_page = Home(base_url, selenium)
         profile = home_page.create_new_user(new_user['email'], new_user['password'])
 
         profile.set_full_name("New MozilliansUser")
@@ -164,8 +164,8 @@ class TestProfile:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_that_filter_by_city_works(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_that_filter_by_city_works(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
 
         profile_page = home_page.open_user_profile(u'Mozillians.User')
@@ -190,8 +190,8 @@ class TestProfile:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_that_filter_by_region_works(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_that_filter_by_region_works(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
 
         profile_page = home_page.open_user_profile(u'Mozillians.User')
@@ -215,8 +215,8 @@ class TestProfile:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_that_filter_by_country_works(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_that_filter_by_country_works(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
 
         profile_page = home_page.open_user_profile(u'Mozillians.User')
@@ -238,8 +238,8 @@ class TestProfile:
             u'Expected country: %s, but got: %s' % (country, random_profile_country))
 
     @pytest.mark.credentials
-    def test_that_non_us_user_can_set_get_involved_date(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_that_non_us_user_can_set_get_involved_date(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         edit_page = home_page.go_to_localized_edit_profile_page("es")
         selected_date = edit_page.month + edit_page.year
@@ -251,11 +251,10 @@ class TestProfile:
         Assert.not_equal(selected_date, edit_page.month + edit_page.year, "The date is not changed")
 
     @pytest.mark.credentials
-    def test_that_user_can_create_and_delete_group(self, mozwebqa, vouched_user):
-        current_time = time.strftime("%x" + "-" + "%X")
-        group_name = ('qa_test' + ' ' + current_time)
+    def test_that_user_can_create_and_delete_group(self, base_url, selenium, vouched_user):
+        group_name = (time.strftime('%x-%X'))
 
-        home_page = Home(mozwebqa)
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         edit_page = home_page.header.click_edit_profile_menu_item()
         groups = edit_page.click_find_group_link()
@@ -277,11 +276,11 @@ class TestProfile:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_private_groups_field_as_public_when_logged_in(self, mozwebqa, private_user):
+    def test_private_groups_field_as_public_when_logged_in(self, base_url, selenium, private_user):
         # User has certain fields preset to values to run the test properly
         # groups - private
         # belongs to at least one group
-        home_page = Home(mozwebqa)
+        home_page = Home(base_url, selenium)
         home_page.login(private_user['email'], private_user['password'])
 
         profile_page = home_page.header.click_view_profile_menu_item()
@@ -292,8 +291,8 @@ class TestProfile:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_private_groups_field_when_not_logged_in(self, mozwebqa, private_user):
-        home_page = Home(mozwebqa)
+    def test_private_groups_field_when_not_logged_in(self, base_url, selenium, private_user):
+        home_page = Home(base_url, selenium)
         profile_page = home_page.open_user_profile(private_user['name'])
 
         Assert.false(profile_page.is_groups_present,
@@ -301,12 +300,12 @@ class TestProfile:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_that_links_in_the_services_page_return_200_code(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_that_links_in_the_services_page_return_200_code(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
 
         edit_profile_page = home_page.header.click_edit_profile_menu_item()
-        crawler = LinkCrawler(mozwebqa)
+        crawler = LinkCrawler(base_url)
         urls = edit_profile_page.get_services_urls()
         bad_urls = []
 

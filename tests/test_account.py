@@ -15,8 +15,8 @@ class TestAccount:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_login_logout(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_login_logout(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         Assert.true(home_page.header.is_logout_menu_item_present)
         home_page.header.click_logout_menu_item()
@@ -24,8 +24,8 @@ class TestAccount:
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
-    def test_logout_verify_bid(self, mozwebqa, vouched_user):
-        home_page = Home(mozwebqa)
+    def test_logout_verify_bid(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         Assert.true(home_page.header.is_logout_menu_item_present)
         home_page.logout_using_url()
@@ -33,10 +33,9 @@ class TestAccount:
         home_page.wait_for_user_login()
         Assert.true(home_page.is_browserid_link_present)
 
-    @pytest.mark.skip_selenium
     @pytest.mark.nondestructive
-    def test_that_links_in_footer_return_200_code(self, mozwebqa):
-        crawler = LinkCrawler(mozwebqa)
+    def test_that_links_in_footer_return_200_code(self, base_url):
+        crawler = LinkCrawler(base_url)
         urls = crawler.collect_links('/', name='footer')
         bad_urls = []
 

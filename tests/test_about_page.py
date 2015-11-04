@@ -14,16 +14,15 @@ from pages.link_crawler import LinkCrawler
 class TestAboutPage:
 
     @pytest.mark.nondestructive
-    def test_about_page(self, mozwebqa):
-        home_page = Home(mozwebqa)
+    def test_about_page(self, base_url, selenium):
+        home_page = Home(base_url, selenium)
         about_mozillians_page = home_page.footer.click_about_link()
         Assert.true(about_mozillians_page.is_privacy_section_present)
         Assert.true(about_mozillians_page.is_get_involved_section_present)
 
-    @pytest.mark.skip_selenium
     @pytest.mark.nondestructive
-    def test_that_links_in_the_about_page_return_200_code(self, mozwebqa):
-        crawler = LinkCrawler(mozwebqa)
+    def test_that_links_in_the_about_page_return_200_code(self, base_url):
+        crawler = LinkCrawler(base_url)
         urls = crawler.collect_links('/about', id='main')
         bad_urls = []
 

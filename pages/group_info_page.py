@@ -17,4 +17,4 @@ class GroupInfoPage(Base):
     def delete_group(self):
         self.selenium.find_element(*self._delete_group_button).click()
         from pages.groups_page import GroupsPage
-        return GroupsPage(self.testsetup)
+        return GroupsPage(self.base_url, self.selenium)

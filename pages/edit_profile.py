@@ -42,14 +42,14 @@ class EditProfile(Base):
 
     def click_update_button(self):
         self.selenium.find_element(*self._update_button_locator).click()
-        return Profile(self.testsetup)
+        return Profile(self.base_url, self.selenium)
 
     def click_cancel_button(self):
         self.selenium.find_element(*self._cancel_button_locator).click()
 
     def click_find_group_link(self):
         self.selenium.find_element(*self._find_group_page).click()
-        return GroupsPage(self.testsetup)
+        return GroupsPage(self.base_url, self.selenium)
 
     def set_full_name(self, full_name):
         element = self.selenium.find_element(*self._full_name_field_locator)
@@ -87,7 +87,7 @@ class EditProfile(Base):
         self.selenium.find_element(*self._acknowledge_deletion_checkbox_locator).click()
         self.selenium.find_element(*self._delete_profile_button_locator).click()
         from pages.confirm_profile_delete import ConfirmProfileDelete
-        return ConfirmProfileDelete(self.testsetup)
+        return ConfirmProfileDelete(self.base_url, self.selenium)
 
     def select_month(self, option_month):
         element = self.selenium.find_element(*self._select_month_locator)

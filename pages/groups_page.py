@@ -17,7 +17,7 @@ class GroupsPage(Base):
 
     def click_create_group_main_button(self):
         self.selenium.find_element(*self._create_group_main_button).click()
-        return CreateGroupPage(self.testsetup)
+        return CreateGroupPage(self.base_url, self.selenium)
 
     def wait_for_alert_message(self):
         self.wait_for_element_visible(*self._alert_message_locator)

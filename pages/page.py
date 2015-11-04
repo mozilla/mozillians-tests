@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -9,35 +7,17 @@ import time
 from unittestzero import Assert
 
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import ElementNotVisibleException
 
 
 class Page(object):
-    """
-    Base class for all Pages.
-    """
 
-    def __init__(self, testsetup, **kwargs):
-        """
-        Constructor
-        """
-        self.testsetup = testsetup
-        self.base_url = testsetup.base_url
-        self.selenium = testsetup.selenium
-        self.timeout = testsetup.timeout
-        self._selenium_root = hasattr(self, '_root_element') and self._root_element or self.selenium
-
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-
-    def maximize_window(self):
-        try:
-            self.selenium.maximize_window()
-        except WebDriverException:
-            pass
+    def __init__(self, base_url, selenium):
+        self.base_url = base_url
+        self.selenium = selenium
+        self.timeout = 60
 
     @property
     def is_the_current_page(self):
@@ -56,13 +36,13 @@ class Page(object):
     def is_element_present(self, *locator):
         self.selenium.implicitly_wait(0)
         try:
-            self._selenium_root.find_element(*locator)
+            self.selenium.find_element(*locator)
             return True
         except NoSuchElementException:
             return False
         finally:
             # set back to where you once belonged
-            self.selenium.implicitly_wait(self.testsetup.default_implicit_wait)
+            self.selenium.implicitly_wait(10)
 
     def wait_for_element_visible(self, *locator):
         count = 0
@@ -84,28 +64,30 @@ class Page(object):
         """Wait for an element to become present."""
         self.selenium.implicitly_wait(0)
         try:
-            WebDriverWait(self.selenium, 10).until(lambda s: self._selenium_root.find_element(*locator))
+            WebDriverWait(self.selenium, self.timeout).until(
+                lambda s: s.find_element(*locator))
         except TimeoutException:
             Assert.fail(TimeoutException)
         finally:
             # set back to where you once belonged
-            self.selenium.implicitly_wait(self.testsetup.default_implicit_wait)
+            self.selenium.implicitly_wait(10)
 
     def wait_for_element_not_present(self, *locator):
         """Wait for an element to become not present."""
         self.selenium.implicitly_wait(0)
         try:
-            WebDriverWait(self.selenium, 10).until(lambda s: len(self._selenium_root.find_elements(*locator)) < 1)
+            WebDriverWait(self.selenium, self.timeout).until(
+                lambda s: len(s.find_elements(*locator)) < 1)
             return True
         except TimeoutException:
             return False
         finally:
             # set back to where you once belonged
-            self.selenium.implicitly_wait(self.testsetup.default_implicit_wait)
+            self.selenium.implicitly_wait(10)
 
     def is_element_visible(self, *locator):
         try:
-            return self._selenium_root.find_element(*locator).is_displayed()
+            return self.selenium.find_element(*locator).is_displayed()
         except (NoSuchElementException, ElementNotVisibleException):
             return False
 
@@ -115,15 +97,9 @@ class Page(object):
     def get_relative_path(self, url):
         self.selenium.get(u'%s%s' % (self.base_url, url))
 
-    def find_element(self, *locator):
-        return self._selenium_root.find_element(*locator)
-
-    def find_elements(self, *locator):
-        return self._selenium_root.find_elements(*locator)
-
 
 class PageRegion(Page):
 
-    def __init__(self, testsetup, element):
-        self._root_element = element
-        Page.__init__(self, testsetup)
+    def __init__(self, base_url, selenium, root_element):
+        Page.__init__(self, base_url, selenium)
+        self._root_element = root_element

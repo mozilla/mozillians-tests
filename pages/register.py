@@ -37,7 +37,7 @@ class Register(Base):
         element.send_keys(location)
         element.send_keys(Keys.RETURN)
         WebDriverWait(self.selenium, self.timeout).until(
-            lambda s: self._selenium_root.find_element(*self._country_locator).text != "")
+            lambda s: s.find_element(*self._country_locator).text != "")
 
     def set_full_name(self, full_name):
         element = self.selenium.find_element(*self._full_name_field_locator)
@@ -88,4 +88,4 @@ class Register(Base):
     def click_create_profile_button(self):
         self.selenium.find_element(*self._create_profile_button_locator).click()
         from pages.profile import Profile
-        return Profile(self.testsetup)
+        return Profile(self.base_url, self.selenium)
