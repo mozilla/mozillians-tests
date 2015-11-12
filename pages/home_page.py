@@ -15,10 +15,10 @@ class Home(Base):
         if open_url:
             self.selenium.get(self.base_url)
 
-    def go_to_localized_edit_profile_page(self, non_US):
+    def go_to_localized_settings_page(self, non_US):
         self.get_relative_path("/" + non_US + "/user/edit/")
-        from pages.edit_profile import EditProfile
-        return EditProfile(self.base_url, self.selenium)
+        from pages.settings import Settings
+        return Settings(self.base_url, self.selenium)
 
     def wait_for_user_login(self):
         # waits to see if user gets logged back in
