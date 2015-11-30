@@ -15,6 +15,10 @@ from pages.link_crawler import LinkCrawler
 
 class TestProfile:
 
+    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
+    @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - Registration UI redesign not yet deployed on production")
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_profile_deletion_confirmation(self, base_url, selenium, vouched_user):
@@ -35,6 +39,8 @@ class TestProfile:
         Assert.true(confirm_profile_delete_page.is_cancel_button_present)
         Assert.true(confirm_profile_delete_page.is_delete_button_present)
 
+    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.credentials
     def test_edit_profile_information(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
@@ -62,6 +68,8 @@ class TestProfile:
         Assert.equal(name, new_full_name)
         Assert.equal(biography, new_biography)
 
+    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.credentials
     def test_skill_addition(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
@@ -78,6 +86,8 @@ class TestProfile:
         skills = profile_page.skills
         Assert.greater(skills.find("hello world"), -1, "Skill 'hello world' not added to profile.")
 
+    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.credentials
     def test_skill_deletion(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
@@ -101,81 +111,6 @@ class TestProfile:
         if profile_page.is_skills_present:
             skills = profile_page.skills
             Assert.equal(skills.find("hello world"), -1, "Skill 'hello world' not deleted.")
-
-    def test_creating_profile_without_checking_privacy_policy_checkbox(self, base_url, selenium, new_user):
-        home_page = Home(base_url, selenium)
-        profile = home_page.create_new_user(new_user['email'], new_user['password'])
-
-        profile.set_full_name("User that doesn't like policy")
-
-        # Skills
-        profile.add_skill('test')
-        profile.select_language('en')
-
-        # Location
-        profile.set_location('Durango, Colorado')
-
-        profile.click_create_profile_button()
-
-        Assert.equal('Please correct the errors below.', profile.error_message)
-
-    def test_profile_creation(self, base_url, selenium, new_user):
-        home_page = Home(base_url, selenium)
-        profile = home_page.create_new_user(new_user['email'], new_user['password'])
-
-        profile.set_full_name("New MozilliansUser")
-        profile.set_bio("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely")
-
-        # Skills
-        profile.add_skill('test')
-        profile.select_language('en')
-
-        # Location
-        profile.set_location('Mountain View, 94041, California')
-
-        # agreed to privacy policy
-        profile.check_privacy()
-
-        profile_page = profile.click_create_profile_button()
-
-        Assert.true(profile_page.was_account_created_successfully)
-        Assert.true(profile_page.is_pending_approval_visible)
-
-        Assert.equal('New MozilliansUser', profile_page.name)
-        Assert.equal(new_user['email'], profile_page.email)
-        Assert.equal("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely", profile_page.biography)
-        Assert.equal('test', profile_page.skills)
-        Assert.equal('English', profile_page.languages)
-        Assert.equal('Mountain View, California, United States', profile_page.location)
-
-    @pytest.mark.xfail(reason="Bug 835318 - Error adding groups / skills / or languages with non-latin chars.")
-    def test_non_ascii_characters_are_allowed_in_profile_information(self, base_url, selenium, new_user):
-        home_page = Home(base_url, selenium)
-        profile = home_page.create_new_user(new_user['email'], new_user['password'])
-
-        profile.set_full_name("New MozilliansUser")
-        profile.set_bio("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely")
-
-        # Skills
-        profile.add_skill(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2')
-
-        # Location
-        profile.set_location('Athens, Greece')
-
-        # agreed to privacy policy
-        profile.check_privacy()
-
-        profile_page = profile.click_create_profile_button()
-
-        Assert.true(profile_page.was_account_created_successfully)
-        Assert.true(profile_page.is_pending_approval_visible)
-
-        Assert.equal('New MozilliansUser', profile_page.name)
-        Assert.equal(new_user['email'], profile_page.email)
-        Assert.equal("Hello, I'm new here and trying stuff out. Oh, and by the way: I'm a robot, run in a cronjob, most likely", profile_page.biography)
-        Assert.equal(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2', profile_page.skills)
-        Assert.equal(u'\u0394\u03D4\u03D5\u03D7\u03C7\u03C9\u03CA\u03E2', profile_page.languages)
-        Assert.equal('Athenes, Greece, Greece', profile_page.location)
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
@@ -252,6 +187,8 @@ class TestProfile:
             country, random_profile_country,
             u'Expected country: %s, but got: %s' % (country, random_profile_country))
 
+    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.credentials
     def test_that_non_us_user_can_set_get_involved_date(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
@@ -271,6 +208,8 @@ class TestProfile:
 
         Assert.not_equal(selected_date, contributions.month + contributions.year, "The date is not changed")
 
+    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.credentials
     def test_that_user_can_create_and_delete_group(self, base_url, selenium, vouched_user):
         group_name = (time.strftime('%x-%X'))
@@ -319,6 +258,10 @@ class TestProfile:
         Assert.false(profile_page.is_groups_present,
                      u'Profile: ' + profile_page.get_url_current_page())
 
+    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
+    @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - Registration UI redesign not yet deployed on production")
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_that_links_in_the_services_page_return_200_code(self, base_url, selenium, vouched_user):
