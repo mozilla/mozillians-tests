@@ -277,8 +277,8 @@ class TestProfile:
 
         home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
-        edit_page = home_page.header.click_settings_menu_item()
-        groups = edit_page.click_find_group_link()
+        settings = home_page.header.click_settings_menu_item()
+        groups = settings.groups.click_find_group_link()
         create_group = groups.click_create_group_main_button()
         create_group.create_group_name(group_name)
         create_group.click_create_group_submit()

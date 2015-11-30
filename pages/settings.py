@@ -8,6 +8,7 @@ import random
 
 from pages.base import Base
 from pages.page import PageRegion
+from pages.groups_page import GroupsPage
 
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -20,6 +21,9 @@ class Settings(Base):
 
     _you_and_mozilla_tab_locator = (By.ID, 'youandmozilla-tab')
     _you_and_mozilla_button_locator = (By.CSS_SELECTOR, '#youandmozilla-li > a')
+
+    _groups_tab_locator = (By.ID, 'mygroups-tab')
+    _groups_button_locator = (By.CSS_SELECTOR, '#mygroups-li > a')
 
     _developer_tab_locator = (By.ID, 'developer-tab')
     _developer_button_locator = (By.CSS_SELECTOR, '#developer-li > a')
@@ -35,6 +39,12 @@ class Settings(Base):
         self.selenium.find_element(*self._you_and_mozilla_button_locator).click()
         return self.YouAndMozilla(self.base_url, self.selenium,
                                   self.selenium.find_element(*self._you_and_mozilla_tab_locator))
+
+    @property
+    def groups(self):
+        self.selenium.find_element(*self._groups_button_locator).click()
+        return self.Groups(self.base_url, self.selenium,
+                           self.selenium.find_element(*self._groups_tab_locator))
 
     @property
     def developer(self):
@@ -178,6 +188,14 @@ class Settings(Base):
 
             def click_update(self):
                 self._root_element.find_element(*self._update_locator).click()
+
+    class Groups(PageRegion):
+
+        _find_group_page = (By.PARTIAL_LINK_TEXT, 'find the group')
+
+        def click_find_group_link(self):
+            self.selenium.find_element(*self._find_group_page).click()
+            return GroupsPage(self.base_url, self.selenium)
 
     class DeveloperTab(PageRegion):
 
