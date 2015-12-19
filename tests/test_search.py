@@ -16,43 +16,61 @@ from pages.profile import Profile
 
 class TestSearch:
 
+    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - UI redesign not yet deployed on stage")
+    @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - UI redesign not yet deployed on production")
+    @pytest.mark.xfail("'mozillians-dev' in config.getvalue('base_url')",
+                       reason="Bug 944101 - Searching by email substring does not return all results")
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_email_substring(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
-        search_page = home_page.header.search_for(u'@mozilla.com')
+        search_page = home_page.header.search_for(u'@mozilla.com', loggedin=True)
         Assert.true(search_page.results_count > 0)
 
+    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - UI redesign not yet deployed on stage")
+    @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - UI redesign not yet deployed on production")
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_first_name(self, base_url, selenium, vouched_user):
         query = u'Matt'
         home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
-        search_page = home_page.header.search_for(query)
+        search_page = home_page.header.search_for(query, loggedin=True)
         Assert.true(search_page.results_count > 0)
         # get random index
         random_profile = randrange(search_page.results_count)
         profile_name = search_page.search_results[random_profile].name
         Assert.contains(query, profile_name)
 
+    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - UI redesign not yet deployed on stage")
+    @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - UI redesign not yet deployed on production")
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_irc_nickname(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
-        home_page.header.search_for(u'mbrandt')
+        home_page.header.search_for(u'mbrandt', loggedin=True)
         profile = Profile(base_url, selenium)
         Assert.equal(u'Matt Brandt', profile.name)
 
+    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - UI redesign not yet deployed on stage")
+    @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
+                       reason="Bug 1129848 - UI redesign not yet deployed on production")
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_search_for_not_existing_mozillian_when_logged_in(self, base_url, selenium, vouched_user):
         query = u'Qwerty'
         home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
-        search_page = home_page.header.search_for(query)
+        search_page = home_page.header.search_for(query, loggedin=True)
         Assert.equal(search_page.results_count, 0)
 
     @pytest.mark.nondestructive

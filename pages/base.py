@@ -87,6 +87,7 @@ class Base(Page):
     class Header(Page):
 
         _search_box_locator = (By.CSS_SELECTOR, '.search-query')
+        _search_box_loggedin_locator = (By.CSS_SELECTOR, '.search-right > form > .search-query')
         _profile_menu_locator = (By.CSS_SELECTOR, '#nav-main > a.dropdown-toggle')
 
         # menu items
@@ -100,8 +101,11 @@ class Base(Page):
         def is_search_box_present(self):
             return self.is_element_present(*self._search_box_locator)
 
-        def search_for(self, search_term):
-            search_field = self.selenium.find_element(*self._search_box_locator)
+        def search_for(self, search_term, loggedin=False):
+            if loggedin:
+                search_field = self.selenium.find_element(*self._search_box_loggedin_locator)
+            else:
+                search_field = self.selenium.find_element(*self._search_box_locator)
             search_field.send_keys(search_term)
             search_field.send_keys(Keys.RETURN)
             from pages.search import Search
