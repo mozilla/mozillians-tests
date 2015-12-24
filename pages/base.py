@@ -87,21 +87,25 @@ class Base(Page):
     class Header(Page):
 
         _search_box_locator = (By.CSS_SELECTOR, '.search-query')
+        _search_box_loggedin_locator = (By.CSS_SELECTOR, '.search-right > form > .search-query')
         _profile_menu_locator = (By.CSS_SELECTOR, '#nav-main > a.dropdown-toggle')
 
         # menu items
         _dropdown_menu_locator = (By.CSS_SELECTOR, 'ul.dropdown-menu')
         _view_profile_menu_item_locator = (By.ID, 'nav-profile')
         _invite_menu_item_locator = (By.ID, 'nav-invite')
-        _edit_profile_menu_item_locator = (By.ID, 'nav-edit-profile')
+        _settings_menu_item_locator = (By.ID, 'nav-edit-profile')
         _logout_menu_item_locator = (By.ID, 'nav-logout')
 
         @property
         def is_search_box_present(self):
             return self.is_element_present(*self._search_box_locator)
 
-        def search_for(self, search_term):
-            search_field = self.selenium.find_element(*self._search_box_locator)
+        def search_for(self, search_term, loggedin=False):
+            if loggedin:
+                search_field = self.selenium.find_element(*self._search_box_loggedin_locator)
+            else:
+                search_field = self.selenium.find_element(*self._search_box_locator)
             search_field.send_keys(search_term)
             search_field.send_keys(Keys.RETURN)
             from pages.search import Search
@@ -128,11 +132,11 @@ class Base(Page):
             from pages.invite import Invite
             return Invite(self.base_url, self.selenium)
 
-        def click_edit_profile_menu_item(self):
+        def click_settings_menu_item(self):
             self.click_options()
-            self.selenium.find_element(*self._edit_profile_menu_item_locator).click()
-            from pages.edit_profile import EditProfile
-            return EditProfile(self.base_url, self.selenium)
+            self.selenium.find_element(*self._settings_menu_item_locator).click()
+            from pages.settings import Settings
+            return Settings(self.base_url, self.selenium)
 
         def click_logout_menu_item(self):
             self.click_options()
