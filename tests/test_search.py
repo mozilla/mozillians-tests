@@ -16,8 +16,6 @@ from pages.profile import Profile
 
 class TestSearch:
 
-    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - UI redesign not yet deployed on stage")
     @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
                        reason="Bug 1129848 - UI redesign not yet deployed on production")
     @pytest.mark.xfail("'mozillians-dev' in config.getvalue('base_url')",
@@ -30,8 +28,6 @@ class TestSearch:
         search_page = home_page.header.search_for(u'@mozilla.com', loggedin=True)
         Assert.true(search_page.results_count > 0)
 
-    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - UI redesign not yet deployed on stage")
     @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
                        reason="Bug 1129848 - UI redesign not yet deployed on production")
     @pytest.mark.credentials
@@ -47,8 +43,6 @@ class TestSearch:
         profile_name = search_page.search_results[random_profile].name
         Assert.contains(query, profile_name)
 
-    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - UI redesign not yet deployed on stage")
     @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
                        reason="Bug 1129848 - UI redesign not yet deployed on production")
     @pytest.mark.credentials
@@ -60,8 +54,6 @@ class TestSearch:
         profile = Profile(base_url, selenium)
         Assert.equal(u'Matt Brandt', profile.name)
 
-    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - UI redesign not yet deployed on stage")
     @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
                        reason="Bug 1129848 - UI redesign not yet deployed on production")
     @pytest.mark.credentials
