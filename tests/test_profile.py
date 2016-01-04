@@ -15,8 +15,6 @@ from pages.link_crawler import LinkCrawler
 
 class TestProfile:
 
-    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
                        reason="Bug 1129848 - Registration UI redesign not yet deployed on production")
     @pytest.mark.credentials
@@ -39,8 +37,6 @@ class TestProfile:
         Assert.true(confirm_profile_delete_page.is_cancel_button_present)
         Assert.true(confirm_profile_delete_page.is_delete_button_present)
 
-    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.credentials
     def test_edit_profile_information(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
@@ -68,8 +64,6 @@ class TestProfile:
         Assert.equal(name, new_full_name)
         Assert.equal(biography, new_biography)
 
-    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.credentials
     def test_skill_addition(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
@@ -86,8 +80,6 @@ class TestProfile:
         skills = profile_page.skills
         Assert.greater(skills.find("hello world"), -1, "Skill 'hello world' not added to profile.")
 
-    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.credentials
     def test_skill_deletion(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
@@ -187,8 +179,6 @@ class TestProfile:
             country, random_profile_country,
             u'Expected country: %s, but got: %s' % (country, random_profile_country))
 
-    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.credentials
     def test_that_non_us_user_can_set_get_involved_date(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
@@ -208,8 +198,6 @@ class TestProfile:
 
         Assert.not_equal(selected_date, contributions.month + contributions.year, "The date is not changed")
 
-    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.credentials
     def test_that_user_can_create_and_delete_group(self, base_url, selenium, vouched_user):
         group_name = (time.strftime('%x-%X'))
@@ -258,8 +246,6 @@ class TestProfile:
         Assert.false(profile_page.is_groups_present,
                      u'Profile: ' + profile_page.get_url_current_page())
 
-    @pytest.mark.xfail("'mozillians.allizom' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - Registration UI redesign not yet deployed on stage")
     @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
                        reason="Bug 1129848 - Registration UI redesign not yet deployed on production")
     @pytest.mark.credentials
