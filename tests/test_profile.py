@@ -15,8 +15,6 @@ from pages.link_crawler import LinkCrawler
 
 class TestProfile:
 
-    @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - Registration UI redesign not yet deployed on production")
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_profile_deletion_confirmation(self, base_url, selenium, vouched_user):
@@ -246,8 +244,6 @@ class TestProfile:
         Assert.false(profile_page.is_groups_present,
                      u'Profile: ' + profile_page.get_url_current_page())
 
-    @pytest.mark.xfail("'mozillians.org' in config.getvalue('base_url')",
-                       reason="Bug 1129848 - Registration UI redesign not yet deployed on production")
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_that_links_in_the_services_page_return_200_code(self, base_url, selenium, vouched_user):
