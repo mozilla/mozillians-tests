@@ -93,6 +93,7 @@ class Base(Page):
         # menu items
         _dropdown_menu_locator = (By.CSS_SELECTOR, 'ul.dropdown-menu')
         _view_profile_menu_item_locator = (By.ID, 'nav-profile')
+        _groups_menu_item_locator = (By.ID, 'nav-groups')
         _invite_menu_item_locator = (By.ID, 'nav-invite')
         _settings_menu_item_locator = (By.ID, 'nav-edit-profile')
         _logout_menu_item_locator = (By.ID, 'nav-logout')
@@ -118,6 +119,10 @@ class Base(Page):
         @property
         def is_logout_menu_item_present(self):
             return self.is_element_present(*self._logout_menu_item_locator)
+
+        @property
+        def is_groups_menu_item_present(self):
+            return self.is_element_present(*self._groups_menu_item_locator)
 
         # menu items
         def click_view_profile_menu_item(self):
