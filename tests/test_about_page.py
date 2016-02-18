@@ -5,7 +5,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import pytest
-from unittestzero import Assert
 
 from pages.home_page import Home
 from pages.link_crawler import LinkCrawler
@@ -17,8 +16,8 @@ class TestAboutPage:
     def test_about_page(self, base_url, selenium):
         home_page = Home(base_url, selenium)
         about_mozillians_page = home_page.footer.click_about_link()
-        Assert.true(about_mozillians_page.is_privacy_section_present)
-        Assert.true(about_mozillians_page.is_get_involved_section_present)
+        assert about_mozillians_page.is_privacy_section_present
+        assert about_mozillians_page.is_get_involved_section_present
 
     @pytest.mark.nondestructive
     def test_that_links_in_the_about_page_return_200_code(self, base_url):
@@ -26,14 +25,11 @@ class TestAboutPage:
         urls = crawler.collect_links('/about', id='main')
         bad_urls = []
 
-        Assert.greater(
-            len(urls), 0, u'something went wrong. no links found.')
+        assert len(urls) > 0
 
         for url in urls:
             check_result = crawler.verify_status_code_is_ok(url)
             if check_result is not True:
                 bad_urls.append(check_result)
 
-        Assert.equal(
-            0, len(bad_urls),
-            u'%s bad links found. ' % len(bad_urls) + ', '.join(bad_urls))
+        assert 0 == len(bad_urls), u'%s bad links found. ' % len(bad_urls) + ', '.join(bad_urls)

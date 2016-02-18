@@ -5,7 +5,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import pytest
-from unittestzero import Assert
 
 from pages.home_page import Home
 
@@ -18,7 +17,7 @@ class TestInvite:
         home_page.login(vouched_user['email'], vouched_user['password'])
         invite_page = home_page.header.click_invite_menu_item()
         invite_page.invite("invalidmail")
-        Assert.equal('Enter a valid email address.', invite_page.error_text_message)
+        assert 'Enter a valid email address.' == invite_page.error_text_message
 
     @pytest.mark.credentials
     def test_invite(self, base_url, selenium, vouched_user):
@@ -27,5 +26,5 @@ class TestInvite:
         invite_page = home_page.header.click_invite_menu_item()
         email_address = "user@example.com"
         invite_success_page = invite_page.invite(email_address, 'Just a bot sending a test invite to a test account.')
-        Assert.equal("%s has been invited to Mozillians. They'll receive an email with instructions on how to join.\
- You can invite another Mozillian if you like." % email_address, invite_success_page.success_message)
+        assert "%s has been invited to Mozillians. They'll receive an email with instructions on how to join.\
+ You can invite another Mozillian if you like." % email_address == invite_success_page.success_message

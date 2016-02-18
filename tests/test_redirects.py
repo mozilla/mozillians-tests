@@ -6,7 +6,6 @@
 
 import pytest
 import requests
-from unittestzero import Assert
 
 
 class TestRedirects:
@@ -28,16 +27,14 @@ class TestRedirects:
                  '/fr/register/']
         urls = self.make_absolute_paths(base_url, paths)
         error_list = self.verify_http_response_codes(urls, 302)
-
-        Assert.equal(0, len(error_list), error_list)
+        assert 0 == len(error_list), error_list
 
     @pytest.mark.nondestructive
     def test_200_for_anonymous_users(self, base_url):
         paths = ['/pl/opensearch.xml', '/nl/u/Mozillians.User/']
         urls = self.make_absolute_paths(base_url, paths)
         error_list = self.verify_http_response_codes(urls, 200)
-
-        Assert.equal(len(error_list), 0, error_list)
+        assert 0 == len(error_list), error_list
 
     def make_absolute_paths(self, url, paths):
         urls = []

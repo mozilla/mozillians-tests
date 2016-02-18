@@ -4,8 +4,6 @@
 
 import time
 
-from unittestzero import Assert
-
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
@@ -24,9 +22,7 @@ class Page(object):
         if self._page_title:
             WebDriverWait(self.selenium, self.timeout).until(lambda s: s.title)
 
-        Assert.equal(
-            self.selenium.title, self._page_title,
-            u'Expected page title: %s. Actual page title: %s' % (self._page_title, self.selenium.title))
+        assert self._page_title == self.selenium.title
         return True
 
     def get_url_current_page(self):
@@ -66,8 +62,6 @@ class Page(object):
         try:
             WebDriverWait(self.selenium, self.timeout).until(
                 lambda s: s.find_element(*locator))
-        except TimeoutException:
-            Assert.fail(TimeoutException)
         finally:
             # set back to where you once belonged
             self.selenium.implicitly_wait(10)

@@ -7,7 +7,6 @@
 from random import randrange
 
 import pytest
-from unittestzero import Assert
 import requests
 
 from pages.home_page import Home
@@ -24,7 +23,7 @@ class TestSearch:
         home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         search_page = home_page.header.search_for(u'@mozilla.com', loggedin=True)
-        Assert.true(search_page.results_count > 0)
+        assert search_page.results_count > 0
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
@@ -33,11 +32,11 @@ class TestSearch:
         home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         search_page = home_page.header.search_for(query, loggedin=True)
-        Assert.true(search_page.results_count > 0)
+        assert search_page.results_count > 0
         # get random index
         random_profile = randrange(search_page.results_count)
         profile_name = search_page.search_results[random_profile].name
-        Assert.contains(query, profile_name)
+        assert query in profile_name
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
@@ -46,7 +45,7 @@ class TestSearch:
         home_page.login(vouched_user['email'], vouched_user['password'])
         home_page.header.search_for(u'mbrandt', loggedin=True)
         profile = Profile(base_url, selenium)
-        Assert.equal(u'Matt Brandt', profile.name)
+        assert u'Matt Brandt' == profile.name
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
@@ -55,14 +54,14 @@ class TestSearch:
         home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
         search_page = home_page.header.search_for(query, loggedin=True)
-        Assert.equal(search_page.results_count, 0)
+        assert 0 == search_page.results_count
 
     @pytest.mark.nondestructive
     def test_search_for_not_existing_mozillian_when_not_logged_in(self, base_url, selenium):
         query = u'Qwerty'
         home_page = Home(base_url, selenium)
         search_page = home_page.header.search_for(query)
-        Assert.equal(search_page.results_count, 0)
+        assert 0 == search_page.results_count
 
     @pytest.mark.nondestructive
     def test_search_for_empty_string_redirects_to_search_page(self, base_url, selenium):
@@ -71,7 +70,7 @@ class TestSearch:
         query = u''
         home_page = Home(base_url, selenium)
         search_page = home_page.header.search_for(query)
-        Assert.true(search_page.results_count > 0)
+        assert search_page.results_count > 0
 
     @pytest.mark.xfail(reason="bug 977424 - API count and actual count do not return the same values")
     @pytest.mark.nondestructive
@@ -93,5 +92,4 @@ class TestSearch:
         number_of_pages = int(search_results.number_of_pages)
         ui_count = results_on_page * number_of_pages
 
-        Assert.true((ui_count - results_on_page) < api_count < (ui_count + results_on_page),
-                    u'API Count = %s : UI Count = %s.' % (api_count, ui_count))
+        assert (ui_count - results_on_page) < api_count < (ui_count + results_on_page), u'API Count = %s : UI Count = %s.' % (api_count, ui_count)

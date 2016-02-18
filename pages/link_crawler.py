@@ -6,7 +6,6 @@
 
 import requests
 from BeautifulSoup import BeautifulSoup
-from unittestzero import Assert
 
 
 class LinkCrawler(object):
@@ -33,9 +32,7 @@ class LinkCrawler(object):
 
         # get the page and verify status code is OK
         r = requests.get(url)
-        Assert.true(
-            r.status_code == requests.codes.ok,
-            u'{0.url} returned: {0.status_code} {0.reason}'.format(r))
+        assert requests.codes.ok == r.status_code
 
         # collect links
         parsed_html = BeautifulSoup(r.text)
