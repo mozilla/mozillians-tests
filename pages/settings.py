@@ -109,19 +109,22 @@ class Settings(Base):
                 return ConfirmProfileDelete(self.base_url, self.selenium)
 
         class SkillsForm(PageRegion):
-            _skills_locator = (By.CSS_SELECTOR, '#skills .tagit-label')
-            _skills_field_locator = (By.CSS_SELECTOR, '#id_skills + ul input')
-            _delete_skill_buttons_locator = (By.CSS_SELECTOR, '#skills .tagit-close')
+            _skills_locator = (By.CSS_SELECTOR, '#skills .select2-selection__choice')
+            _skills_field_locator = (By.CSS_SELECTOR, '#skills input')
+            _delete_skill_buttons_locator = (By.CSS_SELECTOR, '#skills .select2-selection__choice__remove')
+            _skills_first_result_locator = (By.CSS_SELECTOR, '.select2-results li:not(.loading-results):first-child')
             _update_locator = (By.ID, 'form-submit-top')
 
             @property
             def skills(self):
+                # Return skills list with leading `x` button stripped
                 skills = self._root_element.find_elements(*self._skills_locator)
-                return [skills[i].text for i in range(0, len(skills))]
+                return [skills[i].text[1:] for i in range(0, len(skills))]
 
             def add_skill(self, skill_name):
                 element = self._root_element.find_element(*self._skills_field_locator)
                 element.send_keys(skill_name)
+                self.wait_for_element_present(*self._skills_first_result_locator)
                 element.send_keys(Keys.RETURN)
 
             @property
