@@ -7,9 +7,9 @@ import requests
 
 
 @pytest.fixture(scope='session')
-def capabilities(capabilities):
-    capabilities.setdefault('tags', []).append('mozillians')
-    return capabilities
+def session_capabilities(session_capabilities):
+    session_capabilities.setdefault('tags', []).append('mozillians')
+    return session_capabilities
 
 
 @pytest.fixture
