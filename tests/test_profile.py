@@ -235,16 +235,3 @@ class TestProfile:
                 bad_urls.append(check_result)
 
         assert 0 == len(bad_urls), u'%s bad links found. ' % len(bad_urls) + ', '.join(bad_urls)
-
-    @pytest.mark.credentials
-    @pytest.mark.nondestructive
-    def test_new_user_cannot_see_groups_or_functional_areas(self, base_url, selenium, unvouched_user):
-        home_page = Home(base_url, selenium)
-        home_page.login(unvouched_user['email'], unvouched_user['password'])
-
-        assert not home_page.header.is_groups_menu_item_present
-        assert not home_page.is_groups_link_visible
-        assert not home_page.is_functional_areas_link_visible
-
-        settings = home_page.header.click_settings_menu_item()
-        assert not settings.groups.is_find_group_link_visible

@@ -196,10 +196,6 @@ class Settings(Base):
 
         _find_group_page = (By.PARTIAL_LINK_TEXT, 'find the group')
 
-        @property
-        def is_find_group_link_visible(self):
-            return self.is_element_visible(*self._find_group_page)
-
         def click_find_group_link(self):
             self.selenium.find_element(*self._find_group_page).click()
             return GroupsPage(self.base_url, self.selenium)
