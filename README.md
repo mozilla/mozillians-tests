@@ -22,7 +22,7 @@ mozillians-tests but it does require a few skills.  You will need to be familiar
 with Python, Selenium, and have a working knowledge of GitHub.
 
 If you are comfortable with Python, it's worth having a look at the Selenium
-framework to understand the basic concepts of browser-based testing and the
+framework to understand the basic concepts of browser-based testing and the 
 page objects pattern.
 
 If you need to brush up on programming but are eager to start contributing
@@ -34,7 +34,7 @@ thrilled to have your help!
 To brush up on Python skills before engaging with us, [Dive Into Python][dive]
 is an excellent resource.  MIT also has [lecture notes on Python][mit] available
 through their open courseware.  The programming concepts you will need to know
-include functions, working with classes, and the basics of object-oriented
+include functions, working with classes, and the basics of object-oriented 
 programming.
 
 Questions are always welcome
@@ -70,12 +70,12 @@ Before you will be able to run these tests you will need to have
 [Python]: http://www.python.org/download/releases/2.6.8/
 
 ####Virtualenv and Virtualenvwrapper (Optional/Intermediate level)
-While most of us have had some experience using virtual machines,
+While most of us have had some experience using virtual machines, 
 [virtualenv][venv] is something else entirely.  It's used to keep libraries
 that you install from clashing and messing up your local environment.  After
 installing virtualenv, installing [virtualenvwrapper][wrapper] will give you
 some nice commands to use with virtualenvwrapper. [virtualenv][venv] will allow
-you to install Python modules and run your tests in a sandboxed environment.
+you to install Python modules and run your tests in a sandboxed environment. 
 
 __note__
 
@@ -104,14 +104,14 @@ If you are running on Ubuntu/Debian you will need to do following first
 to install the required Python libraries.
 
 #### Credentials
-Some of the tests in mozillians-tests require accounts for
+Some of the tests in mozillians-tests require accounts for 
 https://mozillians.allizom.org. You'll need to create three sets of credentials
 with varying privilege levels.
 
-1. Create three username and password combinations on https://mozillians.allizom.org
-2. Join #commtools and ask for two of these users to be vouched (or ask someone on #mozwebqa to do this for you)
-3. In one of the vouched users' profiles, join at least one group and mark groups as private
-4. Copy mozillians-tests/variables.json to a location outside of mozillians-tests. Update the 'vouched', 'private', and 'unvouched' users in variables.json with those credentials
+1. Create two username and password combinations on https://mozillians.allizom.org
+2. Join #commtools and ask for these users to be vouched (or ask someone on #mozwebqa to do this for you)
+3. In one of these users profile, join at least one group and mark groups as private
+4. Copy mozillians-tests/variables.json to a location outside of mozillians-tests. Update the 'vouched' and 'private' users in variables.json with those credentials
 
 #### Running tests locally
 Before each test run, clean up the repo:
@@ -123,14 +123,19 @@ Note: If you are running tests on a Mac, run:
 To run tests locally it is as simple as calling <code>py.test</code> with
 several flags. To run testcases that do not modify or delete data:
 
-    py.test --driver=Firefox --base-url=http://mozillians.allizom.org --variables=/full/path/to/variables.json .
+    py.test --driver=firefox --baseurl=http://mozillians.allizom.org --variables=/full/path/to/variables.json .
+
+To run testcases that are known to change or delete account data use the
+<code>--destructive</code> flag:
+
+    py.test --driver=firefox --baseurl=http://mozillians.allizom.org --destructive --variables=/full/path/to/variables.json .
 
 __Output__
 
 Output of a test run should look something like this:
 
     ============================= test session starts ==============================
-    collected 15 items
+    collected 15 items 
 
     tests/test_about_page.py ..
     tests/test_account.py ..
