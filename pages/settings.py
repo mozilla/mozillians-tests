@@ -76,7 +76,7 @@ class Settings(Base):
 
             _full_name_field_locator = (By.ID, 'id_full_name')
             _bio_field_locator = (By.ID, 'id_bio')
-            _update_locator = (By.ID, 'form-submit-top')
+            _update_locator = (By.ID, 'form-submit-basic')
 
             def set_full_name(self, full_name):
                 element = self._root_element.find_element(*self._full_name_field_locator)
@@ -113,7 +113,7 @@ class Settings(Base):
             _skills_field_locator = (By.CSS_SELECTOR, '#skills input')
             _delete_skill_buttons_locator = (By.CSS_SELECTOR, '#skills .select2-selection__choice__remove')
             _skills_first_result_locator = (By.CSS_SELECTOR, '.select2-results li:not(.loading-results):first-child')
-            _update_locator = (By.ID, 'form-submit-top')
+            _update_locator = (By.ID, 'form-submit-skills')
 
             @property
             def skills(self):
@@ -151,7 +151,7 @@ class Settings(Base):
             _year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year > option')
             _selected_month_locator = (By.CSS_SELECTOR, '#id_date_mozillian_month > option[selected="selected"]')
             _selected_year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year > option[selected="selected"]')
-            _update_locator = (By.ID, 'form-submit-top')
+            _update_locator = (By.ID, 'form-submit-contribution')
 
             def select_month(self, option_month):
                 element = self._root_element.find_element(*self._select_month_locator)
