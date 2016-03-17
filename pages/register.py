@@ -21,7 +21,7 @@ class Register(Base):
     _country_locator = (By.ID, 'display_country')
     _privacy_locator = (By.ID, 'id_optin')
     _privacy_error_message_locator = (By.CSS_SELECTOR, '.error-message')
-    _create_profile_button_locator = (By.CSS_SELECTOR, '#form-submit-top')
+    _create_profile_button_locator = (By.CSS_SELECTOR, '#form-submit-registration')
 
     @property
     def error_message(self):
