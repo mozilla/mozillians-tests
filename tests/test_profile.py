@@ -235,3 +235,48 @@ class TestProfile:
                 bad_urls.append(check_result)
 
         assert 0 == len(bad_urls), u'%s bad links found. ' % len(bad_urls) + ', '.join(bad_urls)
+
+    @pytest.mark.credentials
+    @pytest.mark.nondestructive
+    def test_that_user_can_view_external_accounts(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
+        home_page.login(vouched_user['email'], vouched_user['password'])
+        settings = home_page.header.click_settings_menu_item()
+
+        assert settings.external_accounts.irc_form.is_displayed
+        assert settings.external_accounts.external_accounts_form.is_displayed
+
+    @pytest.mark.credentials
+    def test_that_user_can_add_external_account(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
+        home_page.login(vouched_user['email'], vouched_user['password'])
+        settings = home_page.header.click_settings_menu_item()
+
+        external_accounts_form = settings.external_accounts.external_accounts_form
+        cnt_external_accounts = external_accounts_form.count_external_accounts()
+        external_accounts_form.click_add_account()
+        new_cnt_external_accounts = external_accounts_form.count_external_accounts()
+        assert (cnt_external_accounts + 1) == new_cnt_external_accounts
+
+    @pytest.mark.credentials
+    def test_that_user_can_modify_external_accounts_irc_nickname(self, base_url, selenium, vouched_user):
+        home_page = Home(base_url, selenium)
+        home_page.login(vouched_user['email'], vouched_user['password'])
+        settings = home_page.header.click_settings_menu_item()
+
+        irc_form = settings.external_accounts.irc_form
+        old_nickname = irc_form.nickname
+        new_nickname = old_nickname + '_'
+        irc_form.update_nickname(new_nickname)
+        irc_form.click_update()
+
+        profile_page = home_page.header.click_view_profile_menu_item()
+        assert new_nickname == profile_page.irc_nickname
+
+        settings = home_page.header.click_settings_menu_item()
+        irc_form = settings.external_accounts.irc_form
+        irc_form.update_nickname(old_nickname)
+        irc_form.click_update()
+
+        profile_page = home_page.header.click_view_profile_menu_item()
+        assert old_nickname == profile_page.irc_nickname

@@ -17,6 +17,7 @@ class Profile(Base):
     _profile_photo_locator = (By.CSS_SELECTOR, '.profile-photo img')
     _name_locator = (By.CSS_SELECTOR, 'h1.p-name')
     _email_locator = (By.CSS_SELECTOR, '.email')
+    _irc_nickname_locator = (By.CSS_SELECTOR, '.nickname')
     _website_locator = (By.CSS_SELECTOR, '.url')
     _vouched_by_locator = (By.CSS_SELECTOR, '#profile-info .vouched')
     _biography_locator = (By.CSS_SELECTOR, '#bio > .note > p')
@@ -51,6 +52,10 @@ class Profile(Base):
     @property
     def email(self):
         return self.selenium.find_element(*self._email_locator).text
+
+    @property
+    def irc_nickname(self):
+        return self.selenium.find_element(*self._irc_nickname_locator).text
 
     @property
     def website(self):

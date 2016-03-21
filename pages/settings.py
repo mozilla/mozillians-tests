@@ -25,6 +25,9 @@ class Settings(Base):
     _groups_tab_locator = (By.ID, 'mygroups-tab')
     _groups_button_locator = (By.CSS_SELECTOR, '#mygroups-li > a')
 
+    _external_accounts_tab_locator = (By.ID, 'extaccounts-tab')
+    _external_accounts_button_locator = (By.CSS_SELECTOR, '#extaccounts-li > a')
+
     _developer_tab_locator = (By.ID, 'developer-tab')
     _developer_button_locator = (By.CSS_SELECTOR, '#developer-li > a')
 
@@ -45,6 +48,12 @@ class Settings(Base):
         self.selenium.find_element(*self._groups_button_locator).click()
         return self.Groups(self.base_url, self.selenium,
                            self.selenium.find_element(*self._groups_tab_locator))
+
+    @property
+    def external_accounts(self):
+        self.selenium.find_element(*self._external_accounts_button_locator).click()
+        return self.ExternalAccountsTab(self.base_url, self.selenium,
+                                        self.selenium.find_element(*self._external_accounts_tab_locator))
 
     @property
     def developer(self):
@@ -199,6 +208,54 @@ class Settings(Base):
         def click_find_group_link(self):
             self.selenium.find_element(*self._find_group_page).click()
             return GroupsPage(self.base_url, self.selenium)
+
+    class ExternalAccountsTab(PageRegion):
+
+        _external_accounts_form_locator = (By.CSS_SELECTOR, '#extaccounts-tab > div:nth-child(1)')
+        _irc_form_locator = (By.CSS_SELECTOR, '#extaccounts-tab > div:nth-child(2)')
+
+        @property
+        def external_accounts_form(self):
+            return self.ExternalAccounts(self.base_url, self.selenium,
+                                         self._root_element.find_element(*self._external_accounts_form_locator))
+
+        @property
+        def irc_form(self):
+            return self.Irc(self.base_url, self.selenium, self._root_element.find_element(*self._irc_form_locator))
+
+        class ExternalAccounts(PageRegion):
+            _add_account_locator = (By.ID, 'accounts-addfield')
+            _account_row_locator = (By.CSS_SELECTOR, 'div.externalaccount-fieldrow')
+
+            @property
+            def is_displayed(self):
+                return self._root_element.is_displayed()
+
+            def count_external_accounts(self):
+                return len(self._root_element.find_elements(*self._account_row_locator))
+
+            def click_add_account(self):
+                self._root_element.find_element(*self._add_account_locator).click()
+
+        class Irc(PageRegion):
+            _irc_nickname_locator = (By.ID, 'id_ircname')
+            _update_locator = (By.ID, 'form-submit-irc')
+
+            @property
+            def nickname(self):
+                return self._root_element.find_element(*self._irc_nickname_locator).get_attribute('value')
+
+            @property
+            def is_displayed(self):
+                return self._root_element.is_displayed()
+
+            def update_nickname(self, new_nickname):
+                element = self._root_element.find_element(*self._irc_nickname_locator)
+                element.clear()
+                element.send_keys(new_nickname)
+
+            def click_update(self):
+                self._root_element.find_element(*self._update_locator).click()
 
     class DeveloperTab(PageRegion):
 
