@@ -12,7 +12,7 @@ from pages.base import Base
 class CreateGroupPage(Base):
 
     _create_group_name = (By.NAME, 'name')
-    _create_group_submit_button = (By.ID, 'create_group_button')
+    _create_group_submit_button = (By.CSS_SELECTOR, 'form.add-group .btn-primary')
 
     def create_group_name(self, group_name):
         element = self.selenium.find_element(*self._create_group_name)
