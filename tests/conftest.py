@@ -44,3 +44,8 @@ def vouched_user(stored_users):
 @pytest.fixture
 def private_user(stored_users):
     return stored_users['private']
+
+
+@pytest.fixture
+def unvouched_user(stored_users):
+    return stored_users['unvouched']
