@@ -102,7 +102,7 @@ class Settings(Base):
 
         class DeleteAccount(PageRegion):
 
-            _delete_acknowledgement_locator = (By.CSS_SELECTOR, '#delete>input')
+            _delete_acknowledgement_locator = (By.CSS_SELECTOR, '#delete-checkbox')
             _delete_profile_button_locator = (By.ID, 'delete-profile')
 
             def check_acknowledgement(self):
