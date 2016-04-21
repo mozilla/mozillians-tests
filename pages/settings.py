@@ -61,6 +61,13 @@ class Settings(Base):
         return self.DeveloperTab(self.base_url, self.selenium,
                                  self.selenium.find_element(*self._developer_tab_locator))
 
+    def create_group(self, group_name):
+        groups = self.groups.click_find_group_link()
+        create_group = groups.click_create_group_main_button()
+        create_group.create_group_name(group_name)
+        group = create_group.click_create_group_submit()
+        return group
+
     class ProfileTab(PageRegion):
         _basic_info_form_locator = (By.CSS_SELECTOR, 'form.edit-profile:nth-child(1)')
         _skills_form_locator = (By.CSS_SELECTOR, 'form.edit-profile:nth-child(3)')

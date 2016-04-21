@@ -12,6 +12,7 @@ from pages.base import Base
 class CreateGroupPage(Base):
 
     _create_group_name = (By.NAME, 'name')
+    _create_group_form = (By.CSS_SELECTOR, 'form.add-group')
     _create_group_submit_button = (By.CSS_SELECTOR, 'form.add-group .btn-primary')
 
     def create_group_name(self, group_name):
@@ -19,4 +20,7 @@ class CreateGroupPage(Base):
         element.send_keys(group_name)
 
     def click_create_group_submit(self):
+        self.wait_for_element_visible(*self._create_group_form)
         self.selenium.find_element(*self._create_group_submit_button).click()
+        from pages.edit_group import EditGroupPage
+        return EditGroupPage(self.base_url, self.selenium)

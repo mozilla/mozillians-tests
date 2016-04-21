@@ -21,3 +21,6 @@ class GroupsPage(Base):
 
     def wait_for_alert_message(self):
         self.wait_for_element_visible(*self._alert_message_locator)
+
+    def is_group_deletion_alert_present(self):
+        return self.is_element_visible(*self._alert_message_locator)
