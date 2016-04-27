@@ -85,7 +85,7 @@ class TestGroup:
 
         # Invite a new member
         invite = group.invitations.invite
-        new_member = "Matt Brandt"
+        new_member = "Nikos Roussos"
         invite.invite_new_member(new_member)
         invite.click_invite()
 
