@@ -40,8 +40,6 @@ class TestGroup:
         assert new_group_irc_channel == group_info.irc_channel
 
     @pytest.mark.credentials
-    @pytest.mark.xfail("'mozillians-dev.allizom.org' in config.getvalue('base_url')",
-                       reason='https://github.com/mozilla/mozillians-tests/issues/231')
     def test_group_deletion_confirmation(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
