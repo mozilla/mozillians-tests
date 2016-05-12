@@ -74,8 +74,7 @@ class TestGroup:
         assert group_type.is_member_criteria_visible
 
     @pytest.mark.credentials
-    @pytest.mark.xfail("'allizom.org' in config.getvalue('base_url')",
-                       reason='https://github.com/mozilla/mozillians-tests/issues/231')
+    @pytest.mark.xfail(run=False, reason='https://github.com/mozilla/mozillians-tests/issues/231')
     def test_group_invitations(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'], vouched_user['password'])
