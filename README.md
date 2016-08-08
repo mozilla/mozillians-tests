@@ -10,9 +10,12 @@ The following contributors have submitted pull requests to mozillians-tests:
 
 https://github.com/mozilla/mozillians-tests/contributors
 
-Continuous Integration
-----------------------
-[![Build Status](https://secure.travis-ci.org/mozilla/mozillians-tests.png?branch=master)](http://travis-ci.org/mozilla/mozillians-tests/)
+[![license](https://img.shields.io/badge/license-MPL%202.0-blue.svg)](https://github.com/mozilla/mozillians-tests/tree/master#license)
+[![travis](https://img.shields.io/travis/mozilla/mozillians-tests.svg?label=travis)](http://travis-ci.org/mozilla/mozillians-tests/)
+[![dev](https://img.shields.io/jenkins/s/https/webqa-ci.mozilla.com/mozillians.dev.svg?label=dev)](https://webqa-ci.mozilla.com/job/mozillians.dev/)
+[![stage](https://img.shields.io/jenkins/s/https/webqa-ci.mozilla.com/mozillians.stage.svg?label=stage)](https://webqa-ci.mozilla.com/job/mozillians.stage/)
+[![prod](https://img.shields.io/jenkins/s/https/webqa-ci.mozilla.com/mozillians.prod.svg?label=prod)](https://webqa-ci.mozilla.com/job/mozillians.prod/)
+[![requirements](https://img.shields.io/requires/github/mozilla/mozillians-tests.svg)](https://requires.io/github/mozilla/mozillians-tests/requirements/?branch=master)
 
 Getting involved as a contributor
 ---------------------------------
