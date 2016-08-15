@@ -3,5 +3,5 @@ browserid
 pytest==2.9.2
 pytest-selenium
 pytest-variables
-pytest-xdist==1.14
+pytest-xdist==1.15.0
 requests==2.11.0
