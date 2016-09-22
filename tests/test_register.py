@@ -13,12 +13,16 @@ class TestRegister:
         home_page = Home(base_url, selenium)
         profile = home_page.create_new_user(new_user['email'], new_user['password'])
 
+        # Click recaptcha box
+        profile.check_recaptcha()
+
+        # Full name
         profile.set_full_name("New MozilliansUser")
 
         # Location
         profile.set_location('Mountain View, 94041, California')
 
-        # agreed to privacy policy
+        # Agree to privacy policy
         profile.check_privacy()
 
         profile_page = profile.click_create_profile_button()
@@ -38,6 +42,9 @@ class TestRegister:
 
         # Location
         profile.set_location('Durango, Colorado')
+
+        # Click recaptcha box
+        profile.check_recaptcha()
 
         profile.click_create_profile_button()
         assert 'Please correct the errors below.' == profile.error_message
