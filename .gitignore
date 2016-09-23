@@ -1,3 +1,4 @@
-*.pyc
-results/*
 .DS_Store
+*.pyc
+*.tox
+results/
