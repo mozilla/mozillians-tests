@@ -22,6 +22,8 @@ class Register(Base):
     _privacy_locator = (By.ID, 'id_optin')
     _privacy_error_message_locator = (By.CSS_SELECTOR, '.error-message')
     _create_profile_button_locator = (By.CSS_SELECTOR, '#form-submit-registration')
+    _recaptcha_checkbox_locator = (By.CSS_SELECTOR, '.recaptcha-checkbox-checkmark')
+    _recaptcha_checkbox_checked = (By.CSS_SELECTOR, '.recaptcha-checkbox-checked')
 
     @property
     def error_message(self):
@@ -57,6 +59,17 @@ class Register(Base):
 
     def check_privacy(self):
         self.selenium.find_element(*self._privacy_locator).click()
+
+    def check_recaptcha(self):
+        recaptcha_iframe_locator = (By.CSS_SELECTOR, '.g-recaptcha iframe')
+        recaptcha_iframe = self.selenium.find_element(*recaptcha_iframe_locator)
+        self.selenium.switch_to_frame(recaptcha_iframe)
+
+        self.selenium.find_element(*self._recaptcha_checkbox_locator).click()
+        WebDriverWait(self.selenium, self.timeout).until(
+            lambda s: self.selenium.find_element(*self._recaptcha_checkbox_checked)
+        )
+        self.selenium.switch_to_default_content()
 
     def click_create_profile_button(self):
         self.selenium.find_element(*self._create_profile_button_locator).click()
