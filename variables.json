@@ -5,6 +5,11 @@
       "password": "",
       "name": ""
     },
+    "unvouched": {
+      "email": "",
+      "password": "",
+      "name": ""
+    },    
     "private": {
       "email": "",
       "password": "",
