@@ -85,7 +85,7 @@ with varying privilege levels.
 4. Copy mozillians-tests/variables.json to a location outside of mozillians-tests. Update the 'vouched', 'private', and 'unvouched' users in variables.json with those credentials
 
 * [Install Tox](https://tox.readthedocs.io/en/latest/install.html)
-* Run `tox`
+* Run `PYTEST_ADDOPTS="--variables=/path/to/variables.json" tox`
 
 Writing Tests
 -------------
