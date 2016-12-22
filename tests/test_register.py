@@ -11,7 +11,7 @@ class TestRegister:
 
     def test_profile_creation(self, base_url, selenium, new_user):
         home_page = Home(base_url, selenium)
-        profile = home_page.create_new_user(new_user['email'], new_user['password'])
+        profile = home_page.create_new_user(new_user['email'])
 
         # Click recaptcha box
         profile.check_recaptcha()
@@ -36,7 +36,7 @@ class TestRegister:
 
     def test_creating_profile_without_checking_privacy_policy_checkbox(self, base_url, selenium, new_user):
         home_page = Home(base_url, selenium)
-        profile = home_page.create_new_user(new_user['email'], new_user['password'])
+        profile = home_page.create_new_user(new_user['email'])
 
         profile.set_full_name("User that doesn't like policy")
 

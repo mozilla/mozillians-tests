@@ -4,13 +4,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-
+from tests import conftest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.page import Page
+from pages.auth0 import Auth0
 
 
 class Base(Page):
@@ -21,7 +22,7 @@ class Base(Page):
     _account_created_successfully_locator = (By.CSS_SELECTOR, 'div.alert:nth-child(2)')
 
     # Not logged in
-    _browserid_login_locator = (By.ID, 'nav-login')
+    _sign_in_button_locator = (By.ID, 'nav-login')
 
     @property
     def page_title(self):
@@ -39,34 +40,28 @@ class Base(Page):
     # Not logged in
 
     @property
-    def is_browserid_link_present(self):
-        return self.is_element_present(*self._browserid_login_locator)
+    def is_sign_in_button_present(self):
+        return self.is_element_present(*self._sign_in_button_locator)
 
     @property
     def is_user_loggedin(self):
         return self.is_element_present(*self._logout_locator)
 
-    def click_browserid_login(self):
-        self.selenium.find_element(*self._browserid_login_locator).click()
+    def click_sign_in_button(self):
+        self.selenium.find_element(*self._sign_in_button_locator).click()
 
-    def login(self, email, password):
-        self.click_browserid_login()
-        from browserid import BrowserID
-        pop_up = BrowserID(self.selenium, self.timeout)
-        pop_up.sign_in(email, password)
+    def login(self, email):
+        self.click_sign_in_button()
+        auth0 = Auth0(self.base_url, self.selenium)
+        auth0.request_login_link(email)
+        login_link = conftest.login_link(email)
+        self.selenium.get(login_link)
         WebDriverWait(self.selenium, self.timeout).until(lambda s: self.is_user_loggedin)
 
-    def create_new_user(self, email, password):
-        self.click_browserid_login()
-        from browserid import BrowserID
-        pop_up = BrowserID(self.selenium, self.timeout)
-        pop_up.sign_in(email, password)
-
-        WebDriverWait(self.selenium, self.timeout).until(lambda s: self.is_user_loggedin)
+    def create_new_user(self, email):
+        self.login(email)
         from pages.register import Register
         return Register(self.base_url, self.selenium)
-
-    # Logged in
 
     @property
     def header(self):

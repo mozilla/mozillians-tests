@@ -27,7 +27,6 @@ class EditProfile(Base):
     _skills_locator = (By.CSS_SELECTOR, "#skills .tagit-label")
     _voucher_name_locator = (By.CSS_SELECTOR, '#vouches .vouched')
     _username_field_locator = (By.ID, 'id_username')
-    _browserid_mail_locator = (By.CSS_SELECTOR, '.control-group:nth-of-type(2) .label-text')
     _delete_profile_button_locator = (By.CSS_SELECTOR, '.delete')
     _delete_skill_buttons_locator = (By.CSS_SELECTOR, '#skills .tagit-close')
     _select_month_locator = (By.ID, 'id_date_mozillian_month')
@@ -78,10 +77,6 @@ class EditProfile(Base):
     @property
     def username(self):
         return self.selenium.find_element(*self._username_field_locator).text
-
-    @property
-    def browserid_email(self):
-        return self.selenium.find_element(*self._browserid_mail_locator).text
 
     def click_delete_profile_button(self):
         self.selenium.find_element(*self._acknowledge_deletion_checkbox_locator).click()

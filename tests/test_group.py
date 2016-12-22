@@ -15,7 +15,7 @@ class TestGroup:
     @pytest.mark.credentials
     def test_group_description_edit(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
 
         # Create a new group
         group_name = (time.strftime('%x-%X'))
@@ -42,7 +42,7 @@ class TestGroup:
     @pytest.mark.credentials
     def test_group_deletion_confirmation(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
 
         # Create a new group
         group_name = (time.strftime('%x-%X'))
@@ -60,7 +60,7 @@ class TestGroup:
     @pytest.mark.credentials
     def test_group_type_change(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
 
         # Create a new group
         group_name = (time.strftime('%x-%X'))
@@ -76,7 +76,7 @@ class TestGroup:
     @pytest.mark.credentials
     def test_group_invitations(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
 
         # Create a new group
         group_name = (time.strftime('%x-%X'))
