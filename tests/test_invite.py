@@ -14,7 +14,7 @@ class TestInvite:
     @pytest.mark.credentials
     def test_inviting_an_invalid_email_address(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
         invite_page = home_page.header.click_invite_menu_item()
         invite_page.invite("invalidmail")
         assert 'Enter a valid email address.' == invite_page.error_text_message
@@ -22,7 +22,7 @@ class TestInvite:
     @pytest.mark.credentials
     def test_invite(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
         invite_page = home_page.header.click_invite_menu_item()
         email_address = "user@example.com"
         invite_success_page = invite_page.invite(email_address, 'Just a bot sending a test invite to a test account.')

@@ -4,10 +4,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import pytest
 import time
 
+import pytest
 from selenium.webdriver.common.by import By
+
 from pages.home_page import Home
 from pages.link_crawler import LinkCrawler
 
@@ -18,7 +19,7 @@ class TestProfile:
     @pytest.mark.nondestructive
     def test_profile_deletion_confirmation(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
         settings = home_page.header.click_settings_menu_item()
 
         delete_form = settings.profile.delete_account
@@ -37,7 +38,7 @@ class TestProfile:
     @pytest.mark.credentials
     def test_edit_profile_information(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
         settings = home_page.header.click_settings_menu_item()
         current_time = str(time.time()).split('.')[0]
 
@@ -61,7 +62,7 @@ class TestProfile:
     @pytest.mark.credentials
     def test_skill_addition(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
 
         settings = home_page.header.click_settings_menu_item()
         skills_form = settings.profile.skills
@@ -77,7 +78,7 @@ class TestProfile:
     @pytest.mark.credentials
     def test_skill_deletion(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
 
         settings = home_page.header.click_settings_menu_item()
         skills_form = settings.profile.skills
@@ -102,7 +103,7 @@ class TestProfile:
     @pytest.mark.nondestructive
     def test_that_filter_by_city_works(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
 
         profile_page = home_page.open_user_profile(u'Mozillians.User')
         city = profile_page.city
@@ -121,7 +122,7 @@ class TestProfile:
     @pytest.mark.nondestructive
     def test_that_filter_by_region_works(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
 
         profile_page = home_page.open_user_profile(u'Mozillians.User')
         region = profile_page.region
@@ -139,7 +140,7 @@ class TestProfile:
     @pytest.mark.nondestructive
     def test_that_filter_by_country_works(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
 
         profile_page = home_page.open_user_profile(u'Mozillians.User')
         country = profile_page.country
@@ -155,7 +156,7 @@ class TestProfile:
     @pytest.mark.credentials
     def test_that_non_us_user_can_set_get_involved_date(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
         settings = home_page.go_to_localized_settings_page("es")
         contributions = settings.you_and_mozilla.contributions
         selected_date = contributions.month + contributions.year
@@ -176,7 +177,7 @@ class TestProfile:
         group_name = (time.strftime('%x-%X'))
 
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
         settings = home_page.header.click_settings_menu_item()
         groups = settings.groups.click_find_group_link()
         create_group = groups.click_create_group_main_button()
@@ -202,7 +203,7 @@ class TestProfile:
         # groups - private
         # belongs to at least one group
         home_page = Home(base_url, selenium)
-        home_page.login(private_user['email'], private_user['password'])
+        home_page.login(private_user['email'])
 
         profile_page = home_page.header.click_view_profile_menu_item()
         profile_page.view_profile_as('Public')
@@ -219,7 +220,7 @@ class TestProfile:
     @pytest.mark.nondestructive
     def test_that_links_in_the_services_page_return_200_code(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
 
         settings = home_page.header.click_settings_menu_item()
         developer = settings.developer
@@ -240,7 +241,7 @@ class TestProfile:
     @pytest.mark.nondestructive
     def test_that_user_can_view_external_accounts(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
         settings = home_page.header.click_settings_menu_item()
 
         assert settings.external_accounts.irc_form.is_displayed
@@ -249,7 +250,7 @@ class TestProfile:
     @pytest.mark.credentials
     def test_that_user_can_add_external_account(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
         settings = home_page.header.click_settings_menu_item()
 
         external_accounts_form = settings.external_accounts.external_accounts_form
@@ -261,7 +262,7 @@ class TestProfile:
     @pytest.mark.credentials
     def test_that_user_can_modify_external_accounts_irc_nickname(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(vouched_user['email'], vouched_user['password'])
+        home_page.login(vouched_user['email'])
         settings = home_page.header.click_settings_menu_item()
 
         irc_form = settings.external_accounts.irc_form
@@ -285,7 +286,7 @@ class TestProfile:
     @pytest.mark.nondestructive
     def test_new_user_cannot_see_groups_or_functional_areas(self, base_url, selenium, unvouched_user):
         home_page = Home(base_url, selenium)
-        home_page.login(unvouched_user['email'], unvouched_user['password'])
+        home_page.login(unvouched_user['email'])
 
         assert not home_page.header.is_groups_menu_item_present
         assert not home_page.is_groups_link_visible

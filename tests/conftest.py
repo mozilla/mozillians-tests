@@ -2,8 +2,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import uuid
+
 import pytest
-import requests
+
+from tests import restmail
 
 
 @pytest.fixture(scope='session')
@@ -20,15 +23,13 @@ def selenium(selenium):
 
 
 @pytest.fixture
-def persona_test_user():
-    return requests.get('http://personatestuser.org/email/').json()
+def new_email():
+    return 'mozillians_{0}@restmail.net'.format(uuid.uuid1())
 
 
 @pytest.fixture
-def new_user(persona_test_user):
-    user = {'email': persona_test_user['email'],
-            'password': persona_test_user['pass']}
-    return user
+def new_user(new_email):
+    return {'email': new_email}
 
 
 @pytest.fixture
@@ -49,3 +50,12 @@ def private_user(stored_users):
 @pytest.fixture
 def unvouched_user(stored_users):
     return stored_users['unvouched']
+
+
+@pytest.fixture
+def login_link(username):
+    mail = restmail.get_mail(username)
+    mail_content = mail[0]['text'].replace('\n', ' ').replace('amp;', '').split(" ")
+    for link in mail_content:
+        if link.startswith("https"):
+            return link

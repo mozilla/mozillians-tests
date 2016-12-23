@@ -4,10 +4,10 @@
 
 import time
 
+from selenium.common.exceptions import (ElementNotVisibleException,
+                                        NoSuchElementException,
+                                        TimeoutException)
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import ElementNotVisibleException
 
 
 class Page(object):
