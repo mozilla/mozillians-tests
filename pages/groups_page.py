@@ -6,6 +6,7 @@
 
 
 from selenium.webdriver.common.by import By
+
 from pages.base import Base
 from pages.create_group_page import CreateGroupPage
 

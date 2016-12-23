@@ -5,13 +5,15 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.select import Select
 import random
-from pages.base import Base
-from pages.profile import Profile
-from pages.groups_page import GroupsPage
+
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.select import Select
+
+from pages.base import Base
+from pages.groups_page import GroupsPage
+from pages.profile import Profile
 
 
 class EditProfile(Base):

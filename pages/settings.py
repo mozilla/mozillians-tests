@@ -6,13 +6,13 @@
 
 import random
 
-from pages.base import Base
-from pages.page import PageRegion
-from pages.groups_page import GroupsPage
-
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+
+from pages.base import Base
+from pages.groups_page import GroupsPage
+from pages.page import PageRegion
 
 
 class Settings(Base):
