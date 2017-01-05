@@ -15,6 +15,8 @@ https://github.com/mozilla/mozillians-tests/contributors
 [![dev](https://img.shields.io/jenkins/s/https/webqa-ci.mozilla.com/mozillians.dev.svg?label=dev)](https://webqa-ci.mozilla.com/job/mozillians.dev/)
 [![stage](https://img.shields.io/jenkins/s/https/webqa-ci.mozilla.com/mozillians.stage.svg?label=stage)](https://webqa-ci.mozilla.com/job/mozillians.stage/)
 [![prod](https://img.shields.io/jenkins/s/https/webqa-ci.mozilla.com/mozillians.prod.svg?label=prod)](https://webqa-ci.mozilla.com/job/mozillians.prod/)
+[![updates](https://pyup.io/repos/github/mozilla/mozillians-tests/shield.svg)](https://pyup.io/repos/github/mozilla/mozillians-tests/)
+[![Python 3](https://pyup.io/repos/github/mozilla/mozillians-tests/python-3-shield.svg)](https://pyup.io/repos/github/mozilla/mozillians-tests/)
 
 Getting involved as a contributor
 ---------------------------------
