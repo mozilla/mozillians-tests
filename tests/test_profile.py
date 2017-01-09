@@ -169,7 +169,6 @@ class TestProfile:
         assert "Tu perfil" == profile_page.profile_message
         settings = home_page.go_to_localized_settings_page("es")
         contributions = settings.you_and_mozilla.contributions
-
         assert selected_date != contributions.month + contributions.year
 
     @pytest.mark.credentials

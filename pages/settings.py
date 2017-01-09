@@ -16,20 +16,20 @@ from pages.page import PageRegion
 
 
 class Settings(Base):
-    _profile_tab_locator = (By.ID, 'profile-tab')
-    _profile_button_locator = (By.CSS_SELECTOR, '#profile-li > a')
+    _profile_tab_locator = (By.ID, 'profile')
+    _profile_button_locator = (By.CSS_SELECTOR, '#profile-tab > a')
 
-    _you_and_mozilla_tab_locator = (By.ID, 'youandmozilla-tab')
-    _you_and_mozilla_button_locator = (By.CSS_SELECTOR, '#youandmozilla-li > a')
+    _you_and_mozilla_tab_locator = (By.ID, 'youandmozilla')
+    _you_and_mozilla_button_locator = (By.CSS_SELECTOR, '#youandmozilla-tab > a')
 
-    _groups_tab_locator = (By.ID, 'mygroups-tab')
-    _groups_button_locator = (By.CSS_SELECTOR, '#mygroups-li > a')
+    _groups_tab_locator = (By.ID, 'mygroups')
+    _groups_button_locator = (By.CSS_SELECTOR, '#mygroups-tab > a')
 
-    _external_accounts_tab_locator = (By.ID, 'extaccounts-tab')
-    _external_accounts_button_locator = (By.CSS_SELECTOR, '#extaccounts-li > a')
+    _external_accounts_tab_locator = (By.ID, 'extaccounts')
+    _external_accounts_button_locator = (By.CSS_SELECTOR, '#extaccounts-tab > a')
 
-    _developer_tab_locator = (By.ID, 'developer-tab')
-    _developer_button_locator = (By.CSS_SELECTOR, '#developer-li > a')
+    _developer_tab_locator = (By.ID, 'developer')
+    _developer_button_locator = (By.CSS_SELECTOR, '#developer-tab > a')
 
     @property
     def profile(self):
@@ -222,8 +222,8 @@ class Settings(Base):
 
     class ExternalAccountsTab(PageRegion):
 
-        _external_accounts_form_locator = (By.CSS_SELECTOR, '#extaccounts-tab > div:nth-child(1)')
-        _irc_form_locator = (By.CSS_SELECTOR, '#extaccounts-tab > div:nth-child(2)')
+        _external_accounts_form_locator = (By.CSS_SELECTOR, '#extaccounts > form > div:nth-child(2)')
+        _irc_form_locator = (By.CSS_SELECTOR, '#extaccounts > form > div:nth-child(3)')
 
         @property
         def external_accounts_form(self):
