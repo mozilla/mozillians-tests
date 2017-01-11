@@ -7,7 +7,7 @@ def environment = 'tests'
 def capabilities = [
   browserName: 'Firefox',
   version: '47.0',
-  platform: 'Windows 7'
+  platform: 'Windows 10'
 ]
 
 /** Write capabilities to JSON file
