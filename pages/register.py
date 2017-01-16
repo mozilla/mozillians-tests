@@ -65,13 +65,18 @@ class Register(Base):
         recaptcha_iframe = self.selenium.find_element(*recaptcha_iframe_locator)
         self.selenium.switch_to_frame(recaptcha_iframe)
 
-        self.selenium.find_element(*self._recaptcha_checkbox_locator).click()
+        recaptcha_checkbox = self.selenium.find_element(*self._recaptcha_checkbox_locator)
+        self.scroll_to_element(recaptcha_checkbox)
+        recaptcha_checkbox.click()
         WebDriverWait(self.selenium, self.timeout).until(
             lambda s: self.selenium.find_element(*self._recaptcha_checkbox_checked)
         )
         self.selenium.switch_to_default_content()
 
-    def click_create_profile_button(self):
+    def click_create_profile_button(self, leavepage=True):
         self.selenium.find_element(*self._create_profile_button_locator).click()
-        from pages.profile import Profile
-        return Profile(self.base_url, self.selenium)
+        if not leavepage:
+            return self
+        else:
+            from pages.profile import Profile
+            return Profile(self.base_url, self.selenium)

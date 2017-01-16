@@ -16,6 +16,14 @@ def session_capabilities(session_capabilities):
 
 
 @pytest.fixture
+def capabilities(request, capabilities):
+    driver = request.config.getoption('driver')
+    if capabilities.get('browserName', driver).lower() == 'firefox':
+        capabilities['marionette'] = True
+    return capabilities
+
+
+@pytest.fixture
 def selenium(selenium):
     selenium.implicitly_wait(10)
     selenium.maximize_window()

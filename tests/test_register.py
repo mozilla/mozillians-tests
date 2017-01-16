@@ -46,5 +46,5 @@ class TestRegister:
         # Click recaptcha box
         profile.check_recaptcha()
 
-        profile.click_create_profile_button()
+        profile = profile.click_create_profile_button(leavepage=False)
         assert 'Please correct the errors below.' == profile.error_message

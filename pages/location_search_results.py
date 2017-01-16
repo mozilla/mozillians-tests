@@ -36,7 +36,7 @@ class LocationSearchResults(Base):
 
     class SearchResult(PageRegion):
 
-        _profile_page_link_locator = (By.CSS_SELECTOR, 'a')
+        _profile_page_link_locator = (By.CSS_SELECTOR, 'img')
 
         def open_profile_page(self):
             self._root_element.find_element(*self._profile_page_link_locator).click()

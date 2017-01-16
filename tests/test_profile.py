@@ -86,11 +86,10 @@ class TestProfile:
         skills_form.click_update()
 
         settings = home_page.header.click_settings_menu_item()
+        # TODO: Try to remove the sleep after https://bugzilla.mozilla.org/show_bug.cgi?id=1291320 is fixed.
+        time.sleep(2)
         skills_form = settings.profile.skills
-        skills = skills_form.skills
-
-        skill_delete_buttons = skills_form.delete_skill_buttons
-        skill_delete_buttons[skills.index("hello world")].click()
+        skills_form.delete_skill("hello world")
         skills_form.click_update()
 
         profile_page = home_page.header.click_view_profile_menu_item()
@@ -181,9 +180,9 @@ class TestProfile:
         groups = settings.groups.click_find_group_link()
         create_group = groups.click_create_group_main_button()
         create_group.create_group_name(group_name)
-        create_group.click_create_group_submit()
+        edit_group = create_group.click_create_group_submit()
 
-        search_listings = create_group.header.search_for(group_name)
+        search_listings = edit_group.header.search_for(group_name)
 
         assert search_listings.is_element_present(By.LINK_TEXT, group_name)
 

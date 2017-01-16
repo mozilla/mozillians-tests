@@ -17,6 +17,7 @@ class GroupInfoPage(Base):
     _irc_channel_locator = (By.ID, 'group-irc')
 
     def delete_group(self):
+        self.wait_for_element_visible(*self._delete_group_button)
         self.selenium.find_element(*self._delete_group_button).click()
         from pages.groups_page import GroupsPage
         return GroupsPage(self.base_url, self.selenium)
