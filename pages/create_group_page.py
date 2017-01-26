@@ -17,6 +17,7 @@ class CreateGroupPage(Base):
     _create_group_submit_button = (By.CSS_SELECTOR, 'form.add-group .btn-primary')
 
     def create_group_name(self, group_name):
+        self.wait_for_element_visible(*self._create_group_name)
         element = self.selenium.find_element(*self._create_group_name)
         element.send_keys(group_name)
 

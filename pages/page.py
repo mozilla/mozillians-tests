@@ -25,6 +25,17 @@ class Page(object):
         assert self._page_title == self.selenium.title
         return True
 
+    @property
+    def is_page_loaded(self):
+        page_state = self.selenium.execute_script('return document.readyState;')
+        return page_state == 'complete'
+
+    def wait_for_page_loaded(self):
+        WebDriverWait(self.selenium, self.timeout).until(lambda s: self.is_page_loaded)
+
+    def scroll_to_element(self, element):
+        self.selenium.execute_script("return arguments[0].scrollIntoView();", element)
+
     def get_url_current_page(self):
         WebDriverWait(self.selenium, self.timeout).until(lambda s: s.title)
         return self.selenium.current_url

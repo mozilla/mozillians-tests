@@ -80,8 +80,10 @@ class Settings(Base):
 
         @property
         def skills(self):
-            return self.SkillsForm(self.base_url, self.selenium,
-                                   self._root_element.find_element(*self._skills_form_locator))
+            skill_form = self.SkillsForm(self.base_url, self.selenium,
+                                         self._root_element.find_element(*self._skills_form_locator))
+            skill_form.wait_for_page_loaded()
+            return skill_form
 
         @property
         def delete_account(self):
@@ -106,6 +108,7 @@ class Settings(Base):
 
             def click_update(self):
                 self._root_element.find_element(*self._update_locator).click()
+                self.wait_for_page_loaded()
 
         class DeleteAccount(PageRegion):
 
@@ -147,8 +150,13 @@ class Settings(Base):
             def delete_skill_buttons(self):
                 return self._root_element.find_elements(*self._delete_skill_buttons_locator)
 
+            def delete_skill(self, skill):
+                skill_index = self.skills.index(skill)
+                self.delete_skill_buttons[skill_index].click()
+
             def click_update(self):
                 self._root_element.find_element(*self._update_locator).click()
+                self.wait_for_page_loaded()
 
     class YouAndMozilla(PageRegion):
 
@@ -207,6 +215,7 @@ class Settings(Base):
 
             def click_update(self):
                 self._root_element.find_element(*self._update_locator).click()
+                self.wait_for_page_loaded()
 
     class Groups(PageRegion):
 
@@ -267,6 +276,7 @@ class Settings(Base):
 
             def click_update(self):
                 self._root_element.find_element(*self._update_locator).click()
+                self.wait_for_page_loaded()
 
     class DeveloperTab(PageRegion):
 

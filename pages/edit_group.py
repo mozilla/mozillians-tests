@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.base import Base
 from pages.page import PageRegion
@@ -15,6 +16,12 @@ class EditGroupPage(Base):
     _access_tab_locator = (By.ID, 'access')
     _invitations_button_locator = (By.ID, 'invitations-tab')
     _invitations_tab_locator = (By.ID, 'invitations')
+
+    def __init__(self, base_url, selenium):
+        super(EditGroupPage, self).__init__(base_url, selenium)
+        self.wait_for_page_loaded()
+        WebDriverWait(self.selenium, self.timeout).until(
+            lambda s: self.is_element_visible(*self._description_button_locator))
 
     @property
     def description(self):
@@ -65,6 +72,7 @@ class EditGroupPage(Base):
 
             def click_update(self):
                 self._root_element.find_element(*self._update_locator).click()
+                self.wait_for_page_loaded()
 
         class DeletePanel(PageRegion):
             _delete_acknowledgement_locator = (By.ID, 'delete-checkbox')
