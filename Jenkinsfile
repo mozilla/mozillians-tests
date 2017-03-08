@@ -6,7 +6,7 @@ def environment = 'tests'
 /** Map of desired capabilities */
 def capabilities = [
   browserName: 'Firefox',
-  version: '50.0',
+  version: '51.0',
   platform: 'Windows 10'
 ]
 
