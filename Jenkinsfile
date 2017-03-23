@@ -1,66 +1,158 @@
-@Library('fxtest@1.3') _
+import groovy.json.JsonOutput
 
-/** Desired capabilities */
+/** Tox environment */
+def environment = 'tests'
+
+/** Map of desired capabilities */
 def capabilities = [
   browserName: 'Firefox',
   version: '51.0',
   platform: 'Windows 10'
 ]
 
-pipeline {
-  agent any
-  options {
-    ansiColor('xterm')
-    timestamps()
-    timeout(time: 1, unit: 'HOURS')
-  }
-  environment {
-    /** See https://issues.jenkins-ci.org/browse/JENKINS-42858 - credentials variable should be usable inside the same env. block */
-    VARIABLES = credentials('MOZILLIANS_VARIABLES')
-    SAUCELABS_API_KEY = credentials('SAUCELABS_API_KEY')
-  }
-  stages {
-    stage('Lint') {
-      steps {
-        sh "tox -e flake8"
+/** Write capabilities to JSON file
+ *
+ * @param desiredCapabilities capabilities to include in the file
+*/
+def writeCapabilities(desiredCapabilities) {
+    def defaultCapabilities = [
+        build: env.BUILD_TAG,
+        public: 'public restricted'
+    ]
+    def capabilities = defaultCapabilities.clone()
+    capabilities.putAll(desiredCapabilities)
+    def json = JsonOutput.toJson([capabilities: capabilities])
+    writeFile file: 'capabilities.json', text: json
+}
+
+/** Run Tox
+ *
+ * @param environment test environment to run
+*/
+def runTox(environment) {
+  try {
+    wrap([$class: 'AnsiColorBuildWrapper']) {
+      withCredentials([[
+        $class: 'StringBinding',
+        credentialsId: 'SAUCELABS_API_KEY',
+        variable: 'SAUCELABS_API_KEY']]) {
+        withEnv(["PYTEST_ADDOPTS=${PYTEST_ADDOPTS} " +
+          "--driver=SauceLabs " +
+          "--variables=capabilities.json " +
+          "--color=yes"]) {
+          sh "tox -e ${environment}"
+        }
       }
     }
-    stage('Test') {
-      environment {
-        /** See https://issues.jenkins-ci.org/browse/JENKINS-42771 - we'd like to expand this out into multi-line concatenations */
-        PYTEST_ADDOPTS = "--tb=short --color=yes --driver=SauceLabs --variables=capabilities.json --variables=${VARIABLES}"
-      }
-      steps {
-        writeCapabilities(capabilities, 'capabilities.json')
-        sh "tox -e py27"
-      }
-      post {
-        always {
-          archiveArtifacts 'results/*'
-          junit 'results/*.xml'
-          submitToActiveData('results/py27.log')
-          publishHTML(target: [
-            allowMissing: false,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'results',
-            reportFiles: "py27.html",
-            reportName: 'HTML Report'])
+  } catch(err) {
+    currentBuild.result = 'FAILURE'
+    throw err
+  } finally {
+    dir('results') {
+      stash environment
+    }
+  }
+}
+
+/** Send a notice to #fxtest-alerts on irc.mozilla.org with the build result
+ *
+ * @param result outcome of build
+*/
+def ircNotification(result) {
+  def nick = "fxtest${BUILD_NUMBER}"
+  def channel = '#fx-test-alerts'
+  result = result.toUpperCase()
+  def message = "Project ${JOB_NAME} build #${BUILD_NUMBER}: ${result}: ${BUILD_URL}"
+  node {
+    sh """
+        (
+        echo NICK ${nick}
+        echo USER ${nick} 8 * : ${nick}
+        sleep 5
+        echo "JOIN ${channel}"
+        echo "NOTICE ${channel} :${message}"
+        echo QUIT
+        ) | openssl s_client -connect irc.mozilla.org:6697
+    """
+  }
+}
+
+stage('Checkout') {
+  node {
+    timestamps {
+      deleteDir()
+      checkout scm
+      stash 'workspace'
+    }
+  }
+}
+
+stage('Lint') {
+  node {
+    timestamps {
+      deleteDir()
+      unstash 'workspace'
+      sh 'tox -e flake8'
+    }
+  }
+}
+
+try {
+  stage('Test') {
+    node {
+      timeout(time: 1, unit: 'HOURS') {
+        timestamps {
+          deleteDir()
+          unstash 'workspace'
+          try {
+            writeCapabilities(capabilities)
+            withCredentials([[
+              $class: 'FileBinding',
+              credentialsId: 'MOZILLIANS_VARIABLES',
+              variable: 'VARIABLES']]) {
+              withEnv(["PYTEST_ADDOPTS=--variables=${VARIABLES}"]) {
+                runTox(environment)
+              }
+            }
+          } catch(err) {
+            currentBuild.result = 'FAILURE'
+            throw err
+          } finally {
+            dir('results') {
+              stash environment
+            }
+          }
         }
       }
     }
   }
-  post {
-    failure {
-      mail(
-        body: "${BUILD_URL}",
-        from: "firefox-test-engineering@mozilla.com",
-        replyTo: "firefox-test-engineering@mozilla.com",
-        subject: "Build failed in Jenkins: ${JOB_NAME} #${BUILD_NUMBER}",
-        to: "fte-ci@mozilla.com")
-    }
-    changed {
-      ircNotification()
+} catch(err) {
+  currentBuild.result = 'FAILURE'
+  ircNotification(currentBuild.result)
+  mail(
+    body: "${BUILD_URL}",
+    from: "firefox-test-engineering@mozilla.com",
+    replyTo: "firefox-test-engineering@mozilla.com",
+    subject: "Build failed in Jenkins: ${JOB_NAME} #${BUILD_NUMBER}",
+    to: "fte-ci@mozilla.com")
+  throw err
+} finally {
+  stage('Results') {
+    node {
+      deleteDir()
+      sh 'mkdir results'
+      dir('results') {
+        unstash environment
+      }
+      publishHTML(target: [
+        allowMissing: false,
+        alwaysLinkToLastBuild: true,
+        keepAll: true,
+        reportDir: 'results',
+        reportFiles: "${environment}.html",
+        reportName: 'HTML Report'])
+      junit 'results/*.xml'
+      archiveArtifacts 'results/*'
     }
   }
 }
