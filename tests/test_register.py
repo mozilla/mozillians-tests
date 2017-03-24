@@ -19,6 +19,11 @@ class TestRegister:
         # Full name
         profile.set_full_name("New MozilliansUser")
 
+        # Location
+        profile.select_country("United States")
+        profile.select_region("California")
+        profile.select_city("Mountain View")
+
         # Agree to privacy policy
         profile.check_privacy()
 
@@ -29,12 +34,18 @@ class TestRegister:
 
         assert 'New MozilliansUser' == profile_page.name
         assert new_user['email'] == profile_page.email
+        assert 'Mountain View, California, United States' == profile_page.location
 
     def test_creating_profile_without_checking_privacy_policy_checkbox(self, base_url, selenium, new_user):
         home_page = Home(base_url, selenium)
         profile = home_page.create_new_user(new_user['email'])
 
         profile.set_full_name("User that doesn't like policy")
+
+        # Location
+        profile.select_country("United States")
+        profile.select_region("Colorado")
+        profile.select_city("Durango")
 
         # Click recaptcha box
         profile.check_recaptcha()
