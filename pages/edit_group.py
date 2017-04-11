@@ -37,6 +37,7 @@ class EditGroupPage(Base):
 
     @property
     def invitations(self):
+        self.wait_for_element_visible(*self._invitations_button_locator)
         self.selenium.find_element(*self._invitations_button_locator).click()
         return self.InvitationsTab(self.base_url, self.selenium,
                                    self.selenium.find_element(*self._invitations_tab_locator))
@@ -152,3 +153,4 @@ class EditGroupPage(Base):
 
             def click_invite(self):
                 self._root_element.find_element(*self._invite_locator).click()
+                self.wait_for_page_loaded()

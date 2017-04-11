@@ -14,7 +14,7 @@ from pages.page import PageRegion
 class Search(Base):
 
     _result_locator = (By.CSS_SELECTOR, '#content-wrapper > #main > div.row > div.result')
-    _search_button_locator = (By.CSS_SELECTOR, '.btn.primary:nth-of-type(1)')
+    _search_button_locator = (By.CSS_SELECTOR, 'button[type = "submit"]')
     _advanced_options_button_locator = (By.CSS_SELECTOR, '.btn.primary:nth-of-type(2)')
     _advanced_options_locator = (By.CSS_SELECTOR, '.search-options')
     _non_vouched_only_checkbox_locator = (By.ID, 'id_nonvouched_only')
@@ -44,11 +44,6 @@ class Search(Base):
     def advanced_options_shown(self):
         return self.is_element_visible(*self._advanced_options_locator)
 
-    def search_for(self, search_term):
-        element = self.selenium.find_element(*self._search_box_locator)
-        element.send_keys(search_term)
-        self.selenium.find_element(*self._search_button_locator).click()
-
     def toggle_advanced_options(self):
         self.selenium.find_element(*self._advanced_options_button_locator).click()
 
@@ -64,6 +59,7 @@ class Search(Base):
                 self.selenium.find_elements(*self._result_locator)]
 
     def open_group(self, name):
+        self.wait_for_element_visible(*self._search_button_locator)
         self.selenium.find_element_by_link_text(name).click()
         from pages.group_info_page import GroupInfoPage
         group_info_page = GroupInfoPage(self.base_url, self.selenium)
