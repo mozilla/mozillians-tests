@@ -15,7 +15,7 @@ pipeline {
     timeout(time: 1, unit: 'HOURS')
   }
   environment {
-    /** See https://issues.jenkins-ci.org/browse/JENKINS-42858 - credentials variable should be usable inside the same env. block */
+    /** See https://issues.jenkins-ci.org/browse/JENKINS-43872 - credentials variable should be usable inside the same env. block */
     VARIABLES = credentials('MOZILLIANS_VARIABLES')
     PULSE = credentials('PULSE')
     SAUCELABS_API_KEY = credentials('SAUCELABS_API_KEY')
