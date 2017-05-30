@@ -5,4 +5,4 @@ pytest-metadata==1.5.0
 pytest-selenium==1.10.0
 pytest-variables==1.6.1
 pytest-xdist==1.16.0
-requests==2.16.0
+requests==2.17.3
