@@ -83,7 +83,7 @@ class Base(Page):
 
         _search_box_locator = (By.CSS_SELECTOR, '.search-query')
         _search_box_loggedin_locator = (By.CSS_SELECTOR, '.search-right > form > .search-query')
-        _profile_menu_locator = (By.CSS_SELECTOR, '#nav-main > a.dropdown-toggle')
+        _profile_menu_locator = (By.CSS_SELECTOR, '#nav-main > a.dropdown-toggle i')
 
         # menu items
         _dropdown_menu_locator = (By.CSS_SELECTOR, 'ul.dropdown-menu')
@@ -108,6 +108,7 @@ class Base(Page):
             return Search(self.base_url, self.selenium)
 
         def click_options(self):
+            self.wait_for_element_present(*self._profile_menu_locator)
             self.selenium.find_element(*self._profile_menu_locator).click()
             WebDriverWait(self.selenium, self.timeout).until(lambda s: self.selenium.find_element(*self._dropdown_menu_locator))
 

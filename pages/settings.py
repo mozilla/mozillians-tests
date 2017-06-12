@@ -33,6 +33,7 @@ class Settings(Base):
 
     @property
     def profile(self):
+        self.wait_for_element_present(*self._profile_button_locator)
         self.selenium.find_element(*self._profile_button_locator).click()
         return self.ProfileTab(self.base_url, self.selenium,
                                self.selenium.find_element(*self._profile_tab_locator))
@@ -157,8 +158,7 @@ class Settings(Base):
 
             def click_update(self):
                 self._root_element.find_element(*self._update_locator).click()
-                self.wait_for_element_not_present(*self._update_locator)
-                self.wait_for_element_present(*self._update_locator)
+                self.wait_for_page_loaded()
 
     class YouAndMozilla(PageRegion):
 

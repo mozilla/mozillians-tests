@@ -86,8 +86,6 @@ class TestProfile:
         skills_form.click_update()
 
         settings = home_page.header.click_settings_menu_item()
-        # TODO: Try to remove the sleep after https://bugzilla.mozilla.org/show_bug.cgi?id=1291320 is fixed.
-        time.sleep(2)
         skills_form = settings.profile.skills
         skills_form.delete_skill("hello world")
         skills_form.click_update()
