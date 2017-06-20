@@ -10,7 +10,6 @@ import pytest
 import requests
 
 from pages.home_page import Home
-from pages.profile import Profile
 
 
 class TestSearch:
@@ -43,8 +42,9 @@ class TestSearch:
     def test_that_search_returns_results_for_irc_nickname(self, base_url, selenium, vouched_user):
         home_page = Home(base_url, selenium)
         home_page.login(vouched_user['email'])
-        home_page.header.search_for(u'mbrandt', loggedin=True)
-        profile = Profile(base_url, selenium)
+        search_page = home_page.header.search_for(u'mbrandt', loggedin=True)
+        assert search_page.results_count > 0
+        profile = search_page.search_results[0].open_profile_page()
         assert u'Matt Brandt' == profile.name
 
     @pytest.mark.credentials
@@ -70,7 +70,7 @@ class TestSearch:
         query = u''
         home_page = Home(base_url, selenium)
         search_page = home_page.header.search_for(query)
-        assert search_page.results_count > 0
+        assert search_page.results_count == 0
 
     @pytest.mark.xfail(reason="bug 977424 - API count and actual count do not return the same values")
     @pytest.mark.nondestructive
