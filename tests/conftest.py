@@ -10,8 +10,9 @@ from tests import restmail
 
 
 @pytest.fixture(scope='session')
-def session_capabilities(session_capabilities):
-    session_capabilities.setdefault('tags', []).append('mozillians')
+def session_capabilities(pytestconfig, session_capabilities):
+    if pytestconfig.getoption('driver') == 'SauceLabs':
+        session_capabilities.setdefault('tags', []).append('mozillians')
     return session_capabilities
 
 
