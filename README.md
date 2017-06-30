@@ -61,7 +61,7 @@ Mozilla maintains a guide to running Automated tests on our QMO website:
 
 https://wiki.mozilla.org/QA/Execution/Web_Testing/Docs/Automation/
 
-###You will need to install the following:
+### You will need to install the following:
 
 #### Git
 If you have cloned this project already then you can skip this!
