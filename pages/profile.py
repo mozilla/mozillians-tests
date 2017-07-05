@@ -33,7 +33,6 @@ class Profile(Base):
 
     def __init__(self, base_url, selenium):
         Base.__init__(self, base_url, selenium)
-        self.wait_for_page_loaded()
         WebDriverWait(self.selenium, self.timeout).until(
             lambda s: self.is_element_visible(*self._profile_photo_locator))
 
