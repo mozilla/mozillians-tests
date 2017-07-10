@@ -19,7 +19,6 @@ class EditGroupPage(Base):
 
     def __init__(self, base_url, selenium):
         super(EditGroupPage, self).__init__(base_url, selenium)
-        self.wait_for_page_loaded()
         WebDriverWait(self.selenium, self.timeout).until(
             lambda s: self.is_element_visible(*self._description_button_locator))
 
@@ -153,4 +152,3 @@ class EditGroupPage(Base):
 
             def click_invite(self):
                 self._root_element.find_element(*self._invite_locator).click()
-                self.wait_for_page_loaded()

@@ -67,7 +67,6 @@ class Search(Base):
                 group.click()
         from pages.group_info_page import GroupInfoPage
         group_info_page = GroupInfoPage(self.base_url, self.selenium)
-        group_info_page.wait_for_page_loaded()
         return group_info_page
 
     class SearchResult(PageRegion):

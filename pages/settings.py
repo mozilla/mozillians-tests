@@ -83,7 +83,6 @@ class Settings(Base):
         def skills(self):
             skill_form = self.SkillsForm(self.base_url, self.selenium,
                                          self._root_element.find_element(*self._skills_form_locator))
-            skill_form.wait_for_page_loaded()
             return skill_form
 
         @property
@@ -158,7 +157,6 @@ class Settings(Base):
 
             def click_update(self):
                 self._root_element.find_element(*self._update_locator).click()
-                self.wait_for_page_loaded()
 
     class YouAndMozilla(PageRegion):
 
