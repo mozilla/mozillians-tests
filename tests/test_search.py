@@ -7,7 +7,6 @@
 from random import randrange
 
 import pytest
-import requests
 
 from pages.home_page import Home
 
