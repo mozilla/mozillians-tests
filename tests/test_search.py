@@ -7,7 +7,6 @@
 from random import randrange
 
 import pytest
-import requests
 
 from pages.home_page import Home
 
@@ -71,25 +70,3 @@ class TestSearch:
         home_page = Home(base_url, selenium)
         search_page = home_page.header.search_for(query)
         assert search_page.results_count == 0
-
-    @pytest.mark.xfail(reason="bug 977424 - API count and actual count do not return the same values")
-    @pytest.mark.nondestructive
-    def test_vouched_user_count(self, base_url, selenium, variables):
-        r = requests.get('https://mozillians-dev.allizom.org/api/v1/users/', params={
-            'app_name': variables['api']['application'],
-            'app_key': variables['api']['key'],
-            'format': 'json',
-            'limit': 1,
-            'is_vouched': 'true'
-        })
-
-        r = r.json()
-
-        api_count = r['meta'].get('total_count')
-        home_page = Home(base_url, selenium)
-        search_results = home_page.header.search_for('')
-        results_on_page = search_results.results_count
-        number_of_pages = int(search_results.number_of_pages)
-        ui_count = results_on_page * number_of_pages
-
-        assert (ui_count - results_on_page) < api_count < (ui_count + results_on_page), u'API Count = %s : UI Count = %s.' % (api_count, ui_count)

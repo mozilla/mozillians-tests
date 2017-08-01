@@ -9,15 +9,10 @@
       "email": "",
       "password": "",
       "name": ""
-    },    
+    },
     "private": {
       "email": "",
       "password": "",
       "name": ""
     }
-  },
-  "api": {
-    "application": "",
-    "key": ""
-  }
 }
