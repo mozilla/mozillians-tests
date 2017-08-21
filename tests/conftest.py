@@ -66,5 +66,6 @@ def login_link(username):
     mail = restmail.get_mail(username)
     mail_content = mail[0]['text'].replace('\n', ' ').replace('amp;', '').split(" ")
     for link in mail_content:
-        if link.startswith("https://auth-dev.mozilla.auth0.com/passwordless/verify_redirect"):
+        if link.startswith("https://auth-dev.mozilla.auth0.com/passwordless/verify_redirect")\
+                or link.startswith("https://auth.mozilla.auth0.com/passwordless/verify_redirect"):
             return link
