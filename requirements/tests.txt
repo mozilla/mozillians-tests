@@ -1,6 +1,6 @@
 BeautifulSoup==3.2.1
 mozlog==3.5
-pytest==3.2.2
+pytest==3.2.3
 pytest-metadata==1.5.0
 pytest-selenium==1.11.1
 pytest-variables==1.7.0
