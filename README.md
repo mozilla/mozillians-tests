@@ -1,8 +1,6 @@
-Web QA Tests for mozillians.org
-===============================
+# Web QA Tests for mozillians.org
 
-A community phonebook for core contributors
--------------------------------------------
+## A community phonebook for core contributors
 
 Thank you for checking out Mozilla's Mozillians test suite! Mozilla and the Web
 QA team are grateful for the help and hard work of many contributors like yourself.
@@ -15,8 +13,20 @@ https://github.com/mozilla/mozillians-tests/contributors
 [![updates](https://pyup.io/repos/github/mozilla/mozillians-tests/shield.svg)](https://pyup.io/repos/github/mozilla/mozillians-tests/)
 [![Python 3](https://pyup.io/repos/github/mozilla/mozillians-tests/python-3-shield.svg)](https://pyup.io/repos/github/mozilla/mozillians-tests/)
 
-Getting involved as a contributor
----------------------------------
+## Table of Contents (ToC):
+
+* [Getting involved as a contributor](#gettig-involved-as-a-contributor)
+* [Questions are always welcome](#questions-are-always-welcome)
+* [How to set up and run Mozillians tests locally](#how-to-set-up-and-run-mozillians-tests-locally)
+* [You will need to install the following](#you-will-need-to-install-the-following)
+* [Git](#git)
+* [Python](#python)
+* [Running tests locally](#running-tests-locally)
+* [Credentials](#credentials)
+* [Writing Tests](#writing-tests)
+* [License](#licensing)
+
+## Getting involved as a contributor
 
 We love working with contributors to improve the Selenium test coverage for
 mozillians-tests but it does require a few skills.  You will need to be familiar
@@ -28,8 +38,7 @@ page objects pattern.
 
 If you need to brush up on programming but are eager to start contributing
 immediately, please consider helping out by doing manual testing.  You can
-help find bugs in Mozilla [Firefox][firefox] or find bugs in the Mozilla web
-sites tested by the [Web QA][webqa] team.  We have many projects that would be
+help find bugs in Mozilla [Firefox][firefox] or find bugs in the Mozilla websites tested by the [Web QA][webqa] team.  We have many projects that would be
 thrilled to have your help!
 
 To brush up on Python skills before engaging with us, [Dive Into Python][dive]
@@ -38,16 +47,16 @@ through their open courseware.  The programming concepts you will need to know
 include functions, working with classes, and the basics of object-oriented
 programming.
 
-Questions are always welcome
-----------------------------
+## Questions are always welcome
+
 While we take great pains to keep our documentation updated, the best source of
 information is those of us who work on the project.  Don't be afraid to join us
 in irc.mozilla.org #mozwebqa to ask questions about our Selenium tests.  Mozilla
 also hosts the #mozillians chat room to answer your general questions about
 contributing to Mozilla.
 
-How to set up and run Mozillians tests locally
----------------------------------------------
+## How to set up and run Mozillians tests locally
+
 This repository contains Selenium tests used to test:
 
 * development: http://mozillians-dev.allizom.org
@@ -58,7 +67,7 @@ Mozilla maintains a guide to running Automated tests on our QMO website:
 
 https://wiki.mozilla.org/QA/Execution/Web_Testing/Docs/Automation/
 
-### You will need to install the following:
+### You will need to install the following
 
 #### Git
 If you have cloned this project already then you can skip this!
@@ -85,10 +94,9 @@ with varying privilege levels.
 * [Install Tox](https://tox.readthedocs.io/en/latest/install.html)
 * Run `PYTEST_ADDOPTS="--variables=/path/to/variables.json" tox`
 
-Writing Tests
--------------
+## Writing Tests
 
-If you want to get involved and add more tests, then there's just a few things
+If you want to get involved and add more tests, then there are just a few things
 we'd like to ask you to do:
 
 1. Use the [template files][GitHub Templates] for all new tests and page objects
@@ -97,8 +105,8 @@ we'd like to ask you to do:
 4. Make sure all tests are passing, and submit a pull request with your changes
 5. Always feel free to reach out to us and ask questions. We'll do our best to help get you started and unstuck
 
-License
--------
+## License
+
 This software is licensed under the [MPL] 2.0:
 
     This Source Code Form is subject to the terms of the Mozilla Public
