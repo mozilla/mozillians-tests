@@ -24,7 +24,7 @@ pipeline {
       "--variables=capabilities.json " +
       "--variables=${VARIABLES}"
     PULSE = credentials('PULSE')
-    SAUCELABS_API_KEY = credentials('SAUCELABS_API_KEY')
+    SAUCELABS = credentials('SAUCELABS')
   }
   stages {
     stage('Lint') {
