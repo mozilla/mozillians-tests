@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -13,7 +11,7 @@ class TestInvite:
 
     @pytest.mark.credentials
     def test_inviting_an_invalid_email_address(self, base_url, selenium, vouched_user):
-        home_page = Home(base_url, selenium)
+        home_page = Home(selenium, base_url).open()
         home_page.login(vouched_user['email'])
         invite_page = home_page.header.click_invite_menu_item()
         invite_page.invite("invalidmail")
@@ -21,7 +19,7 @@ class TestInvite:
 
     @pytest.mark.credentials
     def test_invite(self, base_url, selenium, vouched_user):
-        home_page = Home(base_url, selenium)
+        home_page = Home(selenium, base_url).open()
         home_page.login(vouched_user['email'])
         invite_page = home_page.header.click_invite_menu_item()
         email_address = "user@example.com"

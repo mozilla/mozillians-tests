@@ -25,13 +25,6 @@ def capabilities(request, capabilities):
 
 
 @pytest.fixture
-def selenium(selenium):
-    selenium.implicitly_wait(10)
-    selenium.maximize_window()
-    return selenium
-
-
-@pytest.fixture
 def new_email():
     return 'mozillians_{0}@restmail.net'.format(uuid.uuid1())
 

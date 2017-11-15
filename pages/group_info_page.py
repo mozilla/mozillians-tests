@@ -1,11 +1,9 @@
-#!/usr/bin/env python
-
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as expected
 
 from pages.base import Base
 
@@ -16,16 +14,20 @@ class GroupInfoPage(Base):
     _description_locator = (By.CSS_SELECTOR, '.group-description')
     _irc_channel_locator = (By.ID, 'group-irc')
 
+    def wait_for_page_to_load(self):
+        self.wait.until(lambda _: self.find_element(By.CSS_SELECTOR, 'html.js body#group-show'))
+        return self
+
     def delete_group(self):
-        self.wait_for_element_visible(*self._delete_group_button)
-        self.selenium.find_element(*self._delete_group_button).click()
+        self.wait.until(expected.visibility_of_element_located(
+            self._delete_group_button)).click()
         from pages.groups_page import GroupsPage
-        return GroupsPage(self.base_url, self.selenium)
+        return GroupsPage(self.selenium, self.base_url)
 
     @property
     def description(self):
-        return self.selenium.find_element(*self._description_locator).text
+        return self.find_element(*self._description_locator).text
 
     @property
     def irc_channel(self):
-        return self.selenium.find_element(*self._irc_channel_locator).text
+        return self.find_element(*self._irc_channel_locator).text

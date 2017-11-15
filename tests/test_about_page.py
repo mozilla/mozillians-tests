@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -14,7 +12,7 @@ class TestAboutPage:
 
     @pytest.mark.nondestructive
     def test_about_page(self, base_url, selenium):
-        home_page = Home(base_url, selenium)
+        home_page = Home(selenium, base_url).open()
         about_mozillians_page = home_page.footer.click_about_link()
         assert about_mozillians_page.is_privacy_section_present
         assert about_mozillians_page.is_get_involved_section_present

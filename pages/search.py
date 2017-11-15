@@ -1,14 +1,12 @@
-#!/usr/bin/env python
-
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-
+from pypom import Region
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as expected
 
 from pages.base import Base
-from pages.page import PageRegion
 
 
 class Search(Base):
@@ -24,61 +22,60 @@ class Search(Base):
     _last_page_number_locator = (By.CSS_SELECTOR, '#pagination-form select option:last-child')
     _group_name_locator = (By.CSS_SELECTOR, '.group-name')
 
+    def wait_for_page_to_load(self):
+        self.wait.until(lambda _: self.find_element(By.CSS_SELECTOR, 'html.js body#search'))
+        return self
+
     @property
     def results_count(self):
-        return len(self.selenium.find_elements(*self._result_locator))
+        return len(self.find_elements(*self._result_locator))
 
     @property
     def number_of_pages(self):
-        element = self.selenium.find_element(*self._last_page_number_locator)
+        element = self.find_element(*self._last_page_number_locator)
         return element.get_attribute('text')
 
     @property
     def no_results_message_head(self):
-        return self.selenium.find_element(*self._no_results_locator_head).text
+        return self.find_element(*self._no_results_locator_head).text
 
     @property
     def no_results_message_body(self):
-        return self.selenium.find_element(*self._no_results_locator_body).text
+        return self.find_element(*self._no_results_locator_body).text
 
     @property
     def advanced_options_shown(self):
-        return self.is_element_visible(*self._advanced_options_locator)
+        return self.is_element_displayed(*self._advanced_options_locator)
 
     def toggle_advanced_options(self):
-        self.selenium.find_element(*self._advanced_options_button_locator).click()
+        self.find_element(*self._advanced_options_button_locator).click()
 
     def check_non_vouched_only(self):
-        self.selenium.find_element(*self._non_vouched_only_checkbox_locator).click()
+        self.find_element(*self._non_vouched_only_checkbox_locator).click()
 
     def check_with_photos_only(self):
-        self.selenium.find_element(*self._with_photos_only_checkbox_locator).click()
+        self.find_element(*self._with_photos_only_checkbox_locator).click()
 
     @property
     def search_results(self):
-        return [self.SearchResult(self.base_url, self.selenium, el) for el in
-                self.selenium.find_elements(*self._result_locator)]
+        return [self.SearchResult(self, el) for el in self.find_elements(*self._result_locator)]
 
     def open_group(self, name):
-        self.wait_for_element_visible(*self._search_button_locator)
-        groups_names = self.selenium.find_elements(*self._group_name_locator)
-        for group in groups_names:
-            if group.get_attribute('title') == name:
-                group.click()
+        self.wait.until(expected.visibility_of_element_located(
+            (By.CSS_SELECTOR, '.group-name[title="{}"]'.format(name)))).click()
         from pages.group_info_page import GroupInfoPage
-        group_info_page = GroupInfoPage(self.base_url, self.selenium)
-        return group_info_page
+        return GroupInfoPage(self.selenium, self.base_url).wait_for_page_to_load()
 
-    class SearchResult(PageRegion):
+    class SearchResult(Region):
 
         _profile_page_link_locator = (By.CSS_SELECTOR, 'li a')
         _name_locator = (By.CSS_SELECTOR, '.result .details h2')
 
         def open_profile_page(self):
-            self._root_element.find_element(*self._profile_page_link_locator).click()
+            self.find_element(*self._profile_page_link_locator).click()
             from pages.profile import Profile
-            return Profile(self.base_url, self.selenium)
+            return Profile(self.page.selenium, self.page.base_url).wait_for_page_to_load()
 
         @property
         def name(self):
-            return self._root_element.find_element(*self._name_locator).text
+            return self.find_element(*self._name_locator).text

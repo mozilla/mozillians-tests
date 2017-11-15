@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -15,7 +13,7 @@ class TestAccount:
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_login_logout(self, base_url, selenium, vouched_user):
-        home_page = Home(base_url, selenium)
+        home_page = Home(selenium, base_url).open()
         home_page.login(vouched_user['email'])
         assert home_page.header.is_logout_menu_item_present
         home_page.header.click_logout_menu_item()
@@ -24,10 +22,10 @@ class TestAccount:
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_logout_verify_bid(self, base_url, selenium, vouched_user):
-        home_page = Home(base_url, selenium)
+        home_page = Home(selenium, base_url).open()
         home_page.login(vouched_user['email'])
         assert home_page.header.is_logout_menu_item_present
-        home_page.logout_using_url()
+        selenium.get(base_url + '/logout')
 
         home_page.wait_for_user_login()
         assert home_page.is_sign_in_button_present

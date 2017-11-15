@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -10,7 +8,7 @@ from pages.home_page import Home
 class TestRegister:
 
     def test_profile_creation(self, base_url, selenium, new_user):
-        home_page = Home(base_url, selenium)
+        home_page = Home(selenium, base_url).open()
         profile = home_page.create_new_user(new_user['email'])
 
         # Click recaptcha box
@@ -37,7 +35,7 @@ class TestRegister:
         assert 'Mountain View, California, United States' == profile_page.location
 
     def test_creating_profile_without_checking_privacy_policy_checkbox(self, base_url, selenium, new_user):
-        home_page = Home(base_url, selenium)
+        home_page = Home(selenium, base_url).open()
         profile = home_page.create_new_user(new_user['email'])
 
         profile.set_full_name("User that doesn't like policy")
