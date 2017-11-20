@@ -11,8 +11,6 @@ from pages.home_page import Home
 
 class TestSearch:
 
-    @pytest.mark.xfail("'mozillians-dev' in config.getvalue('base_url')",
-                       reason="Bug 944101 - Searching by email substring does not return all results")
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_that_search_returns_results_for_email_substring(self, base_url, selenium, vouched_user):
