@@ -9,13 +9,13 @@ from selenium.webdriver.support import expected_conditions as expected
 
 class Auth0(Page):
 
-    _login_with_email_button_locator = (By.CSS_SELECTOR, '.auth0-lock-passwordless-button.auth0-lock-passwordless-big-button')
-    _email_input_locator = (By.CSS_SELECTOR, '.auth0-lock-passwordless-pane>div>div>input')
-    _send_email_button_locator = (By.CSS_SELECTOR, '.auth0-lock-passwordless-submit')
+    _email_locator = (By.ID, 'field-email')
+    _enter_locator = (By.ID, 'enter-initial')
+    _send_email_locator = (By.CSS_SELECTOR, 'button[data-handler=send-passwordless-link]')
 
     def request_login_link(self, username):
         self.wait.until(expected.visibility_of_element_located(
-            self._login_with_email_button_locator)).click()
+            self._email_locator)).send_keys(username)
+        self.find_element(*self._enter_locator).click()
         self.wait.until(expected.visibility_of_element_located(
-            self._email_input_locator)).send_keys(username)
-        self.find_element(*self._send_email_button_locator).click()
+            self._send_email_locator)).click()
