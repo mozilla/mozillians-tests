@@ -208,7 +208,7 @@ class TestProfile:
     @pytest.mark.credentials
     @pytest.mark.nondestructive
     def test_private_groups_field_when_not_logged_in(self, base_url, selenium, private_user):
-        page = Profile(selenium, base_url, username=private_user['name']).open()
+        page = Profile(selenium, base_url, username=private_user['username']).open()
         assert not page.is_groups_present
 
     @pytest.mark.credentials

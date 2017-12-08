@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import uuid
+from urlparse import urlparse
 
 import pytest
 
@@ -34,22 +35,23 @@ def new_user(new_email):
     return {'email': new_email}
 
 
-@pytest.fixture
-def stored_users(variables):
-    return variables['users']
+@pytest.fixture(scope='session')
+def stored_users(base_url, variables):
+    return variables[urlparse(base_url).hostname]['users']
 
 
-@pytest.fixture
-def vouched_user(stored_users):
-    return stored_users['vouched']
+@pytest.fixture(scope='function')
+def vouched_user(request, stored_users):
+    slave_id = getattr(request.config, 'slaveinput', {}).get('slaveid', 'gw0')
+    return stored_users['vouched'][int(slave_id[2:])]
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def private_user(stored_users):
     return stored_users['private']
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def unvouched_user(stored_users):
     return stored_users['unvouched']
 

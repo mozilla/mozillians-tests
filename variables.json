@@ -1,18 +1,23 @@
 {
-  "users": {
-    "vouched": {
-      "email": "",
-      "password": "",
-      "name": ""
-    },
-    "unvouched": {
-      "email": "",
-      "password": "",
-      "name": ""
-    },
-    "private": {
-      "email": "",
-      "password": "",
-      "name": ""
+  "web-mozillians-staging.production.paas.mozilla.community": {
+    "users": {
+      "vouched": [
+        {
+          "username": "",
+          "email": "",
+          "name": ""
+        },
+      ],
+      "unvouched": {
+        "username": "",
+        "email": "",
+        "name": ""
+      },
+      "private": {
+        "username": "",
+        "email": "",
+        "name": ""
+      }
     }
+  }
 }

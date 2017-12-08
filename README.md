@@ -41,33 +41,40 @@ for [forking a repository][git fork].
 ### Create test variables files
 
 Some of the tests require credentials associated with account with specific
-access levels. Create three username and password combinations on [staging][].
-
-Join #commtools on IRC and ask for two of these users to be vouched (or ask
-someone on #fx-test to do this for you). In one of the vouched users' profiles,
-join at least one group and mark groups as private.
+access levels. Create at least three users on [staging][]. Vouch at least two
+of these users by adding '/vouch' to the end of the profile URL for each user.
+In one of the vouched users' profiles, join at least one group and mark groups
+as private.
 
 Create a file outside of the project (to avoid accidentally exposing the
 credentials) with the following format. You will reference this file when
 running the tests using the `--variables` command line option.
 
+Note that the `vouched` key is a list. This is so that multiple vouched users
+can be used when running the tests in parallel. It's recommended that you have
+as many vouched users as you intend to have tests running in parallel.
+
 ```json
 {
-  "users": {
-    "vouched": {
-      "email": "vouched@example.com",
-      "password": "password",
-      "name": "Vouched User"
-    },
-    "unvouched": {
-      "email": "unvouced@example.com",
-      "password": "password",
-      "name": "Unvouched User"
-    },
-    "private": {
-      "email": "private@example.com",
-      "password": "password",
-      "name": "Private User"
+  "web-mozillians-staging.production.paas.mozilla.community": {
+    "users": {
+      "vouched": [
+        {
+          "username": "vouched",
+          "email": "vouched@example.com",
+          "name": "Vouched User"
+        },
+      ],
+      "unvouched": {
+        "username": "unvouched",
+        "email": "unvouched@example.com",
+        "name": "Unvouched User"
+      },
+      "private": {
+        "username": "private",
+        "email": "private@example.com",
+        "name": "Private User"
+      }
     }
   }
 }
