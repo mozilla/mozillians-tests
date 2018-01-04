@@ -1,5 +1,5 @@
 BeautifulSoup==3.2.1
-mozlog==3.5
+mozlog==3.6
 PyPOM==1.2.0
 pytest==3.3.1
 pytest-metadata==1.5.1
