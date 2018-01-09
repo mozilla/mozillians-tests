@@ -30,7 +30,7 @@ class TestSearch:
         # get random index
         random_profile = randrange(search_page.results_count)
         profile_name = search_page.search_results[random_profile].name
-        assert query in profile_name
+        assert query.lower() in profile_name.lower()
 
     @pytest.mark.credentials
     @pytest.mark.nondestructive
