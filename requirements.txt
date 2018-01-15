@@ -1,4 +1,6 @@
 BeautifulSoup==3.2.1
+flake8==3.5.0
+flake8-isort==2.3
 mozlog==3.7
 PyPOM==1.2.0
 pytest==3.3.2
