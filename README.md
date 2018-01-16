@@ -63,7 +63,7 @@ as many vouched users as you intend to have tests running in parallel.
           "username": "vouched",
           "email": "vouched@example.com",
           "name": "Vouched User"
-        },
+        }
       ],
       "unvouched": {
         "username": "unvouched",
@@ -80,13 +80,13 @@ as many vouched users as you intend to have tests running in parallel.
 }
 ```
 
-Then you can run the tests using [Docker]:
+Then you can run the tests using [Docker][]:
 
 ```bash
   $ docker build -t mozillians-tests .
   $ docker run -it \
     --mount type=bind,source=/path/to/variables.json,destination=/variables.json,readonly \
-    mozillians-tests pytest --variables=/path/to/variables.json
+    mozillians-tests
 ```
 
 ### Run the tests using Sauce Labs
@@ -100,16 +100,22 @@ username = username
 key = secret
 ```
 
-Then you can run the tests using [Docker][]. The `--mount` argument is
-important, as it allows your `.saucelabs` file to be accessed by the Docker container:
+Then you can run the tests against Sauce Labs using [Docker][] by passing the
+`--driver SauceLabs` argument as shown below. The `--mount` argument is
+important, as it allows your `.saucelabs` file to be accessed by the Docker
+container:
 
 ```bash
 $ docker build -t mozillians-tests .
 $ docker run -it \
   --mount type=bind,source=$HOME/.saucelabs,destination=/src/.saucelabs,readonly \
   --mount type=bind,source=/path/to/variables.json,destination=/variables.json,readonly \
-  mozillians-tests pytest --variables=/path/to/variables.json
+  mozillians-tests --variables /variables.json \
+  --driver SauceLabs --capability browserName Chrome
 ```
+
+See the documentation on [specifying capabilities][] and the Sauce Labs
+[platform configurator][] for selecting the target platform.
 
 ## Writing tests
 
@@ -127,5 +133,6 @@ things we'd like to ask you to do:
 [git clone]: https://help.github.com/articles/cloning-a-repository/
 [git fork]: https://help.github.com/articles/fork-a-repo/
 [staging]: https://web-mozillians-staging.production.paas.mozilla.community/
-[install tox]: https://tox.readthedocs.io/en/latest/install.html
+[specifying capabilities]: http://pytest-selenium.readthedocs.io/en/latest/user_guide.html#specifying-capabilities
+[platform configurator]: http://pytest-selenium.readthedocs.io/en/latest/user_guide.html#specifying-capabilities
 [style guide]: https://wiki.mozilla.org/QA/Execution/Web_Testing/Docs/Automation/StyleGuide
