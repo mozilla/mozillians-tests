@@ -111,7 +111,7 @@ $ docker run -it \
   --mount type=bind,source=$HOME/.saucelabs,destination=/src/.saucelabs,readonly \
   --mount type=bind,source=/path/to/variables.json,destination=/variables.json,readonly \
   mozillians-tests --variables /variables.json \
-  --driver SauceLabs --capability browserName Chrome
+  --driver SauceLabs --capability browserName Firefox
 ```
 
 See the documentation on [specifying capabilities][] and the Sauce Labs
