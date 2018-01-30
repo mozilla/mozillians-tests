@@ -13,7 +13,8 @@ RUN update-ms-fonts && fc-cache -f
 
 WORKDIR /src
 COPY requirements.txt /src
-RUN pip install -r requirements.txt
+RUN pip install pipenv
+RUN pipenv install --system -r requirements.txt --skip-lock --deploy
 
 ENV GECKODRIVER_VERSION=0.19.1
 RUN curl -fsSLo /tmp/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz \
