@@ -6,12 +6,15 @@ from pypom import Page
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as expected
 
+from pages.github import Github
+
 
 class Auth0(Page):
 
     _email_locator = (By.ID, 'field-email')
     _enter_locator = (By.ID, 'enter-initial')
     _send_email_locator = (By.CSS_SELECTOR, 'button[data-handler=send-passwordless-link]')
+    _login_with_github_button_locator = (By.CSS_SELECTOR, 'button[data-handler="authorise-github"]')
 
     def __new__(cls, driver, base_url, **kwargs):
         if 'mozillians.org' in base_url:
@@ -24,6 +27,10 @@ class Auth0(Page):
         self.find_element(*self._enter_locator).click()
         self.wait.until(expected.visibility_of_element_located(
             self._send_email_locator)).click()
+
+    def click_login_with_github(self):
+        self.find_element(*self._login_with_github_button_locator).click()
+        return Github(self.selenium, self.base_url)
 
 
 class Legacy(Page):

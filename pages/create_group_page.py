@@ -13,6 +13,11 @@ class CreateGroupPage(Base):
     _create_group_name = (By.NAME, 'name')
     _create_group_form = (By.CSS_SELECTOR, 'form.add-group')
     _create_group_submit_button = (By.CSS_SELECTOR, 'form.add-group .btn-primary')
+    _access_group_radio_button = (By.ID, 'id_is_access_group_0')
+
+    @property
+    def is_access_group_present(self):
+        return self.is_element_present(*self._access_group_radio_button)
 
     def create_group_name(self, group_name):
         self.wait.until(expected.visibility_of_element_located(

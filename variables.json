@@ -17,6 +17,11 @@
         "username": "",
         "email": "",
         "name": ""
+      },
+      "github_non_nda_user": {
+        "username": "",
+        "password": "",
+        "secret": ""
       }
     }
   }

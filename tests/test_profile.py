@@ -174,11 +174,8 @@ class TestProfile:
 
         home_page = Home(selenium, base_url).open()
         home_page.login(vouched_user['email'])
-        settings = home_page.header.click_settings_menu_item()
-        groups = settings.groups.click_find_group_link()
-        create_group = groups.click_create_group_main_button()
-        create_group.create_group_name(group_name)
-        edit_group = create_group.click_create_group_submit()
+        groups_page = home_page.header.click_groups_menu_item()
+        edit_group = groups_page.create_group(group_name)
 
         search_listings = edit_group.header.search_for(group_name)
 
@@ -188,7 +185,7 @@ class TestProfile:
         groups_page = group_info.delete_group()
         groups_page.wait_for_alert_message()
 
-        home_page.header.click_settings_menu_item()
+        search_listings = home_page.header.search_for(group_name)
 
         assert not search_listings.is_element_present(By.LINK_TEXT, group_name)
 
