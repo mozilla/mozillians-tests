@@ -1,2 +1,3 @@
 requirements:
   - Pipfile
+  - pipenv.txt

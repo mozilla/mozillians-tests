@@ -12,6 +12,8 @@ name = "pypi"
 [packages]
 
 BeautifulSoup = "==3.2.1"
+configparser = {version = "==3.5.0", markers="python_version < '3.5'"}
+enum34 = {version = "==1.1.6", markers="python_version < '3.4'"}
 flake8 = "==3.5.0"
 flake8-isort = "==2.3"
 mozlog = "==3.7"
