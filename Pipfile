@@ -12,8 +12,6 @@ name = "pypi"
 [packages]
 
 BeautifulSoup = "==3.2.1"
-configparser = {version = "==3.5.0", markers="python_version < '3.5'"}
-enum34 = {version = "==1.1.6", markers="python_version < '3.4'"}
 flake8 = "==3.5.0"
 flake8-isort = "==2.4"
 mozlog = "==3.7"
@@ -22,6 +20,18 @@ pytest = "==3.4.1"
 pytest-metadata = "==1.6.0"
 pytest-selenium = "==1.11.4"
 pytest-variables = "==1.7.1"
-pytest-xdist = "==1.22.1"
+pytest-xdist = "==1.22.2"
 requests = "==2.18.4"
 pyotp = "==2.2.6"
+
+
+[packages.configparser]
+
+version = "==3.5.0"
+markers = "python_version < '3.5'"
+
+
+[packages.enum34]
+
+version = "==1.1.6"
+markers = "python_version < '3.4'"
