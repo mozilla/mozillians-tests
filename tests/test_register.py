@@ -49,4 +49,4 @@ class TestRegister:
         profile.check_recaptcha()
 
         profile = profile.click_create_profile_button(leavepage=False)
-        assert 'Please correct the errors below.' == profile.error_message
+        assert 'Please check this box if you want to proceed.' == profile.privacy_error_message

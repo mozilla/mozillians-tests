@@ -10,10 +10,8 @@ from pages.base import Base
 
 class Register(Base):
 
-    _error_locator = (By.CSS_SELECTOR, 'div.alert.alert-error')
     _full_name_field_locator = (By.ID, 'id_full_name')
     _privacy_locator = (By.ID, 'id_optin')
-    _privacy_error_message_locator = (By.CSS_SELECTOR, '.error-message')
     _create_profile_button_locator = (By.CSS_SELECTOR, '#form-submit-registration')
     _recaptcha_checkbox_locator = (By.CSS_SELECTOR, '.recaptcha-checkbox-checkmark')
     _recaptcha_checkbox_checked = (By.CSS_SELECTOR, '.recaptcha-checkbox-checked')
@@ -34,16 +32,12 @@ class Register(Base):
         return self
 
     @property
-    def error_message(self):
-        return self.find_element(*self._error_locator).text
+    def privacy_error_message(self):
+        return self.find_element(*self._privacy_locator).get_attribute('validationMessage')
 
     def set_full_name(self, full_name):
         element = self.find_element(*self._full_name_field_locator)
         element.send_keys(full_name)
-
-    @property
-    def privacy_error_message(self):
-        return self.find_element(*self._privacy_error_message_locator).text
 
     def select_country(self, country):
         self.find_element(*self._country_countainer_locator).click()

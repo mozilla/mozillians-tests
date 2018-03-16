@@ -167,39 +167,37 @@ class Settings(Base):
             _select_year_locator = (By.ID, 'id_date_mozillian_year')
             _month_locator = (By.CSS_SELECTOR, '#id_date_mozillian_month > option')
             _year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year > option')
-            _selected_month_locator = (By.CSS_SELECTOR, '#id_date_mozillian_month > option[selected="selected"]')
-            _selected_year_locator = (By.CSS_SELECTOR, '#id_date_mozillian_year > option[selected="selected"]')
             _update_locator = (By.ID, 'form-submit-contribution')
 
             def select_month(self, option_month):
                 element = self.find_element(*self._select_month_locator)
                 select = Select(element)
-                select.select_by_value(option_month)
+                select.select_by_visible_text(option_month)
 
             def select_year(self, option_year):
                 element = self.find_element(*self._select_year_locator)
                 select = Select(element)
-                select.select_by_value(option_year)
+                select.select_by_visible_text(option_year)
 
             @property
             def month(self):
                 # Return selected month text
-                return self.find_element(*self._selected_month_locator).text
+                return [month.text for month in self.find_elements(*self._month_locator) if month.get_property('selected')]
 
             @property
             def year(self):
                 # Return selected year text
-                return self.find_element(*self._selected_year_locator).text
+                return [year.text for year in self.find_elements(*self._year_locator) if year.get_property('selected')]
 
             @property
             def months_values(self):
                 # Return all month values
-                return [month.get_attribute('value') for month in self.find_elements(*self._month_locator)]
+                return [month.text for month in self.find_elements(*self._month_locator)]
 
             @property
             def years_values(self):
                 # Return all year values
-                return [year.get_attribute('value') for year in self.find_elements(*self._year_locator)]
+                return [year.text for year in self.find_elements(*self._year_locator)]
 
             def select_random_month(self):
                 return self.select_month(random.choice(self.months_values[1:]))
