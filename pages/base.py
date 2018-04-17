@@ -28,8 +28,7 @@ class Base(Page):
 
     @property
     def page_title(self):
-        self.wait.until(lambda s: self.selenium.title)
-        return self.selenium.title
+        return self.wait.until(lambda s: self.selenium.title)
 
     @property
     def is_pending_approval_visible(self):
