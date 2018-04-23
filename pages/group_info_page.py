@@ -14,9 +14,10 @@ class GroupInfoPage(Base):
     _description_locator = (By.CSS_SELECTOR, '.group-description')
     _irc_channel_locator = (By.ID, 'group-irc')
 
-    def wait_for_page_to_load(self):
-        self.wait.until(lambda _: self.find_element(By.CSS_SELECTOR, 'html.js body#group-show'))
-        return self
+    @property
+    def loaded(self):
+        return self.is_element_present(
+            By.CSS_SELECTOR, 'html.js body#group-show')
 
     def delete_group(self):
         self.wait.until(expected.visibility_of_element_located(

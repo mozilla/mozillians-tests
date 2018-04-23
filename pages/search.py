@@ -22,9 +22,9 @@ class Search(Base):
     _last_page_number_locator = (By.CSS_SELECTOR, '#pagination-form select option:last-child')
     _group_name_locator = (By.CSS_SELECTOR, '.group-name')
 
-    def wait_for_page_to_load(self):
-        self.wait.until(lambda _: self.find_element(By.CSS_SELECTOR, 'html.js body#search'))
-        return self
+    @property
+    def loaded(self):
+        return self.is_element_present(By.CSS_SELECTOR, 'html.js body#search')
 
     @property
     def results_count(self):

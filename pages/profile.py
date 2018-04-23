@@ -28,9 +28,9 @@ class Profile(Base):
     _profile_message_locator = (By.CSS_SELECTOR, '.alert')
     _view_as_locator = (By.ID, 'view-privacy-mode')
 
-    def wait_for_page_to_load(self):
-        self.wait.until(lambda _: self.find_element(By.CSS_SELECTOR, 'html.js body#profile'))
-        return self
+    @property
+    def loaded(self):
+        return self.is_element_present(By.CSS_SELECTOR, 'html.js body#profile')
 
     def view_profile_as(self, view_as):
         element = self.find_element(*self._view_as_locator)

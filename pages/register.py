@@ -27,9 +27,10 @@ class Register(Base):
     _city_results_list_locator = (By.CSS_SELECTOR, '#select2-id_city-results > li.select2-results__option--highlighted')
     _first_city_search_result_locator = (By.CSS_SELECTOR, '#select2-id_city-results > li.select2-results__option--highlighted:first-child')
 
-    def wait_for_page_to_load(self):
-        self.wait.until(lambda _: self.find_element(By.CSS_SELECTOR, 'html.js body#edit-profile'))
-        return self
+    @property
+    def loaded(self):
+        return self.is_element_present(
+            By.CSS_SELECTOR, 'html.js body#edit-profile')
 
     @property
     def privacy_error_message(self):

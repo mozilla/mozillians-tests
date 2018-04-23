@@ -17,9 +17,9 @@ class EditGroupPage(Base):
     _invitations_button_locator = (By.ID, 'invitations-tab')
     _invitations_tab_locator = (By.ID, 'invitations')
 
-    def wait_for_page_to_load(self):
-        self.wait.until(lambda s: self.is_element_displayed(*self._description_button_locator))
-        return self
+    @property
+    def loaded(self):
+        return self.is_element_displayed(*self._description_button_locator)
 
     @property
     def description(self):
