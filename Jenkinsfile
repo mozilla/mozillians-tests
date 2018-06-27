@@ -3,7 +3,7 @@
 /** Desired capabilities */
 def capabilities = [
   browserName: 'Firefox',
-  version: '60.0',
+  version: '61.0',
   platform: 'Windows 10'
 ]
 
