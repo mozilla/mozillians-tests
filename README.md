@@ -110,7 +110,7 @@ $ docker build -t mozillians-tests .
 $ docker run -it \
   --mount type=bind,source=$HOME/.saucelabs,destination=/src/.saucelabs,readonly \
   --mount type=bind,source=/path/to/variables.json,destination=/variables.json,readonly \
-  mozillians-tests --variables /variables.json \
+  mozillians-tests pytest --variables /variables.json \
   --driver SauceLabs --capability browserName Firefox
 ```
 
