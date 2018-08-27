@@ -16,11 +16,6 @@ class Auth0(Page):
     _send_email_locator = (By.CSS_SELECTOR, 'button[data-handler=send-passwordless-link]')
     _login_with_github_button_locator = (By.CSS_SELECTOR, '#initial-login-signup button[data-handler="authorise-github"]')
 
-    def __new__(cls, driver, base_url, **kwargs):
-        if 'mozillians.org' in base_url:
-            return Legacy(driver, base_url, **kwargs)
-        return super(Auth0, cls).__new__(cls)
-
     def request_login_link(self, username):
         self.wait.until(expected.visibility_of_element_located(
             self._email_locator)).send_keys(username)
@@ -31,16 +26,3 @@ class Auth0(Page):
     def click_login_with_github(self):
         self.find_element(*self._login_with_github_button_locator).click()
         return Github(self.selenium, self.base_url)
-
-
-class Legacy(Page):
-    _email_locator = (By.ID, 'field-email')
-    _enter_locator = (By.ID, 'enter-initial')
-    _send_email_locator = (By.CSS_SELECTOR, 'button[data-handler=send-passwordless-link]')
-
-    def request_login_link(self, username):
-        self.wait.until(expected.visibility_of_element_located(
-            self._email_locator)).send_keys(username)
-        self.find_element(*self._enter_locator).click()
-        self.wait.until(expected.visibility_of_element_located(
-            self._send_email_locator)).click()
