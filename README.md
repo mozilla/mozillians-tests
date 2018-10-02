@@ -6,8 +6,8 @@ core contributors.
 
 [![license](https://img.shields.io/badge/license-MPL%202.0-blue.svg)](https://github.com/mozilla/mozillians-tests/blob/master/LICENSE.txt)
 [![travis](https://img.shields.io/travis/mozilla/mozillians-tests.svg?label=travis)](http://travis-ci.org/mozilla/mozillians-tests/)
-[![updates](https://pyup.io/repos/github/mozilla/mozillians-tests/shield.svg)](https://pyup.io/repos/github/mozilla/mozillians-tests/)
-[![Python 3](https://pyup.io/repos/github/mozilla/mozillians-tests/python-3-shield.svg)](https://pyup.io/repos/github/mozilla/mozillians-tests/)
+[![updates](https://api.dependabot.com/badges/status?host=github&repo=mozilla/mozillians-tests)](https://dependabot.com)
+
 
 ## Table of contents:
 
