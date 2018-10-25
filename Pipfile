@@ -12,7 +12,7 @@ name = "pypi"
 [packages]
 
 BeautifulSoup = "==3.2.1"
-flake8 = "==3.5.0"
+flake8 = "==3.6.0"
 flake8-isort = "==2.5"
 mozlog = "==3.8"
 PyPOM = "==2.1.0"
