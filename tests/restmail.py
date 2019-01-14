@@ -20,7 +20,7 @@ def get_mail(username, message_count=1, timeout=60):
         response.raise_for_status()
         restmail = json.loads(response.content)
         if len(restmail) == message_count:
-            return restmail
+            return parse_email(restmail)
         time.sleep(0.5)
         if (time.time() > end_time):
             break
@@ -31,3 +31,10 @@ def get_mail(username, message_count=1, timeout=60):
                         'USERNAME': username,
                         'EXPECTED_MESSAGE_COUNT': message_count,
                         'ACTUAL_MESSAGE_COUNT': len(restmail)})
+
+
+def parse_email(email):
+    mail_content = email[0]['text'].replace('\n', ' ').replace('amp;', '').split(" ")
+    for link in mail_content:
+        if 'passwordless/verify_redirect' in link:
+            return link

@@ -7,8 +7,6 @@ from urlparse import urlparse
 
 import pytest
 
-from tests import restmail
-
 
 @pytest.fixture(scope='session')
 def session_capabilities(pytestconfig, session_capabilities):
@@ -59,12 +57,3 @@ def unvouched_user(stored_users):
 @pytest.fixture(scope='session')
 def github_non_nda_user(stored_users):
     return stored_users['github_non_nda']
-
-
-@pytest.fixture
-def login_link(username):
-    mail = restmail.get_mail(username)
-    mail_content = mail[0]['text'].replace('\n', ' ').replace('amp;', '').split(" ")
-    for link in mail_content:
-        if 'passwordless/verify_redirect' in link:
-            return link

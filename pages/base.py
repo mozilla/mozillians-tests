@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as expected
 from selenium.webdriver.support.select import Select
 
 from pages.auth0 import Auth0
-from tests import conftest
+from tests import restmail
 
 
 class Base(Page):
@@ -51,11 +51,11 @@ class Base(Page):
     def click_sign_in_button(self):
         self.find_element(*self._sign_in_button_locator).click()
 
-    def login(self, email):
+    def login(self, email_address):
         self.click_sign_in_button()
         auth0 = Auth0(self.selenium, self.base_url)
-        auth0.request_login_link(email)
-        login_link = conftest.login_link(email)
+        auth0.request_login_link(email_address)
+        login_link = restmail.get_mail(email_address)
         self.selenium.get(login_link)
         self.wait.until(lambda s: self.is_user_loggedin)
 
