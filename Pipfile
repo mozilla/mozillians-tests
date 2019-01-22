@@ -20,7 +20,7 @@ pytest = "==4.1.1"
 pytest-metadata = "==1.8.0"
 pytest-selenium = "==1.15.1"
 pytest-variables = "==1.7.1"
-pytest-xdist = "==1.25.0"
+pytest-xdist = "==1.26.0"
 requests = "==2.21.0"
 pyotp = "==2.2.7"
 
