@@ -4,7 +4,6 @@ install:
   - pip install -r pipenv.txt
 script:
   - pipenv install --system --skip-lock
-  - pipenv check
   - pipenv run flake8
 notifications:
   email: fte-ci@mozilla.com

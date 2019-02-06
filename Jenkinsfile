@@ -5,7 +5,7 @@ def branch = env.BRANCH_NAME ?: 'master'
 /** Desired capabilities */
 def capabilities = [
   browserName: 'Firefox',
-  version: '64.0',
+  version: '65.0',
   platform: 'Windows 10'
 ]
 
