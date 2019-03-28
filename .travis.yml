@@ -5,5 +5,3 @@ install:
 script:
   - pipenv install --system --skip-lock
   - pipenv run flake8
-notifications:
-  email: fte-ci@mozilla.com
