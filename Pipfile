@@ -13,7 +13,7 @@ name = "pypi"
 
 BeautifulSoup = "==3.2.1"
 flake8 = "==3.7.7"
-flake8-isort = "==2.6.0"
+flake8-isort = "==2.7.0"
 mozlog = "==4.0"
 PyPOM = "==2.2.0"
 pytest = "==4.3.0"
