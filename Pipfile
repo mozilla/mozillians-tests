@@ -27,7 +27,7 @@ pyotp = "==2.2.7"
 
 [packages.configparser]
 
-version = "==3.8.1"
+version = "==4.0.2"
 markers = "python_version < '3.5'"
 
 
